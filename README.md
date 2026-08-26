@@ -5,6 +5,8 @@
 ![의존성](https://img.shields.io/badge/%EC%9D%98%EC%A1%B4%EC%84%B1-%EC%97%86%EC%9D%8C-232C3A?style=flat-square&labelColor=141922)
 ![파일](https://img.shields.io/badge/%ED%8C%8C%EC%9D%BC-%EB%8B%A8%EC%9D%BC%20HTML-232C3A?style=flat-square&labelColor=141922)
 
+[![Loom 랩 입구 화면. 검은 바탕에 큰 제목이 놓이고 그 아래 화면 셋으로 가는 카드가 나란히 있다](02_Screenshots/LoomLab_index-shot_active.png)](https://capernaum-user.github.io/loom-interaction-lab/01_Pages/LoomLab_index_active.html)
+
 한 상용 AI 디자인 도구의 인터랙션 기법 네 가지를 공개된 자산만 보고 알아낸 뒤, **원본 파일을 한 개도 쓰지 않고 처음부터 다시 구현한** 화면 모음이다.
 
 자기완결 단일 HTML 넉 장이다. 두 번 눌러 브라우저로 열면 그대로 돈다. 서버도 빌드도 설치도 필요 없다.
@@ -21,6 +23,23 @@
 | [**모션과 소리 해부**](https://capernaum-user.github.io/loom-interaction-lab/01_Pages/LoomLab_motion-sound_active.html) | 프레임 시퀀스 로더·합성 신호음·스프링 대 베지에 |
 
 파일은 `01_Pages/` 안에 있다.
+
+## 미리보기
+
+헤드리스 크롬으로 가로 1440px 에서 찍은 실제 화면이다. 위 큰 그림이 랩 입구이고, 아래 셋이 각 화면이다. 그림을 누르면 그 화면이 열린다.
+
+### 무한 시안 피드
+
+[![무한 시안 피드 화면. 프롬프트 입력칸과 업종 칩 아래로 시안 카드가 이어지고, 첫 장은 크림색 칸반 보드, 둘째 장은 분홍색 주간 캘린더다](02_Screenshots/LoomLab_endless-feed-shot_active.png)](https://capernaum-user.github.io/loom-interaction-lab/01_Pages/LoomLab_endless-feed_active.html)
+
+카드마다 팔레트·서체·레이아웃이 갈린다. 위 두 장은 같은 프롬프트 `가계부 앱` 이 뽑아낸 1번과 2번이다. 스크롤을 내리면 같은 방식으로 계속 이어진다.
+
+### 스타일 드로퍼 · 모션과 소리 해부
+
+| 스타일 드로퍼 | 모션과 소리 해부 |
+|---|---|
+| [![스타일 드로퍼 화면. 색과 서체가 서로 다른 시안 카드 넉 장이 놓여 있고 왼쪽에 보관함이 있다](02_Screenshots/LoomLab_style-dropper-shot_active.png)](https://capernaum-user.github.io/loom-interaction-lab/01_Pages/LoomLab_style-dropper_active.html) | [![모션과 소리 해부 화면. 프레임 시퀀스 로더 셋과 CSS 키프레임 비교표가 나란히 놓여 있다](02_Screenshots/LoomLab_motion-sound-shot_active.png)](https://capernaum-user.github.io/loom-interaction-lab/01_Pages/LoomLab_motion-sound_active.html) |
+| 레이아웃 24종이 각각 다른 시각 DNA 로 놓인다. 화면에 보이는 것은 그중 넷이다. 스포이드로 하나를 뽑아 보관함에 담았다가 다른 카드 위로 끌어 놓는다. | 프레임 48장을 한 파일에 쌓아 두고 참조 한 줄만 갈아끼운다. 같은 움직임을 CSS 로 냈을 때와 표로 견준다. |
 
 ## 어떻게 도나
 
