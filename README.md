@@ -34,12 +34,17 @@
 
 카드마다 팔레트·서체·레이아웃이 갈린다. 위 두 장은 같은 프롬프트 `가계부 앱` 이 뽑아낸 1번과 2번이다. 스크롤을 내리면 같은 방식으로 계속 이어진다.
 
-### 스타일 드로퍼 · 모션과 소리 해부
+### 스타일 드로퍼
 
-| 스타일 드로퍼 | 모션과 소리 해부 |
-|---|---|
-| [![스타일 드로퍼 화면. 색과 서체가 서로 다른 시안 카드 넉 장이 놓여 있고 왼쪽에 보관함이 있다](02_Screenshots/LoomLab_style-dropper-shot_active.png)](https://capernaum-user.github.io/loom-interaction-lab/01_Pages/LoomLab_style-dropper_active.html) | [![모션과 소리 해부 화면. 프레임 시퀀스 로더 셋과 CSS 키프레임 비교표가 나란히 놓여 있다](02_Screenshots/LoomLab_motion-sound-shot_active.png)](https://capernaum-user.github.io/loom-interaction-lab/01_Pages/LoomLab_motion-sound_active.html) |
-| 레이아웃 24종이 각각 다른 시각 DNA 로 놓인다. 화면에 보이는 것은 그중 넷이다. 스포이드로 하나를 뽑아 보관함에 담았다가 다른 카드 위로 끌어 놓는다. | 프레임 48장을 한 파일에 쌓아 두고 참조 한 줄만 갈아끼운다. 같은 움직임을 CSS 로 냈을 때와 표로 견준다. |
+[![스타일 드로퍼 화면. 색과 서체가 서로 다른 시안 카드 넉 장이 놓여 있고 왼쪽에 보관함이 있다](02_Screenshots/LoomLab_style-dropper-shot_active.png)](https://capernaum-user.github.io/loom-interaction-lab/01_Pages/LoomLab_style-dropper_active.html)
+
+레이아웃 24종이 각각 다른 시각 DNA 로 놓인다. 화면에 보이는 것은 그중 넷이다. 스포이드로 하나를 뽑아 보관함에 담았다가 다른 카드 위로 끌어 놓으면 색·서체·밀도만 옮겨 간다.
+
+### 모션과 소리 해부
+
+[![모션과 소리 해부 화면. 프레임 시퀀스 로더 셋과 CSS 키프레임 비교표가 나란히 놓여 있다](02_Screenshots/LoomLab_motion-sound-shot_active.png)](https://capernaum-user.github.io/loom-interaction-lab/01_Pages/LoomLab_motion-sound_active.html)
+
+프레임 48장을 한 파일에 쌓아 두고 참조 한 줄만 갈아끼운다. 같은 움직임을 CSS 로 냈을 때와 무엇이 달라지는지 표로 견준다.
 
 ## 어떻게 도나
 
