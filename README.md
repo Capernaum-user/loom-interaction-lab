@@ -26,7 +26,7 @@
 
 ## 미리보기
 
-헤드리스 크롬으로 가로 1440px 에서 찍은 실제 화면이다. 위 큰 그림이 랩 입구이고, 아래 셋이 각 화면이다. 그림을 누르면 그 화면이 열린다.
+헤드리스 크롬으로 찍은 실제 화면이다. 아래 셋은 가로 1440px 이고, 맨 끝 모바일 줄은 세로 390×844 다. 맨 위 큰 그림이 랩 입구이고, 어느 그림이든 누르면 그 화면이 열린다.
 
 ### 무한 시안 피드
 
@@ -45,6 +45,15 @@
 [![모션과 소리 해부 화면. 프레임 시퀀스 로더 셋과 CSS 키프레임 비교표가 나란히 놓여 있다](02_Screenshots/LoomLab_motion-sound-shot_active.png)](https://capernaum-user.github.io/loom-interaction-lab/01_Pages/LoomLab_motion-sound_active.html)
 
 프레임 48장을 한 파일에 쌓아 두고 참조 한 줄만 갈아끼운다. 같은 움직임을 CSS 로 냈을 때와 무엇이 달라지는지 표로 견준다.
+
+### 모바일
+
+같은 넉 장을 세로 390×844 에서 찍었다. 아이폰 세로 논리 해상도다. 넉 장 모두 한 칸으로 접힌다. 가로 390px 과 320px 에서 재 보니 문서의 `scrollWidth` 가 `clientWidth` 와 같아 페이지가 옆으로 밀리지 않는다. 긴 코드 줄만 제 상자 안에서 가로로 움직인다.
+
+| 랩 입구 | 무한 시안 피드 | 스타일 드로퍼 | 모션과 소리 해부 |
+|---|---|---|---|
+| [![모바일 랩 입구. 제목과 카드가 한 칸으로 쌓여 있다](02_Screenshots/LoomLab_index-mobile-shot_active.png)](https://capernaum-user.github.io/loom-interaction-lab/01_Pages/LoomLab_index_active.html) | [![모바일 무한 시안 피드. 입력칸과 버튼이 세로로 나뉘고 업종 칩이 여러 줄로 접힌다](02_Screenshots/LoomLab_endless-feed-mobile-shot_active.png)](https://capernaum-user.github.io/loom-interaction-lab/01_Pages/LoomLab_endless-feed_active.html) | [![모바일 스타일 드로퍼. 왼쪽에 있던 보관함이 시안 위로 올라와 있다](02_Screenshots/LoomLab_style-dropper-mobile-shot_active.png)](https://capernaum-user.github.io/loom-interaction-lab/01_Pages/LoomLab_style-dropper_active.html) | [![모바일 모션과 소리 해부. 차림표가 제목 아래로 접히고 로더가 두 칸으로 놓인다](02_Screenshots/LoomLab_motion-sound-mobile-shot_active.png)](https://capernaum-user.github.io/loom-interaction-lab/01_Pages/LoomLab_motion-sound_active.html) |
+| 카드가 한 줄로 쌓인다 | 입력칸과 버튼이 세로로 나뉘고 칩이 접힌다 | 보관함이 시안 위로 올라온다 | 차림표가 제목 아래로 접힌다 |
 
 ## 어떻게 도나
 
@@ -94,7 +103,7 @@
 | 재현성 | 1,600쌍 · 불일치 0 |
 | 카드 높이 | 넘침 0장 · 남음 0장 |
 | 런타임 오류 | 넉 장 모두 0건 |
-| 320px 가로 스크롤 | 넉 장 모두 없음 |
+| 320px · 390px 가로 스크롤 | 넉 장 모두 없음 |
 
 ## 서체
 
