@@ -68,3 +68,9 @@
 ## 서체
 
 서체는 CDN `<link>` 로만 불러온다. 파일로 동봉하지 않았다. Roboto Flex 와 Geist Mono 는 Google Fonts, Pretendard 는 jsDelivr 에서 온다. 인터넷이 끊겨 있으면 시스템 서체로 떨어질 뿐 기능은 그대로 돈다.
+
+세 서체 모두 SIL Open Font License 를 따르며 아래 MIT 와는 별개다. 이 저장소는 서체 파일을 담고 있지 않으므로 재배포에 해당하지 않는다.
+
+## 라이선스
+
+[MIT](LICENSE). 가져다 쓰고 고치고 다시 배포해도 된다. 저작권 표시와 라이선스 전문만 함께 남기면 된다.
