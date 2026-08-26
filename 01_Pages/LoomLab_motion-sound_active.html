@@ -1,0 +1,671 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Loom · 모션과 소리 해부</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,slnt,wdth,wght,GRAD,XOPQ,XTRA,YOPQ,YTAS,YTDE,YTFI,YTLC,YTUC@8..144,-10..0,25..151,100..1000,-200..150,27..175,323..603,25..135,649..854,-305..-98,560..788,416..570,528..760&display=swap">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@100..900&display=swap">
+<style>
+:root{
+  --bg:#0B0E13; --surface:#141922; --ink:#E8EDF5;
+  --muted:#93A0B4; --accent:#4DA3FF; --line:#232C3A;
+
+  --fs-xs: clamp(0.75rem, 0.72rem + 0.15vw, 0.8125rem);
+  --fs-s:  clamp(0.9375rem, 0.89rem + 0.24vw, 1.0625rem);
+  --fs-m:  clamp(1.0625rem, 1rem + 0.3vw, 1.25rem);
+  --fs-l:  clamp(1.5rem, 1.2rem + 1.5vw, 2.25rem);
+  --fs-xl: clamp(2.25rem, 1.5rem + 3.75vw, 4rem);
+
+  --ff-ko:'Pretendard Variable','Roboto Flex',system-ui,sans-serif;
+  --ff-mono:'Geist Mono',ui-monospace,monospace;
+
+  /* 파생색 · 위 6색에서 계산한다. 새 hex 를 만들지 않는다. */
+  --well:  color-mix(in srgb, var(--bg) 62%, var(--surface));
+  --sunk:  color-mix(in srgb, var(--bg) 72%, black);
+  --onacc: color-mix(in srgb, var(--accent) 16%, black);
+  --faint: color-mix(in srgb, var(--muted) 58%, var(--bg));
+  --skel:  color-mix(in srgb, var(--line) 78%, var(--bg));
+  --tint:  color-mix(in srgb, var(--surface) 86%, var(--accent));
+  --edge:  color-mix(in srgb, var(--accent) 62%, var(--line));
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  background:var(--bg);color:var(--ink);
+  font-family:var(--ff-ko);font-size:var(--fs-s);line-height:1.6;
+  font-size-adjust:ex-height;word-break:keep-all;font-variant-numeric:tabular-nums;
+  -webkit-font-smoothing:antialiased;
+}
+button,input,select{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:4px}
+.skip{position:absolute;left:-9999px;top:0;z-index:100;background:var(--surface);padding:12px 18px;border:1px solid var(--line);border-radius:8px}
+.skip:focus{left:12px;top:12px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+[hidden]{display:none !important}
+
+.top{position:sticky;top:0;z-index:40;background:rgba(11,14,19,.88);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.top-in{max-width:1180px;margin:0 auto;padding:14px 22px;display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.brand{display:flex;align-items:baseline;gap:9px}
+.brand b{font-family:'Roboto Flex',system-ui,sans-serif;font-weight:800;font-size:var(--fs-m);letter-spacing:-.02em}
+.brand span{font-family:var(--ff-mono);font-size:11px;color:var(--muted);letter-spacing:.09em;text-transform:uppercase}
+.top nav{display:flex;gap:6px;margin-left:auto;flex-wrap:wrap}
+.top nav a{color:var(--muted);text-decoration:none;font-size:var(--fs-xs);border:1px solid transparent;border-radius:8px;padding:9px 12px;min-height:40px;display:inline-flex;align-items:center}
+.top nav a:hover{color:var(--ink);border-color:var(--line)}
+
+main{max-width:1180px;margin:0 auto;padding:34px 22px 100px}
+.lede{max-width:66ch;color:var(--muted);margin:0 0 40px;line-height:1.75}
+.lede b{color:var(--ink)}
+h1{font-family:'Roboto Flex',system-ui,sans-serif;font-size:var(--fs-xl);font-weight:800;letter-spacing:-.035em;line-height:1.04;margin:0 0 14px}
+h2{font-family:'Roboto Flex',system-ui,sans-serif;font-size:var(--fs-l);font-weight:700;letter-spacing:-.02em;margin:0 0 8px}
+h3{font-size:var(--fs-m);font-weight:650;margin:0 0 8px}
+.num{font-family:var(--ff-mono);color:var(--accent);font-size:var(--fs-xs);letter-spacing:.12em;display:block;margin-bottom:8px}
+section.blk{border-top:1px solid var(--line);padding-top:34px;margin-top:52px}
+section.blk:first-of-type{border-top:0;margin-top:0;padding-top:0}
+p.txt{color:var(--muted);max-width:68ch;line-height:1.75;margin:0 0 20px}
+p.txt b{color:var(--ink)}
+code,.mono{font-family:var(--ff-mono)}
+code{color:var(--accent);font-size:.92em}
+
+.grid2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:22px;align-items:start}
+.card{border:1px solid var(--line);border-radius:12px;background:var(--surface);overflow:hidden}
+.card>h3{padding:13px 16px;margin:0;border-bottom:1px solid var(--line);font-size:var(--fs-xs);color:var(--muted);font-family:var(--ff-mono);letter-spacing:.1em;text-transform:uppercase;font-weight:500}
+.card .in{padding:18px 16px}
+
+/* 프레임 시퀀스 */
+.seqrow{display:flex;gap:18px;flex-wrap:wrap}
+.seq{flex:1 1 150px;display:flex;flex-direction:column;align-items:center;gap:10px;padding:20px 12px;border:1px solid var(--line);border-radius:10px;background:var(--well);min-width:0}
+.seq svg{color:var(--accent);display:block}
+.seq .nm{font-size:var(--fs-xs);color:var(--muted);text-align:center}
+.seq .fr{font-family:var(--ff-mono);font-size:11px;color:var(--muted)}
+
+.ctrls{display:flex;flex-direction:column;gap:14px;margin-top:18px}
+.ctrl{display:grid;grid-template-columns:88px minmax(0,1fr) 56px;gap:12px;align-items:center}
+.ctrl label{font-size:var(--fs-xs);color:var(--muted)}
+.ctrl output{font-family:var(--ff-mono);font-size:var(--fs-xs);color:var(--ink);text-align:right}
+input[type=range]{width:100%;accent-color:var(--accent);min-height:24px}
+.btn{border:1px solid var(--line);background:var(--surface);border-radius:10px;padding:11px 16px;min-height:44px;cursor:pointer;white-space:nowrap;transition:border-color .16s ease,color .16s ease}
+.btn:hover{border-color:var(--muted)}
+.btn[aria-pressed="true"]{border-color:var(--accent);color:var(--accent)}
+.btnrow{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}
+select{background:var(--well);border:1px solid var(--line);border-radius:8px;padding:9px 11px;min-height:40px}
+
+pre.code{margin:16px 0 0;padding:15px;background:var(--sunk);border:1px solid var(--line);border-radius:10px;overflow-x:auto;font-family:var(--ff-mono);font-size:11.5px;line-height:1.7;color:var(--muted)}
+pre.code b{color:var(--accent);font-weight:500}
+pre.code i{color:var(--faint);font-style:normal}
+
+/* CSS 대조 */
+.cssbars{display:flex;align-items:center;justify-content:center;gap:5px;height:76px}
+.cssbars i{width:9px;background:var(--accent);border-radius:5px;height:14px}
+.playing .cssbars i{animation:bob 1.2s ease-in-out infinite}
+.cssbars i:nth-child(2){animation-delay:-.4s}
+.cssbars i:nth-child(3){animation-delay:-.8s}
+@keyframes bob{0%,100%{height:14px;opacity:.45}50%{height:44px;opacity:1}}
+
+.note{border-left:2px solid var(--accent);padding:2px 0 2px 14px;margin:18px 0 0;color:var(--muted);font-size:var(--fs-xs);line-height:1.75;max-width:64ch}
+.note b{color:var(--ink)}
+
+canvas{display:block;width:100%;height:auto;border-radius:8px;background:var(--sunk);border:1px solid var(--line)}
+
+/* 스프링 */
+.track{position:relative;height:64px;border:1px solid var(--line);border-radius:10px;background:var(--well);margin-bottom:12px;overflow:hidden}
+.track .lbl{position:absolute;left:10px;top:5px;font-family:var(--ff-mono);font-size:10.5px;color:var(--muted);letter-spacing:.08em}
+/* 1.0 지점 눈금 · 스프링이 이 선을 넘어가는 것이 보여야 한다 */
+.track .mark{position:absolute;top:26px;bottom:6px;width:1px;background:var(--line)}
+.knob{position:absolute;top:28px;left:8px;width:24px;height:24px;border-radius:50%;background:var(--accent)}
+.knob.b{background:var(--muted)}
+
+table.cmp{width:100%;border-collapse:collapse;margin-top:18px;font-size:var(--fs-xs)}
+table.cmp th,table.cmp td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+table.cmp th{color:var(--muted);font-weight:500;font-family:var(--ff-mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase}
+table.cmp td:first-child{color:var(--ink);white-space:nowrap}
+
+.foot{border-top:1px solid var(--line);margin-top:60px;padding-top:22px;color:var(--muted);font-size:var(--fs-xs);line-height:1.75;max-width:76ch}
+.foot b{color:var(--ink)}
+
+@media (max-width:820px){
+  .grid2{grid-template-columns:minmax(0,1fr)}
+  .ctrl{grid-template-columns:76px minmax(0,1fr) 50px}
+  main{padding:24px 14px 70px}
+  .top-in{padding:12px 14px}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.001ms !important;animation-iteration-count:1 !important;transition-duration:.001ms !important}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#s1">본문으로 건너뛰기</a>
+
+<header class="top">
+  <div class="top-in">
+    <div class="brand"><b>Loom</b><span>motion &amp; sound</span></div>
+    <nav>
+      <a href="#s1">프레임 시퀀스</a>
+      <a href="#s2">소리</a>
+      <a href="#s3">스프링</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <h1>움직임과 소리를 뜯어본다</h1>
+  <p class="lede">상용 디자인 도구 한 곳의 공개 자산을 뜯어보니 로더가 <b>애니메이션 태그 없는 1.1MB짜리 SVG</b> 한 장이었다.
+  안에는 <code>&lt;symbol id="frame-00"&gt;</code>부터 346번까지 정지 화면이 쌓여 있었고, 재생은 <code>&lt;use href&gt;</code>를 갈아끼우는 일이 전부였다.
+  같은 폴더에 <code>.wav</code> 세 개가 생성·탐색·실패 신호로 놓여 있었다. 아래는 그 세 기법을 자산 한 개도 가져오지 않고 다시 만든 것이다.</p>
+
+  <!-- ============ 1 ============ -->
+  <section class="blk" id="s1">
+    <span class="num">01</span>
+    <h2>SVG 프레임 시퀀스</h2>
+    <p class="txt">아래 세 로더는 페이지가 열릴 때 <b>자바스크립트가 프레임을 계산해 만든다.</b> 파일에서 불러오지 않는다.
+    48장의 <code>&lt;symbol&gt;</code>이 문서에 한 번만 심기고, 각 로더는 <code>&lt;use&gt;</code> 한 줄만 갖는다.
+    재생은 타이머 하나가 모든 <code>&lt;use&gt;</code>의 <code>href</code>를 동시에 바꾸는 것이다.</p>
+
+    <div class="grid2">
+      <div class="card">
+        <h3>프레임 시퀀스</h3>
+        <div class="in">
+          <div class="seqrow" id="seqrow"></div>
+          <div class="ctrls">
+            <div class="ctrl"><label for="fr">프레임</label><input type="range" id="fr" min="0" max="47" value="0"><output id="frO">0</output></div>
+            <div class="ctrl"><label for="fps">초당 장수</label><input type="range" id="fps" min="6" max="30" value="20"><output id="fpsO">20</output></div>
+            <div class="ctrl"><label for="sz">크기</label><input type="range" id="sz" min="16" max="160" value="56"><output id="szO">56</output></div>
+          </div>
+          <div class="btnrow">
+            <button class="btn" id="play" type="button" aria-pressed="true">멈춤</button>
+            <button class="btn" id="step" type="button">한 장 앞으로</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>같은 움직임을 CSS로</h3>
+        <div class="in">
+          <div class="cssbars playing" id="cssbars"><i></i><i></i><i></i></div>
+          <table class="cmp">
+            <thead><tr><th>항목</th><th>프레임 시퀀스</th><th>CSS 키프레임</th></tr></thead>
+            <tbody>
+              <tr><td>표현 한계</td><td>정지 화면으로 그릴 수 있는 것 전부</td><td>보간 가능한 속성만</td></tr>
+              <tr><td>파일 크기</td><td>프레임 수에 비례해 커진다</td><td>몇 줄</td></tr>
+              <tr><td>런타임</td><td>타이머 1개</td><td>없다</td></tr>
+              <tr><td>중간 정지</td><td>장 단위로 정확히 멈춘다</td><td>시간으로만 멈춘다</td></tr>
+              <tr><td>확대</td><td>벡터라 또렷하다</td><td>벡터라 또렷하다</td></tr>
+            </tbody>
+          </table>
+          <p class="note"><b>모양이 도중에 바뀌는 움직임</b>이면 프레임 시퀀스가 이긴다. 막대가 커졌다 작아지는 정도라면 CSS가 낫다.
+          왼쪽 <b>살펴보는 중</b>처럼 시선이 네 귀퉁이를 도는 움직임은 CSS로는 경로마다 규칙을 따로 써야 한다.</p>
+        </div>
+      </div>
+    </div>
+
+    <pre class="code" id="svgcode"></pre>
+    <p class="note">위 마크업은 지금 이 페이지가 실제로 만들어 문서에 심은 것을 그대로 꺼낸 것이다. 아래 재생기는 저 <code>href</code> 값만 바꾼다.</p>
+  </section>
+
+  <!-- ============ 2 ============ -->
+  <section class="blk" id="s2">
+    <span class="num">02</span>
+    <h2>UI 소리</h2>
+    <p class="txt">오디오 파일을 쓰지 않는다. 진동자 하나와 감쇠 곡선 하나면 신호음이 된다.
+    <b>소리는 첫 누름에서만 만들어진다.</b> 브라우저가 사용자 동작 없이 소리를 내는 것을 막기 때문이고, 그게 옳다.</p>
+
+    <div class="grid2">
+      <div class="card">
+        <h3>세 가지 신호</h3>
+        <div class="in">
+          <div class="btnrow" style="margin-top:0">
+            <button class="btn" data-cue="made" type="button">생성</button>
+            <button class="btn" data-cue="tick" type="button">탐색</button>
+            <button class="btn" data-cue="fail" type="button">실패</button>
+          </div>
+          <div class="ctrls">
+            <div class="ctrl"><label for="hz">기준 주파수</label><input type="range" id="hz" min="160" max="1800" value="523"><output id="hzO">523</output></div>
+            <div class="ctrl"><label for="dur">길이 ms</label><input type="range" id="dur" min="20" max="400" value="90"><output id="durO">90</output></div>
+            <div class="ctrl"><label for="vol">볼륨</label><input type="range" id="vol" min="0" max="30" value="10"><output id="volO">.10</output></div>
+            <div class="ctrl"><label for="wave">음색</label>
+              <select id="wave"><option value="sine">sine</option><option value="triangle" selected>triangle</option><option value="square">square</option><option value="sawtooth">sawtooth</option></select>
+              <output></output></div>
+          </div>
+          <p class="note">막대가 셋 나란히 오르는 <b>생성</b>은 도·미·솔을 42ms 간격으로 떨어뜨린 것이다.
+          <b>실패</b>는 320Hz에서 반음 아래로 미끄러진다. 내려가는 음이 실패로 들리는 것은 문화적 관습이지 물리가 아니다.</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>파형</h3>
+        <div class="in">
+          <canvas id="wavec" width="900" height="360" aria-label="합성한 신호음의 파형"></canvas>
+          <p class="note">회색은 계산한 파형(진동자 × 감쇠), 파란색은 <b>지금 실제로 나가고 있는 소리</b>를 분석기로 읽은 것이다.
+          소리를 한 번 눌러야 파란 선이 나타난다.</p>
+        </div>
+      </div>
+    </div>
+
+    <pre class="code"><i>// 오실레이터 1개 + 지수 감쇠. 이게 전부다.</i>
+<b>function</b> blip(freq, dur, type, vol, glide){
+  <b>const</b> o = ctx.createOscillator(), g = ctx.createGain(), t = ctx.currentTime;
+  o.type = type; o.frequency.setValueAtTime(freq, t);
+  <b>if</b> (glide) o.frequency.exponentialRampToValueAtTime(freq * glide, t + dur);
+  g.gain.setValueAtTime(0.0001, t);
+  g.gain.exponentialRampToValueAtTime(vol,    t + 0.008);  <i>// 8ms 어택</i>
+  g.gain.exponentialRampToValueAtTime(0.0001, t + dur);    <i>// 지수 감쇠</i>
+  o.connect(g); g.connect(ctx.destination);
+  o.start(t); o.stop(t + dur + 0.02);
+}</pre>
+    <p class="note"><code>exponentialRampToValueAtTime</code>은 <b>0을 받지 못한다.</b> 그래서 0.0001에서 시작하고 0.0001로 끝난다.
+    0을 넣으면 소리가 나지 않고 콘솔에 오류가 남는다. 이 한 줄이 WebAudio 신호음에서 가장 자주 나오는 실수다.</p>
+  </section>
+
+  <!-- ============ 3 ============ -->
+  <section class="blk" id="s3">
+    <span class="num">03</span>
+    <h2>스프링과 베지에</h2>
+    <p class="txt">두 손잡이가 같은 거리를 같은 시간에 간다. 위는 <b>물리</b>로, 아래는 <b>정해진 곡선</b>으로 움직인다.
+    물성을 바꾸면 스프링은 넘어갔다 돌아오지만 베지에는 끝점을 넘지 않는다.</p>
+
+    <div class="grid2">
+      <div class="card">
+        <h3>움직임</h3>
+        <div class="in">
+          <div class="track"><span class="lbl">SPRING</span><span class="mark" id="m1"></span><span class="knob" id="k1"></span></div>
+          <div class="track"><span class="lbl">CUBIC-BEZIER</span><span class="mark" id="m2"></span><span class="knob b" id="k2"></span></div>
+          <div class="ctrls">
+            <div class="ctrl"><label for="mass">질량</label><input type="range" id="mass" min="5" max="60" value="14"><output id="massO">1.4</output></div>
+            <div class="ctrl"><label for="stiff">강성</label><input type="range" id="stiff" min="40" max="400" value="180"><output id="stiffO">180</output></div>
+            <div class="ctrl"><label for="damp">감쇠</label><input type="range" id="damp" min="2" max="60" value="14"><output id="dampO">14</output></div>
+          </div>
+          <div class="btnrow"><button class="btn" id="fire" type="button">다시 던지기</button></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>궤적</h3>
+        <div class="in">
+          <canvas id="springc" width="900" height="420" aria-label="스프링과 베지에의 이동 궤적 비교"></canvas>
+          <p class="note">가로는 시간, 세로는 위치다. 파란 선이 <b>1.0을 넘어갔다 되돌아오면</b> 그게 튕김이다.
+          감쇠를 낮추면 여러 번 흔들리고, 높이면 넘어가지 않고 눌러앉는다. 회색 베지에는 무슨 값을 줘도 넘지 않는다.</p>
+        </div>
+      </div>
+    </div>
+
+    <p class="note"><b>감쇠비가 1을 넘으면</b>(과감쇠) 스프링은 튕기지 않는다. 그때는 베지에와 구별이 거의 안 되니 굳이 물리를 돌릴 이유가 없다.
+    스프링을 쓸 값어치는 <b>손가락이 만든 속도를 그대로 이어받을 때</b> 생긴다. 놓는 순간의 속도를 초기 속도로 넣으면 화면이 손을 기억한 것처럼 움직인다.</p>
+  </section>
+
+  <p class="sr" id="live" role="status" aria-live="polite"></p>
+
+  <section class="foot">
+    <p><b>여기 쓰인 소리·그림·움직임은 전부 이 파일 안에서 계산해 만든다.</b> 원본 도구의 SVG·WAV·서체를 내려받아 쓰지 않았고,
+    그 사이트가 크롤을 막아 둔 경로도 열지 않았다. 기법은 누구나 다시 만들 수 있지만 자산은 만든 사람의 것이라 그렇게 나눴다.</p>
+  </section>
+</main>
+
+<script>
+"use strict";
+var REDUCED = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+var liveEl=document.getElementById('live');
+
+/* ============================================================
+   1 · 프레임 시퀀스 · 런타임에 <symbol> 을 만들어 문서에 심는다
+   ============================================================ */
+var FRAMES=48;
+function pad(n){return n<10?'0'+n:''+n}
+
+/* 각 시퀀스는 프레임 번호를 받아 그 장의 도형을 문자열로 돌려준다 */
+var SEQS={
+  spin:{ label:'생성 중', draw:function(f){
+    var p=f/FRAMES,o='';
+    for(var k=0;k<3;k++){
+      var ph=p*Math.PI*2+k*(Math.PI*2/3);
+      var y=12+Math.sin(ph)*5.4, h=3.6+Math.cos(ph)*2.2;
+      var op=(0.40+0.60*(0.5+0.5*Math.sin(ph))).toFixed(2);
+      o+='<rect x="'+(4.2+k*6.2).toFixed(2)+'" y="'+(y-h/2).toFixed(2)+'" width="3.4" height="'+h.toFixed(2)+'" rx="1.5" fill="currentColor" opacity="'+op+'"/>';
+    }
+    return o;
+  }},
+  scan:{ label:'살펴보는 중', draw:function(f){
+    var p=f/FRAMES;
+    var o='<rect x="2.6" y="3.6" width="18.8" height="16.8" rx="3" fill="none" stroke="currentColor" stroke-width="1.4" opacity=".38"/>';
+    /* 시선이 네 귀퉁이를 순서대로 돈다. 구간마다 목표점이 바뀌므로 보간이 아니라 경로 전환이다. */
+    var pts=[[7,8],[17,8],[17,16],[7,16]];
+    var seg=p*4, i=Math.floor(seg)%4, t=seg-Math.floor(seg);
+    var e=t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2;   /* easeInOutCubic */
+    var a=pts[i], b=pts[(i+1)%4];
+    var x=a[0]+(b[0]-a[0])*e, y=a[1]+(b[1]-a[1])*e;
+    o+='<line x1="'+a[0]+'" y1="'+a[1]+'" x2="'+x.toFixed(2)+'" y2="'+y.toFixed(2)+'" stroke="currentColor" stroke-width="1.2" opacity=".3" stroke-linecap="round"/>';
+    o+='<circle cx="'+x.toFixed(2)+'" cy="'+y.toFixed(2)+'" r="2.1" fill="currentColor"/>';
+    return o;
+  }},
+  check:{ label:'완료', draw:function(f){
+    var p=f/FRAMES, L=17.2;
+    /* 앞 3/4 에 걸쳐 체크를 그리고, 나머지는 원이 조여든다 */
+    var drawn=Math.min(1,p/0.75);
+    var e=1-Math.pow(1-drawn,3);
+    var r=8.6+(p>0.75?Math.sin((p-0.75)/0.25*Math.PI)*0.7:0);
+    return '<circle cx="12" cy="12" r="'+r.toFixed(2)+'" fill="none" stroke="currentColor" stroke-width="1.3" opacity=".34"/>'+
+      '<path d="M7.6 12.3 L10.7 15.3 L16.4 8.9" fill="none" stroke="currentColor" stroke-width="1.9" '+
+      'stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="'+L+'" stroke-dashoffset="'+(L*(1-e)).toFixed(2)+'"/>';
+  }}
+};
+var SEQKEYS=Object.keys(SEQS);
+
+/* 프레임 전부를 defs 로 한 번만 심는다 */
+var defsMarkup='';
+SEQKEYS.forEach(function(key){
+  for(var f=0;f<FRAMES;f++){
+    defsMarkup+='<symbol id="'+key+'-'+pad(f)+'" viewBox="0 0 24 24">'+SEQS[key].draw(f)+'</symbol>';
+  }
+});
+(function(){
+  var host=document.createElement('div');
+  host.setAttribute('aria-hidden','true');
+  host.style.cssText='position:absolute;width:0;height:0;overflow:hidden';
+  host.innerHTML='<svg xmlns="http://www.w3.org/2000/svg">'+defsMarkup+'</svg>';
+  document.body.appendChild(host);
+})();
+
+/* 재생기 */
+var seqrow=document.getElementById('seqrow');
+SEQKEYS.forEach(function(key){
+  var d=document.createElement('div');
+  d.className='seq';
+  d.innerHTML='<svg viewBox="0 0 24 24" width="56" height="56" aria-hidden="true"><use href="#'+key+'-00"></use></svg>'+
+    '<span class="nm">'+SEQS[key].label+'</span><span class="fr">frame-00</span>';
+  seqrow.appendChild(d);
+});
+var uses=seqrow.querySelectorAll('use');
+var svgs=seqrow.querySelectorAll('svg');
+var frLbls=seqrow.querySelectorAll('.fr');
+
+var cur=0, fps=20, playing=!REDUCED, timer=null;
+var elFr=document.getElementById('fr'), elFrO=document.getElementById('frO');
+var elFps=document.getElementById('fps'), elFpsO=document.getElementById('fpsO');
+var elSz=document.getElementById('sz'), elSzO=document.getElementById('szO');
+var btnPlay=document.getElementById('play'), btnStep=document.getElementById('step');
+var cssbars=document.getElementById('cssbars');
+
+function showFrame(n){
+  cur=((n%FRAMES)+FRAMES)%FRAMES;
+  var tag=pad(cur);
+  for(var i=0;i<uses.length;i++){
+    uses[i].setAttribute('href','#'+SEQKEYS[i]+'-'+tag);
+    frLbls[i].textContent='frame-'+tag;
+  }
+  elFr.value=String(cur); elFrO.textContent=String(cur);
+}
+function retime(){
+  if(timer) clearInterval(timer);
+  timer=null;
+  if(!playing) return;
+  timer=setInterval(function(){ showFrame(cur+1) },1000/fps);
+}
+function setPlaying(v){
+  playing=v;
+  btnPlay.textContent=v?'멈춤':'재생';
+  btnPlay.setAttribute('aria-pressed',v?'true':'false');
+  cssbars.classList.toggle('playing',v);
+  retime();
+}
+elFr.addEventListener('input',function(){ setPlaying(false); showFrame(parseInt(elFr.value,10)) });
+elFps.addEventListener('input',function(){ fps=parseInt(elFps.value,10); elFpsO.textContent=String(fps); retime() });
+elSz.addEventListener('input',function(){
+  var s=parseInt(elSz.value,10); elSzO.textContent=String(s);
+  for(var i=0;i<svgs.length;i++){ svgs[i].setAttribute('width',s); svgs[i].setAttribute('height',s) }
+});
+btnPlay.addEventListener('click',function(){ setPlaying(!playing) });
+btnStep.addEventListener('click',function(){ setPlaying(false); showFrame(cur+1) });
+
+showFrame(0);
+setPlaying(!REDUCED);
+if(REDUCED) liveEl.textContent='모션 줄이기 설정이 켜져 있어 재생을 멈춘 상태로 시작했다.';
+
+/* 실제로 심은 마크업을 그대로 보여준다 */
+(function(){
+  var s=defsMarkup.slice(0, defsMarkup.indexOf('</symbol>',defsMarkup.indexOf('</symbol>')+9)+9);
+  s=s.replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  s=s.replace(/&lt;symbol id="([^"]+)"/g,'&lt;symbol id="<b>$1</b>"');
+  document.getElementById('svgcode').innerHTML=
+    '<i>// 48장 × 3종 = 144개 symbol 중 앞 2장</i>\n'+s+
+    '\n<i>… frame-02 부터 frame-47 까지 이어짐 …</i>\n\n'+
+    '<i>// 카드마다 갖는 것은 이 한 줄뿐이다</i>\n'+
+    '&lt;svg viewBox="0 0 24 24"&gt;&lt;use href="#<b>spin-00</b>"&gt;&lt;/use&gt;&lt;/svg&gt;';
+})();
+
+/* ============================================================
+   2 · 소리
+   ============================================================ */
+var Snd={ctx:null,ana:null,
+  wake:function(){
+    if(!this.ctx){
+      try{
+        this.ctx=new (window.AudioContext||window.webkitAudioContext)();
+        this.ana=this.ctx.createAnalyser();
+        this.ana.fftSize=2048;
+        this.ana.connect(this.ctx.destination);
+      }catch(e){ this.ctx=null; return false }
+    }
+    if(this.ctx.state==='suspended') this.ctx.resume();
+    return true;
+  },
+  blip:function(freq,dur,type,vol,glide){
+    if(!this.wake()) return;
+    var o=this.ctx.createOscillator(), g=this.ctx.createGain(), t=this.ctx.currentTime;
+    o.type=type; o.frequency.setValueAtTime(freq,t);
+    if(glide) o.frequency.exponentialRampToValueAtTime(Math.max(20,freq*glide),t+dur);
+    g.gain.setValueAtTime(0.0001,t);
+    g.gain.exponentialRampToValueAtTime(Math.max(0.0002,vol),t+0.008);
+    g.gain.exponentialRampToValueAtTime(0.0001,t+dur);
+    o.connect(g); g.connect(this.ana);
+    o.start(t); o.stop(t+dur+0.02);
+  }
+};
+var elHz=document.getElementById('hz'), elHzO=document.getElementById('hzO');
+var elDur=document.getElementById('dur'), elDurO=document.getElementById('durO');
+var elVol=document.getElementById('vol'), elVolO=document.getElementById('volO');
+var elWave=document.getElementById('wave');
+function P(){return {hz:+elHz.value, dur:(+elDur.value)/1000, vol:(+elVol.value)/100, type:elWave.value}}
+function syncP(){
+  var p=P();
+  elHzO.textContent=String(p.hz);
+  elDurO.textContent=String(+elDur.value);
+  elVolO.textContent=p.vol.toFixed(2).replace(/^0/,'');
+  drawWave();
+}
+[elHz,elDur,elVol].forEach(function(n){n.addEventListener('input',syncP)});
+elWave.addEventListener('change',syncP);
+
+var CUES={
+  made:function(p){ [1,1.26,1.5].forEach(function(m,i){ setTimeout(function(){ Snd.blip(p.hz*m,p.dur,p.type,p.vol) }, i*42) }) },
+  tick:function(p){ Snd.blip(p.hz*2.3,Math.min(p.dur,0.05),p.type,p.vol*0.6) },
+  fail:function(p){ Snd.blip(p.hz*0.61,Math.max(p.dur,0.16),p.type,p.vol,0.94) }
+};
+document.querySelectorAll('[data-cue]').forEach(function(b){
+  b.addEventListener('click',function(){
+    var k=b.dataset.cue;
+    Snd.wake();
+    CUES[k](P());
+    liveEl.textContent=b.textContent+' 신호음을 냈다.';
+    liveTrace=44;   /* 약 0.7초간 실시간 파형을 그린다 */
+    if(!liveRAF) liveRAF=requestAnimationFrame(drawWave);
+  });
+});
+
+/* 캔버스는 CSS 변수를 직접 못 받는다. 프로브 요소로 계산된 값을 꺼내 쓴다. */
+function cssColor(name,fallback){
+  var probe=document.createElement('span');
+  probe.style.cssText='position:absolute;visibility:hidden;pointer-events:none;color:var('+name+')';
+  document.body.appendChild(probe);
+  var v=getComputedStyle(probe).color;
+  probe.remove();
+  return (v && v.indexOf('var(')<0) ? v : fallback;
+}
+var C_LINE=cssColor('--line','rgb(35,44,58)'),
+    C_FAINT=cssColor('--faint','rgb(94,107,126)'),
+    C_ACC=cssColor('--accent','rgb(77,163,255)');
+
+var wc=document.getElementById('wavec'), wctx=wc.getContext('2d');
+var liveTrace=0, liveRAF=null;
+function sizeCanvas(cv){
+  var dpr=Math.min(2,window.devicePixelRatio||1);
+  var w=cv.clientWidth||900, h=Math.round(w*(cv.height/cv.width));
+  cv.width=Math.round(w*dpr); cv.height=Math.round(h*dpr);
+  cv.style.height=h+'px';
+  var c=cv.getContext('2d'); c.setTransform(dpr,0,0,dpr,0,0);
+  return {w:w,h:h,c:c};
+}
+function drawWave(){
+  var g=sizeCanvas(wc), c=g.c, W=g.w, H=g.h, p=P();
+  c.clearRect(0,0,W,H);
+  c.strokeStyle=C_LINE; c.lineWidth=1;
+  c.beginPath(); c.moveTo(0,H/2); c.lineTo(W,H/2); c.stroke();
+
+  /* 계산한 파형: 진동자 모양 × 지수 감쇠 */
+  c.strokeStyle=C_FAINT; c.lineWidth=1.4; c.beginPath();
+  var cycles=Math.max(6,Math.min(70,p.hz*p.dur));
+  for(var x=0;x<=W;x++){
+    var t=x/W;
+    var env=t<0.03? t/0.03 : Math.pow(0.0001/Math.max(0.0002,p.vol),(t-0.03)/0.97);
+    var ph=t*cycles*Math.PI*2, s;
+    if(p.type==='sine') s=Math.sin(ph);
+    else if(p.type==='triangle') s=Math.asin(Math.sin(ph))*(2/Math.PI);
+    else if(p.type==='square') s=Math.sin(ph)>=0?1:-1;
+    else s=2*((ph/(Math.PI*2))%1)-1;
+    var y=H/2 - s*env*(H/2-8)*(p.vol/0.30);
+    if(x===0) c.moveTo(x,y); else c.lineTo(x,y);
+  }
+  c.stroke();
+
+  /* 실제로 나가는 소리 */
+  if(liveTrace>0 && Snd.ana){
+    var n=Snd.ana.fftSize, buf=new Uint8Array(n);
+    Snd.ana.getByteTimeDomainData(buf);
+    c.strokeStyle=C_ACC; c.lineWidth=1.8; c.beginPath();
+    for(var i=0;i<n;i++){
+      var xx=i/(n-1)*W, yy=H/2-((buf[i]-128)/128)*(H/2-8);
+      if(i===0) c.moveTo(xx,yy); else c.lineTo(xx,yy);
+    }
+    c.stroke();
+    liveTrace--;
+    liveRAF=requestAnimationFrame(drawWave);
+  }else{
+    liveRAF=null;
+  }
+}
+syncP();
+
+/* ============================================================
+   3 · 스프링
+   ============================================================ */
+var elMass=document.getElementById('mass'), elMassO=document.getElementById('massO');
+var elStiff=document.getElementById('stiff'), elStiffO=document.getElementById('stiffO');
+var elDamp=document.getElementById('damp'), elDampO=document.getElementById('dampO');
+var k1=document.getElementById('k1'), k2=document.getElementById('k2');
+var sc=document.getElementById('springc');
+
+var DURATION=1400;             /* ms · 두 손잡이가 같은 시간을 쓴다 */
+function springPath(mass,stiff,damp,steps){
+  var x=0,v=0,dt=1/240,out=[],total=DURATION/1000;
+  var n=Math.round(total/dt);
+  for(var i=0;i<=n;i++){
+    var a=(-stiff*(x-1)-damp*v)/mass;
+    v+=a*dt; x+=v*dt;
+    out.push(x);
+  }
+  /* steps 개로 균등하게 다시 뽑는다 */
+  var res=[];
+  for(var j=0;j<steps;j++) res.push(out[Math.round(j/(steps-1)*(out.length-1))]);
+  return res;
+}
+function bezier(t){  /* cubic-bezier(.34,.9,.28,1) 근사 */
+  var p1=0.9,p2=1.0;
+  var u=1-t;
+  return 3*u*u*t*p1 + 3*u*t*t*p2 + t*t*t;
+}
+var STEPS=160;
+function params(){
+  return {m:(+elMass.value)/10, k:+elStiff.value, d:+elDamp.value};
+}
+function syncSpring(){
+  var p=params();
+  elMassO.textContent=p.m.toFixed(1);
+  elStiffO.textContent=String(p.k);
+  elDampO.textContent=String(p.d);
+  drawSpring();
+}
+[elMass,elStiff,elDamp].forEach(function(n){n.addEventListener('input',function(){syncSpring();fire()})});
+
+function drawSpring(){
+  var g=sizeCanvas(sc), c=g.c, W=g.w, H=g.h, pad=18;
+  var p=params(), sp=springPath(p.m,p.k,p.d,STEPS);
+  c.clearRect(0,0,W,H);
+  /* 기준선 0 과 1 */
+  var yOf=function(v){ return H-pad - v*(H-pad*2)*0.72 - (H-pad*2)*0.14 };
+  c.strokeStyle=C_LINE; c.lineWidth=1; c.setLineDash([4,4]);
+  [0,1].forEach(function(v){ c.beginPath(); c.moveTo(pad,yOf(v)); c.lineTo(W-pad,yOf(v)); c.stroke() });
+  c.setLineDash([]);
+  c.fillStyle=C_FAINT; c.font='11px ui-monospace,monospace';
+  c.fillText('1.0',4,yOf(1)-4); c.fillText('0',10,yOf(0)-4);
+
+  /* 베지에 */
+  c.strokeStyle=C_FAINT; c.lineWidth=1.6; c.beginPath();
+  for(var i=0;i<STEPS;i++){
+    var t=i/(STEPS-1), x=pad+t*(W-pad*2), y=yOf(bezier(t));
+    if(i===0) c.moveTo(x,y); else c.lineTo(x,y);
+  }
+  c.stroke();
+  /* 스프링 */
+  c.strokeStyle=C_ACC; c.lineWidth=2; c.beginPath();
+  for(var j=0;j<STEPS;j++){
+    var t2=j/(STEPS-1), x2=pad+t2*(W-pad*2), y2=yOf(sp[j]);
+    if(j===0) c.moveTo(x2,y2); else c.lineTo(x2,y2);
+  }
+  c.stroke();
+  return sp;
+}
+
+var animRAF=null, animT0=0;
+function fire(){
+  if(animRAF) cancelAnimationFrame(animRAF);
+  var sp=drawSpring();
+  if(REDUCED){
+    k1.style.transform='translateX('+travel()+'px)';
+    k2.style.transform='translateX('+travel()+'px)';
+    return;
+  }
+  animT0=0;
+  function step(ts){
+    if(!animT0) animT0=ts;
+    var t=Math.min(1,(ts-animT0)/DURATION);
+    var i=Math.min(STEPS-1,Math.round(t*(STEPS-1)));
+    k1.style.transform='translateX('+(sp[i]*travel())+'px)';
+    k2.style.transform='translateX('+(bezier(t)*travel())+'px)';
+    if(t<1){ animRAF=requestAnimationFrame(step) } else { animRAF=null }
+  }
+  animRAF=requestAnimationFrame(step);
+}
+/* 스프링은 1.0 을 넘어간다. 넘어간 자리가 잘리지 않도록 이동거리를 78% 로 줄여 둔다. */
+function travel(){
+  var tr=k1.parentElement;
+  return Math.max(40,(tr.clientWidth-24-16)*0.78);
+}
+function placeMarks(){
+  var x=8+travel();
+  document.getElementById('m1').style.left=(x+12)+'px';
+  document.getElementById('m2').style.left=(x+12)+'px';
+}
+document.getElementById('fire').addEventListener('click',function(){ fire(); liveEl.textContent='두 손잡이를 다시 던졌다.' });
+
+var rsz=null;
+window.addEventListener('resize',function(){
+  if(rsz) clearTimeout(rsz);
+  rsz=setTimeout(function(){ drawWave(); drawSpring(); placeMarks(); fire() },140);
+},{passive:true});
+
+placeMarks();
+syncSpring();
+fire();
+</script>
+</body>
+</html>
