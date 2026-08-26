@@ -1,19 +1,26 @@
 # Loom — 인터랙션 랩
 
+[![라이브 데모](https://img.shields.io/badge/%EB%9D%BC%EC%9D%B4%EB%B8%8C%20%EB%8D%B0%EB%AA%A8-%EC%97%B4%EA%B8%B0-4DA3FF?style=flat-square&labelColor=141922)](https://capernaum-user.github.io/loom-interaction-lab/)
+[![라이선스](https://img.shields.io/badge/%EB%9D%BC%EC%9D%B4%EC%84%A0%EC%8A%A4-MIT-232C3A?style=flat-square&labelColor=141922)](LICENSE)
+![의존성](https://img.shields.io/badge/%EC%9D%98%EC%A1%B4%EC%84%B1-%EC%97%86%EC%9D%8C-232C3A?style=flat-square&labelColor=141922)
+![파일](https://img.shields.io/badge/%ED%8C%8C%EC%9D%BC-%EB%8B%A8%EC%9D%BC%20HTML-232C3A?style=flat-square&labelColor=141922)
+
 한 상용 AI 디자인 도구의 인터랙션 기법 네 가지를 공개된 자산만 보고 알아낸 뒤, **원본 파일을 한 개도 쓰지 않고 처음부터 다시 구현한** 화면 모음이다.
 
 자기완결 단일 HTML 넉 장이다. 두 번 눌러 브라우저로 열면 그대로 돈다. 서버도 빌드도 설치도 필요 없다.
 
 ## 화면
 
-`01_Pages/LoomLab_index_active.html` 부터 열면 된다. 나머지 셋으로 링크가 걸려 있다.
+**https://capernaum-user.github.io/loom-interaction-lab/** 에서 바로 볼 수 있다. 내려받아 두 번 눌러 열어도 똑같이 돈다.
 
-| 파일 | 무엇 |
+| 화면 | 무엇 |
 |---|---|
-| `LoomLab_index_active.html` | 랩 입구. 무엇을 모방했고 무엇을 가져오지 않았는지 |
-| `LoomLab_endless-feed_active.html` | 무한 시안 피드. 프롬프트를 넣으면 스크롤할수록 화면 시안이 끝없이 나온다 |
-| `LoomLab_style-dropper_active.html` | 스타일 드로퍼. 한 시안의 색·서체·밀도를 뽑아 다른 시안에 옮긴다 |
-| `LoomLab_motion-sound_active.html` | 모션과 소리 해부. 프레임 시퀀스 로더·합성 신호음·스프링 대 베지에 |
+| [**랩 입구**](https://capernaum-user.github.io/loom-interaction-lab/01_Pages/LoomLab_index_active.html) | 무엇을 모방했고 무엇을 가져오지 않았는지 |
+| [**무한 시안 피드**](https://capernaum-user.github.io/loom-interaction-lab/01_Pages/LoomLab_endless-feed_active.html) | 프롬프트를 넣으면 스크롤할수록 화면 시안이 끝없이 나온다 |
+| [**스타일 드로퍼**](https://capernaum-user.github.io/loom-interaction-lab/01_Pages/LoomLab_style-dropper_active.html) | 한 시안의 색·서체·밀도를 뽑아 다른 시안에 옮긴다 |
+| [**모션과 소리 해부**](https://capernaum-user.github.io/loom-interaction-lab/01_Pages/LoomLab_motion-sound_active.html) | 프레임 시퀀스 로더·합성 신호음·스프링 대 베지에 |
+
+파일은 `01_Pages/` 안에 있다.
 
 ## 어떻게 도나
 
