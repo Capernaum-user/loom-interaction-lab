@@ -1,5 +1,7 @@
 # Loom — 인터랙션 랩
 
+**한국어** · [English](README.en.md)
+
 [![라이브 데모](https://img.shields.io/badge/%EB%9D%BC%EC%9D%B4%EB%B8%8C%20%EB%8D%B0%EB%AA%A8-%EC%97%B4%EA%B8%B0-4DA3FF?style=flat-square&labelColor=141922)](https://capernaum-user.github.io/loom-interaction-lab/)
 [![라이선스](https://img.shields.io/badge/%EB%9D%BC%EC%9D%B4%EC%84%A0%EC%8A%A4-MIT-232C3A?style=flat-square&labelColor=141922)](LICENSE)
 ![의존성](https://img.shields.io/badge/%EC%9D%98%EC%A1%B4%EC%84%B1-%EC%97%86%EC%9D%8C-232C3A?style=flat-square&labelColor=141922)
@@ -31,6 +33,8 @@
 ## 기법 카탈로그
 
 [![기법 카탈로그 화면. 검은 바탕에 아키타입 카드가 격자로 놓이고 카드마다 팔레트 띠와 난이도별 인터랙션 분류가 적혀 있다](02_Screenshots/LoomLab_craft-catalog-shot_active.png)](https://capernaum-user.github.io/loom-interaction-lab/04_Catalog/LoomLab_craft-catalog_active.html)
+
+> **영어로도 나온다.** 카탈로그 오른쪽 위 `한국어 / English` 를 누르면 이름·설명·수치·코드 주석까지 전부 영어로 바뀐다. 복사 단추가 주는 주문서도 같이 영어가 된다.
 
 ### 왜 필요한가
 
@@ -175,6 +179,8 @@ reduced-motion — 관찰을 걸지 않고 처음부터 최종 상태로 둔다
 | HUD 기법 8종 라이브 데모 | 카탈로그 65칸 전부 붙음 · 오류 0 |
 | 카탈로그 갈래 데모 렌더 | 16장 · 실패 0 · 런타임 오류 0 |
 | 카탈로그 카드 · 수치 표 · 복사 버튼 | 각 65개 |
+| 영어 전환 | 화면에 남는 한글 0자 (`한국어` 단추 빼고) |
+| 한국어·영어 스니펫 코드 대조 | 65 / 65 동일 |
 
 ## 서체
 
