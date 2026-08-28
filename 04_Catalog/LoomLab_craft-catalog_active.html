@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="ko" data-craft="L4"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Intent Router 선택 화면 — 아키타입 14 · 기법 57 · 분류 16</title>
+<title>Intent Router 선택 화면 — 아키타입 14 · 기법 65 · 분류 16</title>
 <style>
 :root{--bg:#0F1115;--surf:#171A21;--ink:#E6E9EF;--dim:#8C95A6;--line:#262B36;--acc:#7CE3A0;--warn:#FFB86B;
       --mono:ui-monospace,"Cascadia Mono","Consolas",monospace;--sans:system-ui,"Malgun Gothic",sans-serif;}
@@ -104,7 +104,7 @@ button:focus-visible,a:focus-visible,summary:focus-visible{outline:2px solid var
 </style></head><body>
 <header class="top">
 <h1>무엇을 만들지 눈으로 고르는 화면</h1>
-<p class="lead">아키타입 <b>14</b>종 · 기법 <b>57</b>종 · 인터랙션 분류 <b>16</b>개.
+<p class="lead">아키타입 <b>14</b>종 · 기법 <b>65</b>종 · 인터랙션 분류 <b>16</b>개.
 쓰고 싶은 기법을 <b>담기</b> 로 고른 뒤 아래 띠에서 한 줄로 복사해 그대로 주문하면 된다.
 아키타입은 카드의 예시 문장을 그대로 말하면 착지한다. 난이도는 <code>L1</code>~<code>L4</code> 로 말한다.</p>
 <nav><a href="#ar">① 아키타입</a><a href="#tech">② 기법 라이브</a><a href="#demo">③ 분류 데모</a></nav>
@@ -241,7 +241,7 @@ button:focus-visible,a:focus-visible,summary:focus-visible{outline:2px solid var
 <button class="copy" data-copy="포트폴리오 인덱스 키비주얼">복사</button></p>
 </article></div></section>
 
-<section id="tech"><h2>② 기법 57종 · 실제로 도는 데모</h2>
+<section id="tech"><h2>② 기법 65종 · 실제로 도는 데모</h2>
 <p class="sub">전부 외부 라이브러리 없이 표준 API 만 쓴다. 소스를 펼치면 프롬프트에 실리는 코드가 그대로 나온다.</p>
 <div class="search">
 <input id="q" type="search" placeholder="이름·별칭·API 로 찾기 (예: 물그림자 · 스크러버 · WebGL)" aria-label="기법 검색" autocomplete="off">
@@ -1747,6 +1747,377 @@ const off = c.transferControlToOffscreen();
 worker.postMessage({ canvas: off, w: c.width, h: c.height }, [off]);   // 소유권을 넘긴다
 /* 메인 스레드는 이제 이 그림에 손을 못 댄다. 대신 완전히 자유롭다 */</pre></details>
 <p class="fb"><span class="lbl">폴백</span> OffscreenCanvas 미지원이면 같은 적분식을 메인 스레드 rAF 로 돌린다. 입자 수를 1/3 로 줄인다.<br><span class="lbl">reduced-motion</span> worker.postMessage({stop:true}) 로 멈추고 마지막 프레임을 남긴다.</p>
+</article><article class="tcard" data-prompt="주사선 겹막 (l1-scanline-overlay)&#10;화면 전체에 관제실 질감을 입힐 때 고른다. 내용은 건드리지 않고 위에 한 겹만 덮는다.&#10;쓰는 API — repeating-linear-gradient, @keyframes, pointer-events, prefers-reduced-motion&#10;수치 — 줄 주기 3px · 줄 두께 1px · 줄 농도 rgb(0 0 0 / .22) · 굴러가는 띠 높이 22% · 띠 농도 rgb(120 190 255 / .06) · 한 바퀴 7.5s linear infinite · 겹치는 층 z-index 120 · pointer-events none&#10;폴백 — 그러데이션과 keyframes 는 전 브라우저가 받는다. 겹막을 못 그려도 아래 화면은 그대로 읽힌다.&#10;reduced-motion — 굴러가는 띠만 멈추고 가로줄은 남긴다. 겹막 자체를 지우면 화면 성격이 바뀐다." data-level="L1" data-hay="주사선 겹막 l1-scanline-overlay hud 화면 전체에 관제실 질감을 입힐 때 고른다. 내용은 건드리지 않고 위에 한 겹만 덮는다. 스캔라인 crt 줄 화면 겹막 관제 화면 질감 repeating-linear-gradient @keyframes pointer-events prefers-reduced-motion" id="l1-scanline-overlay">
+<header><span class="lvtag">L1</span><h3>주사선 겹막</h3>
+<label class="pick"><input type="checkbox" value="주사선 겹막"><span>담기</span></label></header>
+<p class="callid"><code>l1-scanline-overlay</code><button class="copy" data-copy="주사선 겹막">이름</button><button class="copy prime" data-prompt-copy>수치까지 복사</button><button class="copy" data-code-copy>코드</button></p>
+<p class="use">화면 전체에 관제실 질감을 입힐 때 고른다. 내용은 건드리지 않고 위에 한 겹만 덮는다.</p>
+<p class="aka"><i>스캔라인</i><i>CRT 줄</i><i>화면 겹막</i><i>관제 화면 질감</i></p>
+<table class="nums"><caption>수치 7개</caption><tr><th>줄 주기</th><td><code>3px</code><i>2px 로 좁히면 저해상도 화면에서 무늬가 어른거린다</i></td></tr><tr><th>줄 두께</th><td><code>1px</code></td></tr><tr><th>줄 농도</th><td><code>rgb(0 0 0 / .22)</code><i>.3 을 넘으면 본문 대비가 무너진다</i></td></tr><tr><th>굴러가는 띠 높이</th><td><code>22%</code></td></tr><tr><th>띠 농도</th><td><code>rgb(120 190 255 / .06)</code></td></tr><tr><th>한 바퀴</th><td><code>7.5s linear infinite</code></td></tr><tr><th>겹치는 층</th><td><code>z-index 120 · pointer-events none</code><i>이 두 값이 짝이다. 위에 덮되 누름은 통과시킨다</i></td></tr></table>
+<div class="demo" data-demo="l1-scanline-overlay"></div>
+<details><summary>소스 15줄 · repeating-linear-gradient, @keyframes, pointer-events, prefers-reduced-motion</summary><pre>/* 주사선 겹막 — 화면 맨 위에 덮되 누름은 그대로 통과시킨다. */
+.scan{position:fixed;inset:0;z-index:120;
+  pointer-events:none;                       /* 이 한 줄이 없으면 화면 전체가 먹통이 된다 */
+  background:repeating-linear-gradient(to bottom,
+    rgb(0 0 0 / .22) 0 1px,                  /* 어두운 줄 1px */
+    rgb(0 0 0 / 0)   1px 3px)}               /* 빈 줄 2px — 합쳐 3px 주기 */
+.scan::after{content:&quot;&quot;;position:absolute;left:0;right:0;height:22%;
+  background:linear-gradient(to bottom,
+    rgb(120 190 255 / 0), rgb(120 190 255 / .06) 46%, rgb(120 190 255 / 0));
+  animation:scanroll 7.5s linear infinite}   /* 굴러 내려가는 밝은 띠 한 장 */
+@keyframes scanroll{from{transform:translateY(-30%)}to{transform:translateY(430%)}}
+@media (prefers-reduced-motion:reduce){
+  .scan::after{animation:none;opacity:0}}    /* 줄은 남기고 굴러가는 띠만 뺀다 */
+
+&lt;div class=&quot;scan&quot; aria-hidden=&quot;true&quot;&gt;&lt;/div&gt;</pre></details>
+<p class="fb"><span class="lbl">폴백</span> 그러데이션과 keyframes 는 전 브라우저가 받는다. 겹막을 못 그려도 아래 화면은 그대로 읽힌다.<br><span class="lbl">reduced-motion</span> 굴러가는 띠만 멈추고 가로줄은 남긴다. 겹막 자체를 지우면 화면 성격이 바뀐다.</p>
+</article><article class="tcard" data-prompt="모서리 조준틀 (l1-corner-bracket)&#10;테두리를 다 두르면 무거울 때 고른다. 네 귀만 그리면 상자가 아니라 조준틀로 읽힌다.&#10;쓰는 API — linear-gradient, background-size, background-position, CSS 변수&#10;수치 — 괄호 길이 --brk-len 18px · 선 두께 --brk-w 1px · 그러데이션 장수 8장 · 붙는 자리 0 0 · 100% 0 · 0 100% · 100% 100% · 안쪽 여백 inset 0&#10;폴백 — 다중 배경은 전 브라우저가 받는다. 못 그려도 안쪽 내용의 자리는 변하지 않는다.&#10;reduced-motion — 해당 없음 — 움직이는 부분이 없다." data-level="L1" data-hay="모서리 조준틀 l1-corner-bracket hud 테두리를 다 두르면 무거울 때 고른다. 네 귀만 그리면 상자가 아니라 조준틀로 읽힌다. 코너 브래킷 네 귀 괄호 조준 프레임 타깃 프레임 linear-gradient background-size background-position css 변수" id="l1-corner-bracket">
+<header><span class="lvtag">L1</span><h3>모서리 조준틀</h3>
+<label class="pick"><input type="checkbox" value="모서리 조준틀"><span>담기</span></label></header>
+<p class="callid"><code>l1-corner-bracket</code><button class="copy" data-copy="모서리 조준틀">이름</button><button class="copy prime" data-prompt-copy>수치까지 복사</button><button class="copy" data-code-copy>코드</button></p>
+<p class="use">테두리를 다 두르면 무거울 때 고른다. 네 귀만 그리면 상자가 아니라 조준틀로 읽힌다.</p>
+<p class="aka"><i>코너 브래킷</i><i>네 귀 괄호</i><i>조준 프레임</i><i>타깃 프레임</i></p>
+<table class="nums"><caption>수치 5개</caption><tr><th>괄호 길이</th><td><code>--brk-len 18px</code></td></tr><tr><th>선 두께</th><td><code>--brk-w 1px</code></td></tr><tr><th>그러데이션 장수</th><td><code>8장</code><i>귀 하나에 가로·세로 두 장씩</i></td></tr><tr><th>붙는 자리</th><td><code>0 0 · 100% 0 · 0 100% · 100% 100%</code></td></tr><tr><th>안쪽 여백</th><td><code>inset 0</code><i>요소 바깥으로 빼려면 inset:-6px 처럼 음수를 준다</i></td></tr></table>
+<div class="demo" data-demo="l1-corner-bracket"></div>
+<details><summary>소스 20줄 · linear-gradient, background-size, background-position, CSS 변수</summary><pre>/* 모서리 조준틀 — 테두리를 두르지 않고 네 귀만 그린다. 요소를 더 넣지 않는다. */
+.brk{--brk-len:18px;--brk-w:1px;--brk-c:#4DA3FF;position:relative}
+.brk::after{content:&quot;&quot;;position:absolute;inset:0;pointer-events:none;background-repeat:no-repeat;
+  /* 귀 하나에 가로 한 장 세로 한 장, 네 귀니까 여덟 장 */
+  background-image:
+    linear-gradient(var(--brk-c),var(--brk-c)),linear-gradient(var(--brk-c),var(--brk-c)),
+    linear-gradient(var(--brk-c),var(--brk-c)),linear-gradient(var(--brk-c),var(--brk-c)),
+    linear-gradient(var(--brk-c),var(--brk-c)),linear-gradient(var(--brk-c),var(--brk-c)),
+    linear-gradient(var(--brk-c),var(--brk-c)),linear-gradient(var(--brk-c),var(--brk-c));
+  background-size:
+    var(--brk-len) var(--brk-w),var(--brk-w) var(--brk-len),
+    var(--brk-len) var(--brk-w),var(--brk-w) var(--brk-len),
+    var(--brk-len) var(--brk-w),var(--brk-w) var(--brk-len),
+    var(--brk-len) var(--brk-w),var(--brk-w) var(--brk-len);
+  background-position:
+    0 0,0 0,          100% 0,100% 0,
+    0 100%,0 100%,    100% 100%,100% 100%}
+
+&lt;div class=&quot;brk&quot;&gt;기본 괄호&lt;/div&gt;
+&lt;div class=&quot;brk&quot; style=&quot;--brk-len:26px;--brk-w:2px&quot;&gt;더 길고 굵게 — 변수만 바꾼다&lt;/div&gt;</pre></details>
+<p class="fb"><span class="lbl">폴백</span> 다중 배경은 전 브라우저가 받는다. 못 그려도 안쪽 내용의 자리는 변하지 않는다.<br><span class="lbl">reduced-motion</span> 해당 없음 — 움직이는 부분이 없다.</p>
+</article><article class="tcard" data-prompt="계기 판독기 (l2-hud-readout)&#10;값이 계속 바뀌고 지금 값과 최근 흐름을 함께 봐야 할 때 고른다. 임계를 넘는 순간만 알린다.&#10;쓰는 API — aria-live, Web Animations, SVG polyline, tabular-nums, setInterval&#10;수치 — 표본 수 40개 · 갱신 주기 900ms · 주의 임계 72 · 경고 임계 88 · 숫자 튐 220ms · translateY -4px · 색 전환 220ms · 이력 선 높이 26px · stroke-width 1.25&#10;폴백 — WAAPI 를 못 쓰면 숫자가 튀지 않을 뿐 값과 색은 그대로 바뀐다.&#10;reduced-motion — 숫자 튐만 뺀다. 값 갱신과 임계 색은 정보라서 남긴다." data-level="L2" data-hay="계기 판독기 l2-hud-readout hud 값이 계속 바뀌고 지금 값과 최근 흐름을 함께 봐야 할 때 고른다. 임계를 넘는 순간만 알린다. 텔레메트리 실시간 계기 스파크라인 게이지 임계 표시 aria-live web animations svg polyline tabular-nums setinterval" id="l2-hud-readout">
+<header><span class="lvtag">L2</span><h3>계기 판독기</h3>
+<label class="pick"><input type="checkbox" value="계기 판독기"><span>담기</span></label></header>
+<p class="callid"><code>l2-hud-readout</code><button class="copy" data-copy="계기 판독기">이름</button><button class="copy prime" data-prompt-copy>수치까지 복사</button><button class="copy" data-code-copy>코드</button></p>
+<p class="use">값이 계속 바뀌고 지금 값과 최근 흐름을 함께 봐야 할 때 고른다. 임계를 넘는 순간만 알린다.</p>
+<p class="aka"><i>텔레메트리</i><i>실시간 계기</i><i>스파크라인 게이지</i><i>임계 표시</i></p>
+<table class="nums"><caption>수치 7개</caption><tr><th>표본 수</th><td><code>40개</code><i>26px 높이에 40점이면 점 간격이 2.5px 로 선이 끊겨 보이지 않는다</i></td></tr><tr><th>갱신 주기</th><td><code>900ms</code><i>500ms 아래로 내리면 숫자를 읽을 틈이 없다</i></td></tr><tr><th>주의 임계</th><td><code>72</code></td></tr><tr><th>경고 임계</th><td><code>88</code></td></tr><tr><th>숫자 튐</th><td><code>220ms · translateY -4px</code><i>등급이 바뀌는 순간에만 한 번</i></td></tr><tr><th>색 전환</th><td><code>220ms</code></td></tr><tr><th>이력 선 높이</th><td><code>26px · stroke-width 1.25</code></td></tr></table>
+<div class="demo" data-demo="l2-hud-readout"></div>
+<details><summary>소스 41줄 · aria-live, Web Animations, SVG polyline, tabular-nums, setInterval</summary><pre>/* 계기 판독기 — 실시간 수치 + 최근 이력 선 + 임계 색 + 등급이 바뀔 때만 읽어 주기 */
+.g{background:#0B0E13;border:1px solid #232C3A;border-radius:9px;padding:10px 12px}
+.g .val{font-family:ui-monospace,monospace;font-variant-numeric:tabular-nums;  /* 숫자 폭 고정 — 없으면 값이 바뀔 때 줄이 흔들린다 */
+  font-size:25px;font-weight:600;color:#5AD59A;transition:color .22s}
+.g[data-tone=&quot;warn&quot;] .val,.g[data-tone=&quot;warn&quot;] polyline{color:#F0C05A}
+.g[data-tone=&quot;bad&quot;]  .val,.g[data-tone=&quot;bad&quot;]  polyline{color:#F2775A}
+.g svg{display:block;width:100%;height:26px;margin-top:5px;overflow:visible}
+.g polyline{fill:none;stroke:currentColor;stroke-width:1.25;stroke-linejoin:round;color:#5AD59A;opacity:.85}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+
+&lt;div class=&quot;g&quot; data-tone=&quot;ok&quot;&gt;
+  &lt;div class=&quot;lab&quot;&gt;노심 온도&lt;/div&gt;
+  &lt;div class=&quot;val&quot;&gt;&lt;span data-v&gt;--&lt;/span&gt;&lt;span class=&quot;unit&quot;&gt;C&lt;/span&gt;&lt;/div&gt;
+  &lt;svg viewBox=&quot;0 0 100 26&quot; preserveAspectRatio=&quot;none&quot; aria-hidden=&quot;true&quot;&gt;
+    &lt;polyline data-p points=&quot;&quot;&gt;&lt;/polyline&gt;&lt;/svg&gt;&lt;/div&gt;
+&lt;p class=&quot;sr&quot; id=&quot;live&quot; role=&quot;status&quot; aria-live=&quot;polite&quot;&gt;&lt;/p&gt;
+
+&lt;script&gt;
+const SAMPLES = 40, TICK = 900, WARN = 72, BAD = 88;
+const el = document.querySelector(&#x27;.g&#x27;), vEl = el.querySelector(&#x27;[data-v]&#x27;), pEl = el.querySelector(&#x27;[data-p]&#x27;);
+const live = document.getElementById(&#x27;live&#x27;), buf = [];
+const RM = matchMedia(&#x27;(prefers-reduced-motion: reduce)&#x27;);
+
+setInterval(() =&gt; {
+  const n = Math.max(0, Math.min(100, 58 + (Math.random() - .5) * 46));
+  buf.push(n); if (buf.length &gt; SAMPLES) buf.shift();
+  vEl.textContent = n.toFixed(1);
+
+  const tone = n &gt;= BAD ? &#x27;bad&#x27; : n &gt;= WARN ? &#x27;warn&#x27; : &#x27;ok&#x27;;
+  if (tone !== el.dataset.tone) {
+    el.dataset.tone = tone;
+    live.textContent = &#x27;노심 온도 &#x27; + (tone === &#x27;bad&#x27; ? &#x27;경고&#x27; : tone === &#x27;warn&#x27; ? &#x27;주의&#x27; : &#x27;정상&#x27;);
+    /* 값이 바뀔 때마다 튀면 눈이 지친다. 등급이 넘어가는 순간에만 한 번 튄다 */
+    if (!RM.matches) vEl.animate(
+      [{transform:&#x27;translateY(0)&#x27;},{transform:&#x27;translateY(-4px)&#x27;},{transform:&#x27;translateY(0)&#x27;}],
+      {duration:220, easing:&#x27;cubic-bezier(.22,.61,.36,1)&#x27;});
+  }
+  const step = 100 / (SAMPLES - 1);
+  pEl.setAttribute(&#x27;points&#x27;, buf.map((v, i) =&gt; (i*step).toFixed(2) + &#x27;,&#x27; + (26 - v*0.26).toFixed(2)).join(&#x27; &#x27;));
+}, TICK);
+&lt;/script&gt;</pre></details>
+<p class="fb"><span class="lbl">폴백</span> WAAPI 를 못 쓰면 숫자가 튀지 않을 뿐 값과 색은 그대로 바뀐다.<br><span class="lbl">reduced-motion</span> 숫자 튐만 뺀다. 값 갱신과 임계 색은 정보라서 남긴다.</p>
+</article><article class="tcard" data-prompt="레이더 훑기 (l3-radar-sweep)&#10;무언가를 계속 살피고 있다는 것을 한눈에 보일 때 고른다. 실제 좌표가 없어도 성립한다.&#10;쓰는 API — Canvas 2D, requestAnimationFrame, ResizeObserver, createRadialGradient, devicePixelRatio&#10;수치 — 한 바퀴 4200ms · 잔광 각도 62deg · 표적 잔광 2400ms · 사거리 링 3개 · 표적 수 12개 · 반지름 0.22~0.92 · 스치는 폭 0.08rad · 픽셀 배율 상한 min(devicePixelRatio, 2) · 반지름 하한 Math.max(1, ...)&#10;폴백 — 캔버스를 못 쓰면 빈 원판이 남는다. 정보를 여기 담지 말고 곁의 목록에 함께 적는다.&#10;reduced-motion — 부채꼴을 돌리지 않고 표적을 고정 밝기로 전부 보인다." data-level="L3" data-hay="레이더 훑기 l3-radar-sweep hud 무언가를 계속 살피고 있다는 것을 한눈에 보일 때 고른다. 실제 좌표가 없어도 성립한다. 레이더 스윕 훑는 선 관제 원판 소나 canvas 2d requestanimationframe resizeobserver createradialgradient devicepixelratio" id="l3-radar-sweep">
+<header><span class="lvtag">L3</span><h3>레이더 훑기</h3>
+<label class="pick"><input type="checkbox" value="레이더 훑기"><span>담기</span></label></header>
+<p class="callid"><code>l3-radar-sweep</code><button class="copy" data-copy="레이더 훑기">이름</button><button class="copy prime" data-prompt-copy>수치까지 복사</button><button class="copy" data-code-copy>코드</button></p>
+<p class="use">무언가를 계속 살피고 있다는 것을 한눈에 보일 때 고른다. 실제 좌표가 없어도 성립한다.</p>
+<p class="aka"><i>레이더 스윕</i><i>훑는 선</i><i>관제 원판</i><i>소나</i></p>
+<table class="nums"><caption>수치 8개</caption><tr><th>한 바퀴</th><td><code>4200ms</code></td></tr><tr><th>잔광 각도</th><td><code>62deg</code><i>90도를 넘으면 원판 전체가 밝아 훑는 느낌이 사라진다</i></td></tr><tr><th>표적 잔광</th><td><code>2400ms</code><i>한 바퀴 4.2초보다 짧아야 켜지고 꺼지는 것이 보인다</i></td></tr><tr><th>사거리 링</th><td><code>3개</code></td></tr><tr><th>표적 수</th><td><code>12개 · 반지름 0.22~0.92</code></td></tr><tr><th>스치는 폭</th><td><code>0.08rad</code><i>이보다 좁으면 프레임 사이로 표적을 지나쳐 안 켜진다</i></td></tr><tr><th>픽셀 배율 상한</th><td><code>min(devicePixelRatio, 2)</code><i>3배 화면에서 9배 픽셀을 그리면 프레임이 무너진다</i></td></tr><tr><th>반지름 하한</th><td><code>Math.max(1, ...)</code><i>문서에 붙기 전에 재면 0 이 나오고, arc() 가 음수 반지름에 던지는 예외가 프레임 루프를 죽인다</i></td></tr></table>
+<div class="demo" data-demo="l3-radar-sweep"></div>
+<details><summary>소스 51줄 · Canvas 2D, requestAnimationFrame, ResizeObserver, createRadialGradient, devicePixelRatio</summary><pre>/* 레이더 훑기 — 도는 부채꼴이 지나간 표적만 밝히고 서서히 끈다. */
+.radar{position:relative;aspect-ratio:1;max-width:330px;background:#0B0E13;
+  border:1px solid #232C3A;border-radius:9px;overflow:hidden}
+.radar canvas{display:block;width:100%;height:100%}
+
+&lt;div class=&quot;radar&quot;&gt;&lt;canvas id=&quot;radar&quot; aria-label=&quot;회전하는 레이더. 훑는 선이 지나갈 때 표적이 밝아진다&quot;&gt;&lt;/canvas&gt;&lt;/div&gt;
+
+&lt;script&gt;
+const cv = document.getElementById(&#x27;radar&#x27;), cx = cv.getContext(&#x27;2d&#x27;);
+const TURN = 4200, TAIL = 62 * Math.PI / 180, FADE = 2400, RINGS = 3;
+const RM = matchMedia(&#x27;(prefers-reduced-motion: reduce)&#x27;);
+let W = 0, H = 0;
+const blips = Array.from({length: 12}, () =&gt; ({ a: Math.random()*Math.PI*2, r: .22 + Math.random()*.7, lit: -1e9 }));
+
+function fit() {                                   /* 캔버스는 CSS 폭과 픽셀 폭이 다른 물건이다 */
+  const dpr = Math.min(devicePixelRatio || 1, 2);   /* 3배 화면에서 9배 픽셀을 그리면 프레임이 무너진다 */
+  const r = cv.getBoundingClientRect();
+  W = Math.max(1, Math.round(r.width)); H = Math.max(1, Math.round(r.height));
+  cv.width = Math.round(W*dpr); cv.height = Math.round(H*dpr);
+  cx.setTransform(dpr, 0, 0, dpr, 0, 0);
+}
+new ResizeObserver(fit).observe(cv); fit();
+
+function frame(now) {
+  /* 요소가 문서에 붙기 전에 재면 0 이 나오고 반지름이 음수가 된다.
+     arc() 는 음수 반지름에 예외를 던지고 그 예외가 프레임 루프를 죽인다. */
+  const cxp = W/2, cyp = H/2, R = Math.max(1, Math.min(W, H)/2 - 4);
+  const ang = (now % TURN) / TURN * Math.PI*2 - Math.PI/2;
+  cx.clearRect(0, 0, W, H);
+
+  cx.strokeStyle = &#x27;rgb(77 163 255 / .18)&#x27;; cx.lineWidth = 1;
+  for (let i = 1; i &lt;= RINGS; i++) { cx.beginPath(); cx.arc(cxp, cyp, R*i/RINGS, 0, Math.PI*2); cx.stroke(); }
+
+  if (!RM.matches) {                               /* 도는 것은 부채꼴 하나뿐이다 */
+    const g = cx.createRadialGradient(cxp, cyp, 0, cxp, cyp, R);
+    g.addColorStop(0, &#x27;rgb(77 163 255 / .30)&#x27;); g.addColorStop(1, &#x27;rgb(77 163 255 / 0)&#x27;);
+    cx.fillStyle = g; cx.beginPath(); cx.moveTo(cxp, cyp);
+    cx.arc(cxp, cyp, R, ang - TAIL, ang); cx.closePath(); cx.fill();
+  }
+  for (const p of blips) {
+    const d = ((ang - p.a) % (Math.PI*2) + Math.PI*2) % (Math.PI*2);
+    if (!RM.matches &amp;&amp; d &lt; 0.08) p.lit = now;      /* 훑는 선이 스칠 때만 다시 켠다 */
+    const a = RM.matches ? .7 : Math.max(0, 1 - (now - p.lit) / FADE);
+    if (a &lt;= .02) continue;
+    cx.fillStyle = &#x27;rgb(90 213 154 / &#x27; + a.toFixed(3) + &#x27;)&#x27;;
+    cx.beginPath(); cx.arc(cxp + Math.cos(p.a)*R*p.r, cyp + Math.sin(p.a)*R*p.r, 2.6, 0, Math.PI*2); cx.fill();
+  }
+  requestAnimationFrame(frame);
+}
+requestAnimationFrame(frame);
+&lt;/script&gt;</pre></details>
+<p class="fb"><span class="lbl">폴백</span> 캔버스를 못 쓰면 빈 원판이 남는다. 정보를 여기 담지 말고 곁의 목록에 함께 적는다.<br><span class="lbl">reduced-motion</span> 부채꼴을 돌리지 않고 표적을 고정 밝기로 전부 보인다.</p>
+</article><article class="tcard" data-prompt="글리치 조각 (l3-glitch-slice)&#10;제목 한 줄에 고장난 신호의 인상을 줄 때 고른다. 짧게 한 번씩만 일으킨다.&#10;쓰는 API — clip-path, mix-blend-mode, requestAnimationFrame, pointerenter&#10;수치 — 조각 수 7개 · 최대 어긋남 ±14px · 색분리 ±2px · mix-blend-mode screen · 한 발작 260ms · 저절로 일어날 확률 4000ms 마다 35% · 쉴 때 상태 clip-path inset(100% 0 0 0)&#10;폴백 — clip-path 를 못 읽으면 겹친 두 벌이 안 잘릴 뿐 원래 글자는 그대로 읽힌다.&#10;reduced-motion — 발작을 아예 일으키지 않는다. 어긋나는 글자는 어지럼을 부른다." data-level="L3" data-hay="글리치 조각 l3-glitch-slice hud 제목 한 줄에 고장난 신호의 인상을 줄 때 고른다. 짧게 한 번씩만 일으킨다. 글리치 신호 끊김 색분리 rgb 어긋남 clip-path mix-blend-mode requestanimationframe pointerenter" id="l3-glitch-slice">
+<header><span class="lvtag">L3</span><h3>글리치 조각</h3>
+<label class="pick"><input type="checkbox" value="글리치 조각"><span>담기</span></label></header>
+<p class="callid"><code>l3-glitch-slice</code><button class="copy" data-copy="글리치 조각">이름</button><button class="copy prime" data-prompt-copy>수치까지 복사</button><button class="copy" data-code-copy>코드</button></p>
+<p class="use">제목 한 줄에 고장난 신호의 인상을 줄 때 고른다. 짧게 한 번씩만 일으킨다.</p>
+<p class="aka"><i>글리치</i><i>신호 끊김</i><i>색분리</i><i>RGB 어긋남</i></p>
+<table class="nums"><caption>수치 6개</caption><tr><th>조각 수</th><td><code>7개</code></td></tr><tr><th>최대 어긋남</th><td><code>±14px</code></td></tr><tr><th>색분리</th><td><code>±2px · mix-blend-mode screen</code></td></tr><tr><th>한 발작</th><td><code>260ms</code><i>400ms 를 넘으면 고장이 아니라 장식으로 읽힌다</i></td></tr><tr><th>저절로 일어날 확률</th><td><code>4000ms 마다 35%</code></td></tr><tr><th>쉴 때 상태</th><td><code>clip-path inset(100% 0 0 0)</code><i>opacity 0 만으로는 겹친 글자가 선택 영역에 잡힌다</i></td></tr></table>
+<div class="demo" data-demo="l3-glitch-slice"></div>
+<details><summary>소스 40줄 · clip-path, mix-blend-mode, requestAnimationFrame, pointerenter</summary><pre>/* 글리치 조각 — 글자를 가로 조각으로 잘라 어긋내고 두 색을 밀어 겹친다. */
+.gl{position:relative;display:inline-block;font-weight:800;line-height:1.1}
+.gl &gt; span{display:block}
+.gl b{position:absolute;left:0;top:0;width:100%;display:block;font-weight:inherit;
+  pointer-events:none;opacity:0}
+.gl[data-on=&quot;1&quot;] b{opacity:.9}
+.gl b.r{color:#F2775A;mix-blend-mode:screen}      /* screen 이라야 겹친 자리가 밝아진다 */
+.gl b.c{color:#4DE0F2;mix-blend-mode:screen}
+
+&lt;h1 class=&quot;gl&quot; id=&quot;gl&quot;&gt;&lt;span&gt;관제 화면&lt;/span&gt;&lt;/h1&gt;
+
+&lt;script&gt;
+const SLICES = 7, SHIFT = 14, BURST = 260, SPLIT = 2;
+const RM = matchMedia(&#x27;(prefers-reduced-motion: reduce)&#x27;);
+const gl = document.getElementById(&#x27;gl&#x27;), text = gl.querySelector(&#x27;span&#x27;).textContent;
+const layers = [&#x27;r&#x27;, &#x27;c&#x27;].map(c =&gt; {
+  const b = document.createElement(&#x27;b&#x27;);
+  b.className = c; b.textContent = text; b.setAttribute(&#x27;aria-hidden&#x27;, &#x27;true&#x27;);
+  gl.append(b); return b;
+});
+let until = 0;
+const fire = () =&gt; { if (!RM.matches) until = performance.now() + BURST; };
+gl.addEventListener(&#x27;pointerenter&#x27;, fire);
+setInterval(() =&gt; { if (Math.random() &lt; .35) fire(); }, 4000);   /* 가끔 저절로 한 번 */
+
+function frame(now) {
+  const on = now &lt; until;
+  gl.dataset.on = on ? &#x27;1&#x27; : &#x27;0&#x27;;
+  layers.forEach((e, li) =&gt; {
+    if (!on) { e.style.clipPath = &#x27;inset(100% 0 0 0)&#x27;; e.style.transform = &#x27;none&#x27;; return; }
+    const i = Math.floor(Math.random() * SLICES);           /* 매 프레임 조각 하나만 고른다 */
+    const dx = (Math.random() - .5) * 2 * SHIFT + (li ? SPLIT : -SPLIT);
+    e.style.clipPath = &#x27;inset(&#x27; + (i*100/SLICES).toFixed(2) + &#x27;% 0 &#x27;
+      + (100 - (i+1)*100/SLICES).toFixed(2) + &#x27;% 0)&#x27;;
+    e.style.transform = &#x27;translateX(&#x27; + dx.toFixed(1) + &#x27;px)&#x27;;
+  });
+  requestAnimationFrame(frame);
+}
+requestAnimationFrame(frame);
+&lt;/script&gt;</pre></details>
+<p class="fb"><span class="lbl">폴백</span> clip-path 를 못 읽으면 겹친 두 벌이 안 잘릴 뿐 원래 글자는 그대로 읽힌다.<br><span class="lbl">reduced-motion</span> 발작을 아예 일으키지 않는다. 어긋나는 글자는 어지럼을 부른다.</p>
+</article><article class="tcard" data-prompt="표적 고정 (l3-target-lock)&#10;여러 칸 중 커서가 어디를 가리키는지 분명히 보일 때 고른다. 칸마다 테두리를 켜는 것보다 시선이 하나로 모인다.&#10;쓰는 API — pointermove, elementFromPoint, getBoundingClientRect, requestAnimationFrame&#10;수치 — 따라붙는 계수 0.22 · 표적 여백 6px 사방 · 사라지는 시간 180ms · 이름표 자리 top -19px · 첫 표적 보간 없이 그 자리에 · 묻는 법 elementFromPoint → closest(&#x27;[data-tgt]&#x27;)&#10;폴백 — 포인터가 없는 기기에서는 조준틀이 나타나지 않는다. 표적 이름은 각 칸에도 함께 적어 둔다.&#10;reduced-motion — 따라붙는 계수를 1 로 두어 즉시 자리를 잡는다. 미끄러지는 구간을 없앤다." data-level="L3" data-hay="표적 고정 l3-target-lock hud 여러 칸 중 커서가 어디를 가리키는지 분명히 보일 때 고른다. 칸마다 테두리를 켜는 것보다 시선이 하나로 모인다. 타깃 락 조준틀 따라붙기 선택 하이라이트 커서 아래 요소 물기 pointermove elementfrompoint getboundingclientrect requestanimationframe" id="l3-target-lock">
+<header><span class="lvtag">L3</span><h3>표적 고정</h3>
+<label class="pick"><input type="checkbox" value="표적 고정"><span>담기</span></label></header>
+<p class="callid"><code>l3-target-lock</code><button class="copy" data-copy="표적 고정">이름</button><button class="copy prime" data-prompt-copy>수치까지 복사</button><button class="copy" data-code-copy>코드</button></p>
+<p class="use">여러 칸 중 커서가 어디를 가리키는지 분명히 보일 때 고른다. 칸마다 테두리를 켜는 것보다 시선이 하나로 모인다.</p>
+<p class="aka"><i>타깃 락</i><i>조준틀 따라붙기</i><i>선택 하이라이트</i><i>커서 아래 요소 물기</i></p>
+<table class="nums"><caption>수치 6개</caption><tr><th>따라붙는 계수</th><td><code>0.22</code><i>0.1 이면 늘어지고 0.5 를 넘으면 미끄러지는 맛이 사라진다</i></td></tr><tr><th>표적 여백</th><td><code>6px 사방</code></td></tr><tr><th>사라지는 시간</th><td><code>180ms</code></td></tr><tr><th>이름표 자리</th><td><code>top -19px</code></td></tr><tr><th>첫 표적</th><td><code>보간 없이 그 자리에</code><i>화면 밖에서 날아오면 어디서 왔는지 읽히지 않는다</i></td></tr><tr><th>묻는 법</th><td><code>elementFromPoint → closest(&#x27;[data-tgt]&#x27;)</code></td></tr></table>
+<div class="demo" data-demo="l3-target-lock"></div>
+<details><summary>소스 50줄 · pointermove, elementFromPoint, getBoundingClientRect, requestAnimationFrame</summary><pre>/* 표적 고정 — 커서 아래 요소를 물어 조준틀을 그 자리로 미끄러뜨린다. */
+.stage{position:relative;overflow:hidden;touch-action:manipulation}
+.lock{position:absolute;left:0;top:0;pointer-events:none;opacity:0;transition:opacity .18s;
+  --brk-len:12px;--brk-c:#4DA3FF}                 /* 상자는 l1-corner-bracket 이 그린다 */
+.lock[data-on=&quot;1&quot;]{opacity:1}
+.lock .tag{position:absolute;left:0;top:-19px;font-family:ui-monospace,monospace;font-size:10px;
+  color:#4DA3FF;background:#0B0E13;border:1px solid #35507A;border-radius:3px;padding:0 5px;white-space:nowrap}
+
+&lt;div class=&quot;stage&quot; id=&quot;stage&quot;&gt;
+  &lt;div class=&quot;tile&quot; data-tgt=&quot;AX-01&quot;&gt;기압&lt;b&gt;1013&lt;/b&gt;&lt;/div&gt;
+  &lt;div class=&quot;tile&quot; data-tgt=&quot;AX-02&quot;&gt;고도&lt;b&gt;8420&lt;/b&gt;&lt;/div&gt;
+  &lt;div class=&quot;lock brk&quot; id=&quot;lock&quot; aria-hidden=&quot;true&quot;&gt;&lt;span class=&quot;tag&quot; id=&quot;tag&quot;&gt;&lt;/span&gt;&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;script&gt;
+const LERP = 0.22, PAD = 6;
+const RM = matchMedia(&#x27;(prefers-reduced-motion: reduce)&#x27;);
+const stage = document.getElementById(&#x27;stage&#x27;), lock = document.getElementById(&#x27;lock&#x27;), tag = document.getElementById(&#x27;tag&#x27;);
+let want = null, box = {x:0,y:0,w:0,h:0}, has = false;
+
+stage.addEventListener(&#x27;pointermove&#x27;, e =&gt; {
+  if (e.pointerType === &#x27;touch&#x27;) return;           /* 손가락에는 «올려놓기» 가 없다 */
+  const r = stage.getBoundingClientRect();
+  const hit = document.elementFromPoint(e.clientX, e.clientY);   /* 커서 밑에 무엇이 있는지 브라우저에 묻는다 */
+  const tgt = hit &amp;&amp; hit.closest ? hit.closest(&#x27;[data-tgt]&#x27;) : null;
+  if (!tgt) { want = null; lock.dataset.on = &#x27;0&#x27;; return; }
+  const t = tgt.getBoundingClientRect();
+  want = { x: t.left - r.left - PAD, y: t.top - r.top - PAD,
+           w: t.width + PAD*2, h: t.height + PAD*2, name: tgt.dataset.tgt };
+  if (!has) { Object.assign(box, want); has = true; apply(); }    /* 첫 표적은 날아오지 않고 그 자리에 선다 */
+  lock.dataset.on = &#x27;1&#x27;;
+  if (tag.textContent !== want.name) tag.textContent = want.name;
+});
+stage.addEventListener(&#x27;pointerleave&#x27;, () =&gt; { want = null; lock.dataset.on = &#x27;0&#x27;; });
+
+function apply() {
+  lock.style.transform = &#x27;translate(&#x27; + box.x.toFixed(1) + &#x27;px,&#x27; + box.y.toFixed(1) + &#x27;px)&#x27;;
+  lock.style.width = box.w.toFixed(1) + &#x27;px&#x27;;
+  lock.style.height = box.h.toFixed(1) + &#x27;px&#x27;;
+}
+function frame() {
+  if (want) {
+    const k = RM.matches ? 1 : LERP;               /* 1 이면 즉시 붙는다 — 움직임을 줄이는 설정 */
+    for (const key of [&#x27;x&#x27;,&#x27;y&#x27;,&#x27;w&#x27;,&#x27;h&#x27;]) box[key] += (want[key] - box[key]) * k;
+    apply();
+  }
+  requestAnimationFrame(frame);
+}
+requestAnimationFrame(frame);
+&lt;/script&gt;</pre></details>
+<p class="fb"><span class="lbl">폴백</span> 포인터가 없는 기기에서는 조준틀이 나타나지 않는다. 표적 이름은 각 칸에도 함께 적어 둔다.<br><span class="lbl">reduced-motion</span> 따라붙는 계수를 1 로 두어 즉시 자리를 잡는다. 미끄러지는 구간을 없앤다.</p>
+</article><article class="tcard" data-prompt="십자선 좌표 (l3-crosshair-coords)&#10;그림이나 지도 위에서 지금 가리키는 지점을 숫자로 읽어야 할 때 고른다.&#10;쓰는 API — pointermove, getBoundingClientRect, tabular-nums, padStart&#10;수치 — 선 두께 1px · 선 농도 rgb(77 163 255 / .35) · 켜지는 시간 200ms · 좌표 자릿수 4자리 · padStart(4,&#x27;0&#x27;) · 갱신 지점 pointermove 안에서 즉시&#10;폴백 — 포인터가 없으면 선도 좌표도 나타나지 않는다. 좌표가 정보라면 다른 곳에도 적는다.&#10;reduced-motion — 해당 없음 — 선이 포인터를 그대로 따라갈 뿐 잔상이 없다." data-level="L3" data-hay="십자선 좌표 l3-crosshair-coords hud 그림이나 지도 위에서 지금 가리키는 지점을 숫자로 읽어야 할 때 고른다. 크로스헤어 조준선 좌표 판독 가늠선 pointermove getboundingclientrect tabular-nums padstart" id="l3-crosshair-coords">
+<header><span class="lvtag">L3</span><h3>십자선 좌표</h3>
+<label class="pick"><input type="checkbox" value="십자선 좌표"><span>담기</span></label></header>
+<p class="callid"><code>l3-crosshair-coords</code><button class="copy" data-copy="십자선 좌표">이름</button><button class="copy prime" data-prompt-copy>수치까지 복사</button><button class="copy" data-code-copy>코드</button></p>
+<p class="use">그림이나 지도 위에서 지금 가리키는 지점을 숫자로 읽어야 할 때 고른다.</p>
+<p class="aka"><i>크로스헤어</i><i>조준선</i><i>좌표 판독</i><i>가늠선</i></p>
+<table class="nums"><caption>수치 5개</caption><tr><th>선 두께</th><td><code>1px</code></td></tr><tr><th>선 농도</th><td><code>rgb(77 163 255 / .35)</code></td></tr><tr><th>켜지는 시간</th><td><code>200ms</code></td></tr><tr><th>좌표 자릿수</th><td><code>4자리 · padStart(4,&#x27;0&#x27;)</code><i>자릿수가 변하면 판독 상자가 흔들린다</i></td></tr><tr><th>갱신 지점</th><td><code>pointermove 안에서 즉시</code><i>프레임 루프에 넣으면 선이 커서를 한 프레임 늦게 따라간다</i></td></tr></table>
+<div class="demo" data-demo="l3-crosshair-coords"></div>
+<details><summary>소스 36줄 · pointermove, getBoundingClientRect, tabular-nums, padStart</summary><pre>/* 십자선 좌표 — 포인터를 따라 가로세로 선을 긋고 좌표를 판독한다. */
+.stage{position:relative;overflow:hidden}
+.cross{position:absolute;inset:0;pointer-events:none;opacity:0;transition:opacity .2s}
+.cross[data-on=&quot;1&quot;]{opacity:1}
+.cross i{position:absolute;background:rgb(77 163 255 / .35)}
+.cross .h{left:0;right:0;height:1px}
+.cross .v{top:0;bottom:0;width:1px}
+.coords{position:absolute;right:9px;bottom:8px;font-family:ui-monospace,monospace;font-size:10.5px;
+  color:#93A0B4;font-variant-numeric:tabular-nums;                /* 자릿수가 늘어도 상자가 안 흔들린다 */
+  background:rgb(11 14 19 / .72);border:1px solid #232C3A;border-radius:4px;padding:2px 7px}
+
+&lt;div class=&quot;stage&quot; id=&quot;stage&quot;&gt;
+  &lt;div class=&quot;cross&quot; id=&quot;cross&quot; aria-hidden=&quot;true&quot;&gt;&lt;i class=&quot;h&quot;&gt;&lt;/i&gt;&lt;i class=&quot;v&quot;&gt;&lt;/i&gt;&lt;/div&gt;
+  &lt;div class=&quot;coords&quot; id=&quot;coords&quot;&gt;X ---- Y ----&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;script&gt;
+const stage = document.getElementById(&#x27;stage&#x27;), cross = document.getElementById(&#x27;cross&#x27;);
+const h = cross.querySelector(&#x27;.h&#x27;), v = cross.querySelector(&#x27;.v&#x27;), out = document.getElementById(&#x27;coords&#x27;);
+
+/* 프레임 루프에 넣지 않는다 — 포인터를 따라가는 선이 한 프레임 늦으면 눈에 띈다 */
+stage.addEventListener(&#x27;pointermove&#x27;, e =&gt; {
+  if (e.pointerType === &#x27;touch&#x27;) return;
+  const r = stage.getBoundingClientRect();
+  const x = e.clientX - r.left, y = e.clientY - r.top;
+  cross.dataset.on = &#x27;1&#x27;;
+  h.style.top = y.toFixed(1) + &#x27;px&#x27;;
+  v.style.left = x.toFixed(1) + &#x27;px&#x27;;
+  out.textContent = &#x27;X &#x27; + String(Math.round(x)).padStart(4, &#x27;0&#x27;)
+                  + &#x27; Y &#x27; + String(Math.round(y)).padStart(4, &#x27;0&#x27;);
+});
+stage.addEventListener(&#x27;pointerleave&#x27;, () =&gt; {
+  cross.dataset.on = &#x27;0&#x27;;
+  out.textContent = &#x27;X ---- Y ----&#x27;;               /* 떠나면 마지막 값을 남기지 않는다 */
+});
+&lt;/script&gt;</pre></details>
+<p class="fb"><span class="lbl">폴백</span> 포인터가 없으면 선도 좌표도 나타나지 않는다. 좌표가 정보라면 다른 곳에도 적는다.<br><span class="lbl">reduced-motion</span> 해당 없음 — 선이 포인터를 그대로 따라갈 뿐 잔상이 없다.</p>
+</article><article class="tcard" data-prompt="해독되는 글자 (l3-decode-text)&#10;한 줄짜리 표제가 «지금 막 도착했다» 는 인상을 줄 때 고른다. 긴 본문에는 쓰지 않는다.&#10;쓰는 API — requestAnimationFrame, IntersectionObserver, charCodeAt, performance.now&#10;수치 — 글자당 정착 간격 42ms · 뒤섞기 주기 3프레임마다 · 시작 조건 IntersectionObserver threshold 0.4 · 한글 풀 42자 · 로마자 풀 45자 · 기호 처리 U+2000 위는 그대로&#10;폴백 — 관찰자를 못 쓰면 t0 를 바로 넣어 즉시 해독을 시작한다. 최종 글자는 언제나 같다.&#10;reduced-motion — 뒤섞기를 건너뛰고 완성된 글자를 처음부터 보인다." data-level="L3" data-hay="해독되는 글자 l3-decode-text hud 한 줄짜리 표제가 «지금 막 도착했다» 는 인상을 줄 때 고른다. 긴 본문에는 쓰지 않는다. 디코드 텍스트 글자 뒤섞기 스크램블 암호 풀리기 requestanimationframe intersectionobserver charcodeat performance.now" id="l3-decode-text">
+<header><span class="lvtag">L3</span><h3>해독되는 글자</h3>
+<label class="pick"><input type="checkbox" value="해독되는 글자"><span>담기</span></label></header>
+<p class="callid"><code>l3-decode-text</code><button class="copy" data-copy="해독되는 글자">이름</button><button class="copy prime" data-prompt-copy>수치까지 복사</button><button class="copy" data-code-copy>코드</button></p>
+<p class="use">한 줄짜리 표제가 «지금 막 도착했다» 는 인상을 줄 때 고른다. 긴 본문에는 쓰지 않는다.</p>
+<p class="aka"><i>디코드 텍스트</i><i>글자 뒤섞기</i><i>스크램블</i><i>암호 풀리기</i></p>
+<table class="nums"><caption>수치 6개</caption><tr><th>글자당 정착 간격</th><td><code>42ms</code><i>20ms 아래면 해독으로 안 읽히고 80ms 위면 지루하다</i></td></tr><tr><th>뒤섞기 주기</th><td><code>3프레임마다</code><i>매 프레임 바꾸면 글자가 뭉개져 읽히지 않는다</i></td></tr><tr><th>시작 조건</th><td><code>IntersectionObserver threshold 0.4</code></td></tr><tr><th>한글 풀</th><td><code>42자</code><i>폭이 같은 글자만 골라야 줄이 흔들리지 않는다</i></td></tr><tr><th>로마자 풀</th><td><code>45자</code></td></tr><tr><th>기호 처리</th><td><code>U+2000 위는 그대로</code><i>가운뎃점까지 뒤섞으면 낱말 경계가 사라진다</i></td></tr></table>
+<div class="demo" data-demo="l3-decode-text"></div>
+<details><summary>소스 46줄 · requestAnimationFrame, IntersectionObserver, charCodeAt, performance.now</summary><pre>/* 해독되는 글자 — 뒤섞인 글자가 왼쪽부터 차례로 제자리를 찾는다. */
+.dec{font-family:ui-monospace,monospace;font-variant-numeric:tabular-nums;color:#93A0B4;line-height:2}
+.dec span{color:#E8EDF5}
+.dec .scr{color:#93A0B4;opacity:.72}
+
+&lt;p class=&quot;dec&quot; id=&quot;dec&quot;&gt;&lt;/p&gt;
+
+&lt;script&gt;
+const TARGET = &#x27;관제 화면 여덟 가지 · 외부 라이브러리 0 · 표준 API 만 · READY&#x27;;
+const STEP = 42, EVERY = 3;
+/* 글자 폭이 다른 것을 섞으면 해독되는 동안 줄이 흔들린다.
+   한글 자리는 한글로, 로마자 자리는 로마자로 뒤섞어 폭을 고정한다. */
+const POOL_EN = &#x27;ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789#%&amp;*+=&lt;&gt;/&#x27;;
+const POOL_KO = &#x27;가나다라마바사아자차카타파하거너더러머버서어저처커터퍼허고노도로모보소오조초코토포호&#x27;;
+const pick = ch =&gt; {
+  if (ch === &#x27; &#x27;) return &#x27; &#x27;;
+  const c = ch.charCodeAt(0);
+  if (c &gt;= 0xAC00 &amp;&amp; c &lt;= 0xD7A3) return POOL_KO[Math.random() * POOL_KO.length | 0];
+  if (c &gt; 0x2000) return ch;                       /* 가운뎃점 같은 기호는 그대로 둔다 */
+  return POOL_EN[Math.random() * POOL_EN.length | 0];
+};
+
+const dec = document.getElementById(&#x27;dec&#x27;);
+dec.innerHTML = &#x27;&lt;span data-done&gt;&lt;/span&gt;&lt;span data-scr class=&quot;scr&quot;&gt;&lt;/span&gt;&#x27;;
+const A = dec.querySelector(&#x27;[data-done]&#x27;), B = dec.querySelector(&#x27;[data-scr]&#x27;);
+let t0 = 0, n = 0, done = false;
+
+/* 화면에 들어오기 전에도 뒤섞인 채로 보인다 — 빈 줄이 놓여 있으면 고장으로 읽힌다.
+   제자리를 찾기 «시작하는 시점» 만 관찰자가 정한다. */
+new IntersectionObserver((es, ob) =&gt; es.forEach(e =&gt; {
+  if (e.isIntersecting) { t0 = performance.now(); ob.unobserve(e.target); }
+}), { threshold: .4 }).observe(dec);
+
+function frame(now) {
+  requestAnimationFrame(frame);
+  if (done) return;
+  const settled = t0 ? Math.floor((now - t0) / STEP) : 0;
+  if (t0 &amp;&amp; settled &gt;= TARGET.length) { dec.textContent = TARGET; done = true; return; }
+  if (++n % EVERY) return;                         /* 매 프레임 바꾸면 글자가 읽히지 않는다 */
+  let s = &#x27;&#x27;;
+  for (let i = settled; i &lt; TARGET.length; i++) s += pick(TARGET[i]);
+  A.textContent = TARGET.slice(0, settled);
+  B.textContent = s;
+}
+requestAnimationFrame(frame);
+&lt;/script&gt;</pre></details>
+<p class="fb"><span class="lbl">폴백</span> 관찰자를 못 쓰면 t0 를 바로 넣어 즉시 해독을 시작한다. 최종 글자는 언제나 같다.<br><span class="lbl">reduced-motion</span> 뒤섞기를 건너뛰고 완성된 글자를 처음부터 보인다.</p>
 </article></div></section>
 
 <section id="demo"><h2>③ 인터랙션 분류 16개 · 기존 데모</h2>
@@ -3048,6 +3419,313 @@ for(let i=0;i<180;i++){const a=i/180*6.2831+t;ctx.fillRect(w/2+Math.cos(a)*(60+1
       draw();
     });
     draw(); m.append(n);
+  };
+
+  /* ---------- HUD ---------- */
+  D['l1-scanline-overlay'] = (m) => {
+    const n = el(`<div><style>
+      .dm-sc{position:relative;height:96px;border-radius:6px;overflow:hidden;
+        background:linear-gradient(135deg,#16202E,#0E1218);display:grid;place-items:center}
+      .dm-sc .lay{position:absolute;inset:0;pointer-events:none;
+        background:repeating-linear-gradient(to bottom,rgb(0 0 0 / .22) 0 1px,rgb(0 0 0 / 0) 1px 3px)}
+      .dm-sc .lay::after{content:"";position:absolute;left:0;right:0;height:22%;
+        background:linear-gradient(to bottom,rgb(120 190 255 / 0),rgb(120 190 255 / .10) 46%,rgb(120 190 255 / 0));
+        animation:dmscan 7.5s linear infinite}
+      @keyframes dmscan{from{transform:translateY(-30%)}to{transform:translateY(430%)}}
+      .dm-sc[data-off="1"] .lay{display:none}
+      .dm-sc b{font-family:ui-monospace,monospace;font-size:13px;letter-spacing:.14em;color:#CFD6E2}
+      </style>
+      <div class="dm-sc"><b>SECTOR 04</b><div class="lay"></div></div>
+      <button class="dm-b" style="margin-top:8px;background:#1B212C;color:#8C95A6;border:1px solid #2A3140;
+        border-radius:6px;padding:5px 12px;font:inherit;font-size:11px;cursor:pointer">겹막 껐다 켜기</button></div>`);
+    const box = n.querySelector('.dm-sc');
+    if (RM) box.querySelector('.lay').style.setProperty('--x', '0');
+    n.querySelector('.dm-b').onclick = () => { box.dataset.off = box.dataset.off === '1' ? '0' : '1'; };
+    m.append(n);
+  };
+
+  D['l1-corner-bracket'] = (m) => {
+    const n = el(`<div><style>
+      .dm-brk{--brk-len:18px;--brk-w:1px;--brk-c:#7CE3A0;position:relative;height:84px;
+        background:#0E1218;border-radius:4px;display:grid;place-items:center}
+      .dm-brk::after{content:"";position:absolute;inset:0;pointer-events:none;background-repeat:no-repeat;
+        background-image:
+          linear-gradient(var(--brk-c),var(--brk-c)),linear-gradient(var(--brk-c),var(--brk-c)),
+          linear-gradient(var(--brk-c),var(--brk-c)),linear-gradient(var(--brk-c),var(--brk-c)),
+          linear-gradient(var(--brk-c),var(--brk-c)),linear-gradient(var(--brk-c),var(--brk-c)),
+          linear-gradient(var(--brk-c),var(--brk-c)),linear-gradient(var(--brk-c),var(--brk-c));
+        background-size:
+          var(--brk-len) var(--brk-w),var(--brk-w) var(--brk-len),
+          var(--brk-len) var(--brk-w),var(--brk-w) var(--brk-len),
+          var(--brk-len) var(--brk-w),var(--brk-w) var(--brk-len),
+          var(--brk-len) var(--brk-w),var(--brk-w) var(--brk-len);
+        background-position:0 0,0 0,100% 0,100% 0,0 100%,0 100%,100% 100%,100% 100%}
+      .dm-brk b{font-family:ui-monospace,monospace;font-size:13px;letter-spacing:.12em;color:#E6E9EF}
+      </style>
+      <div class="dm-brk"><b>TARGET</b></div>
+      <label style="display:flex;gap:8px;align-items:center;margin-top:9px;font-size:11px;color:#8C95A6">
+        괄호 길이 <input type="range" min="6" max="48" value="18" style="flex:1;accent-color:#7CE3A0">
+        <span data-o style="font-family:ui-monospace,monospace;color:#E6E9EF">18px</span></label></div>`);
+    const box = n.querySelector('.dm-brk'), out = n.querySelector('[data-o]');
+    n.querySelector('input').addEventListener('input', (e) => {
+      box.style.setProperty('--brk-len', e.target.value + 'px');
+      out.textContent = e.target.value + 'px';
+    });
+    m.append(n);
+  };
+
+  D['l2-hud-readout'] = (m) => {
+    const n = el(`<div><style>
+      .dm-g{background:#0E1218;border:1px solid #262B36;border-radius:8px;padding:9px 11px}
+      .dm-g .l{font-family:ui-monospace,monospace;font-size:10px;letter-spacing:.08em;color:#8C95A6;
+        display:flex;justify-content:space-between}
+      .dm-g .v{font-family:ui-monospace,monospace;font-variant-numeric:tabular-nums;font-size:23px;
+        font-weight:600;color:#7CE3A0;transition:color .22s;margin-top:2px}
+      .dm-g[data-tone="warn"] .v,.dm-g[data-tone="warn"] polyline{color:#FFB86B}
+      .dm-g[data-tone="bad"] .v,.dm-g[data-tone="bad"] polyline{color:#FF7A6B}
+      .dm-g svg{display:block;width:100%;height:24px;margin-top:4px}
+      .dm-g polyline{fill:none;stroke:currentColor;stroke-width:1.25;stroke-linejoin:round;color:#7CE3A0;opacity:.85}
+      .dm-g .u{font-size:11px;color:#8C95A6;margin-left:3px;font-weight:400}
+      </style>
+      <div class="dm-g" data-tone="ok">
+        <div class="l"><span>노심 온도</span><span>core-temp</span></div>
+        <div class="v"><span data-v>--</span><span class="u">C</span></div>
+        <svg viewBox="0 0 100 24" preserveAspectRatio="none" aria-hidden="true"><polyline data-p points=""></polyline></svg>
+      </div>
+      <p data-live role="status" aria-live="polite" style="margin:7px 0 0;font-size:11px;color:#8C95A6;min-height:1.4em"></p></div>`);
+    const g = n.querySelector('.dm-g'), v = n.querySelector('[data-v]'), p = n.querySelector('[data-p]');
+    const live = n.querySelector('[data-live]'), buf = [], N = 40;
+    const tick = () => {
+      const x = Math.max(0, Math.min(100, 58 + (Math.random() - .5) * 52));
+      buf.push(x); if (buf.length > N) buf.shift();
+      v.textContent = x.toFixed(1);
+      const tone = x >= 88 ? 'bad' : x >= 72 ? 'warn' : 'ok';
+      if (tone !== g.dataset.tone) {
+        g.dataset.tone = tone;
+        live.textContent = '노심 온도 ' + (tone === 'bad' ? '경고' : tone === 'warn' ? '주의' : '정상');
+        if (!RM && v.animate) v.animate(
+          [{ transform: 'translateY(0)' }, { transform: 'translateY(-4px)' }, { transform: 'translateY(0)' }],
+          { duration: 220, easing: 'cubic-bezier(.22,.61,.36,1)' });
+      }
+      const st = 100 / (N - 1);
+      p.setAttribute('points', buf.map((y, i) => (i * st).toFixed(1) + ',' + (24 - y * .24).toFixed(1)).join(' '));
+    };
+    for (let i = 0; i < 14; i++) tick();
+    setInterval(tick, 900);
+    m.append(n);
+  };
+
+  D['l3-radar-sweep'] = (m) => {
+    const n = el(`<div><canvas style="display:block;width:100%;max-width:150px;aspect-ratio:1;margin:0 auto;
+      background:#0E1218;border:1px solid #262B36;border-radius:6px"></canvas>
+      <p style="margin:7px 0 0;font-size:11px;color:#8C95A6;text-align:center;font-family:ui-monospace,monospace">
+      한 바퀴 4.2s · 잔광 62deg · 표적 10</p></div>`);
+    const cv = n.querySelector('canvas'), cx = cv.getContext('2d');
+    const TURN = 4200, TAIL = 62 * Math.PI / 180, FADE = 2400;
+    const blips = Array.from({ length: 10 }, () => ({ a: Math.random() * Math.PI * 2, r: .24 + Math.random() * .68, lit: -1e9 }));
+    let W = 0, H = 0;
+    const fit = () => {
+      const dpr = Math.min(devicePixelRatio || 1, 2), r = cv.getBoundingClientRect();
+      W = Math.max(1, Math.round(r.width)); H = Math.max(1, Math.round(r.height));
+      cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr);
+      cx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    };
+    m.append(n);                      /* 붙이기 전에 재면 0x0 이라 반지름이 음수가 된다 */
+    new ResizeObserver(fit).observe(cv); fit();
+    const frame = (now) => {
+      const a = W / 2, b = H / 2, R = Math.max(1, Math.min(W, H) / 2 - 3);
+      const ang = (now % TURN) / TURN * Math.PI * 2 - Math.PI / 2;
+      cx.clearRect(0, 0, W, H);
+      cx.strokeStyle = 'rgb(124 227 160 / .18)'; cx.lineWidth = 1;
+      for (let i = 1; i <= 3; i++) { cx.beginPath(); cx.arc(a, b, R * i / 3, 0, Math.PI * 2); cx.stroke(); }
+      if (!RM) {
+        const g = cx.createRadialGradient(a, b, 0, a, b, R);
+        g.addColorStop(0, 'rgb(124 227 160 / .28)'); g.addColorStop(1, 'rgb(124 227 160 / 0)');
+        cx.fillStyle = g; cx.beginPath(); cx.moveTo(a, b); cx.arc(a, b, R, ang - TAIL, ang); cx.closePath(); cx.fill();
+      }
+      for (const p of blips) {
+        const d = ((ang - p.a) % (Math.PI * 2) + Math.PI * 2) % (Math.PI * 2);
+        if (!RM && d < .08) p.lit = now;
+        const al = RM ? .7 : Math.max(0, 1 - (now - p.lit) / FADE);
+        if (al <= .02) continue;
+        cx.fillStyle = 'rgb(230 233 239 / ' + al.toFixed(3) + ')';
+        cx.beginPath(); cx.arc(a + Math.cos(p.a) * R * p.r, b + Math.sin(p.a) * R * p.r, 2.2, 0, Math.PI * 2); cx.fill();
+      }
+      requestAnimationFrame(frame);
+    };
+    requestAnimationFrame(frame);
+  };
+
+  D['l3-glitch-slice'] = (m) => {
+    const n = el(`<div><style>
+      .dm-gl{position:relative;display:inline-block;font-weight:800;font-size:23px;line-height:1.15;letter-spacing:-.02em}
+      .dm-gl > span{display:block}
+      .dm-gl b{position:absolute;left:0;top:0;width:100%;display:block;font-weight:inherit;pointer-events:none;opacity:0}
+      .dm-gl[data-on="1"] b{opacity:.9}
+      .dm-gl b.r{color:#FF7A6B;mix-blend-mode:screen}
+      .dm-gl b.c{color:#4DE0F2;mix-blend-mode:screen}
+      </style>
+      <div class="dm-gl"><span>신호 끊김</span></div>
+      <p style="margin:9px 0 0;font-size:11px;color:#8C95A6">올려놓으면 일어난다 ·
+      <button class="dm-b" style="background:#1B212C;color:#8C95A6;border:1px solid #2A3140;border-radius:6px;
+        padding:4px 10px;font:inherit;font-size:11px;cursor:pointer">한 번</button></p></div>`);
+    const gl = n.querySelector('.dm-gl'), txt = gl.querySelector('span').textContent;
+    const SL = 7, SH = 14, BURST = 260, SP = 2;
+    const layers = ['r', 'c'].map(c => {
+      const b = document.createElement('b');
+      b.className = c; b.textContent = txt; b.setAttribute('aria-hidden', 'true');
+      gl.append(b); return b;
+    });
+    let until = 0;
+    const fire = () => { if (!RM) until = performance.now() + BURST; };
+    gl.addEventListener('pointerenter', fire);
+    n.querySelector('.dm-b').onclick = fire;
+    setInterval(() => { if (Math.random() < .3) fire(); }, 4200);
+    const frame = (now) => {
+      const on = now < until;
+      gl.dataset.on = on ? '1' : '0';
+      layers.forEach((e, li) => {
+        if (!on) { e.style.clipPath = 'inset(100% 0 0 0)'; e.style.transform = 'none'; return; }
+        const i = Math.floor(Math.random() * SL);
+        e.style.clipPath = 'inset(' + (i * 100 / SL).toFixed(1) + '% 0 ' + (100 - (i + 1) * 100 / SL).toFixed(1) + '% 0)';
+        e.style.transform = 'translateX(' + ((Math.random() - .5) * 2 * SH + (li ? SP : -SP)).toFixed(1) + 'px)';
+      });
+      requestAnimationFrame(frame);
+    };
+    requestAnimationFrame(frame);
+    m.append(n);
+  };
+
+  D['l3-target-lock'] = (m) => {
+    const n = el(`<div><style>
+      .dm-st{position:relative;background:#0E1218;border:1px solid #262B36;border-radius:6px;padding:12px;overflow:hidden}
+      .dm-st .tl{display:grid;grid-template-columns:repeat(auto-fill,minmax(78px,1fr));gap:8px;position:relative;z-index:2}
+      .dm-st .t{background:#161B24;border:1px solid #262B36;border-radius:5px;padding:7px 8px;cursor:crosshair;
+        font-family:ui-monospace,monospace;font-size:10px;color:#8C95A6}
+      .dm-st .t b{display:block;color:#E6E9EF;font-size:13px;margin-top:2px}
+      .dm-lk{--brk-len:11px;--brk-w:1px;--brk-c:#7CE3A0;position:absolute;left:0;top:0;pointer-events:none;
+        z-index:3;opacity:0;transition:opacity .18s}
+      .dm-lk[data-on="1"]{opacity:1}
+      .dm-lk::after{content:"";position:absolute;inset:0;background-repeat:no-repeat;
+        background-image:
+          linear-gradient(var(--brk-c),var(--brk-c)),linear-gradient(var(--brk-c),var(--brk-c)),
+          linear-gradient(var(--brk-c),var(--brk-c)),linear-gradient(var(--brk-c),var(--brk-c)),
+          linear-gradient(var(--brk-c),var(--brk-c)),linear-gradient(var(--brk-c),var(--brk-c)),
+          linear-gradient(var(--brk-c),var(--brk-c)),linear-gradient(var(--brk-c),var(--brk-c));
+        background-size:
+          var(--brk-len) var(--brk-w),var(--brk-w) var(--brk-len),
+          var(--brk-len) var(--brk-w),var(--brk-w) var(--brk-len),
+          var(--brk-len) var(--brk-w),var(--brk-w) var(--brk-len),
+          var(--brk-len) var(--brk-w),var(--brk-w) var(--brk-len);
+        background-position:0 0,0 0,100% 0,100% 0,0 100%,0 100%,100% 100%,100% 100%}
+      .dm-lk i{position:absolute;left:0;top:-16px;font-style:normal;font-family:ui-monospace,monospace;
+        font-size:9px;color:#7CE3A0;background:#0E1218;border:1px solid #2A5C40;border-radius:3px;padding:0 4px}
+      </style>
+      <div class="dm-st">
+        <div class="tl">
+          <div class="t" data-tgt="AX-01">기압<b>1013</b></div>
+          <div class="t" data-tgt="AX-02">고도<b>8420</b></div>
+          <div class="t" data-tgt="AX-03">방위<b>147</b></div>
+          <div class="t" data-tgt="AX-04">풍속<b>12.4</b></div>
+        </div>
+        <div class="dm-lk"><i></i></div>
+      </div>
+      <p style="margin:7px 0 0;font-size:11px;color:#8C95A6">칸 위에 커서를 올려 보라 · 계수 0.22 · 여백 6px</p></div>`);
+    const st = n.querySelector('.dm-st'), lk = n.querySelector('.dm-lk'), tag = lk.querySelector('i');
+    const PAD = 6, LERP = .22;
+    let want = null, box = { x: 0, y: 0, w: 0, h: 0 }, has = false;
+    const apply = () => {
+      lk.style.transform = 'translate(' + box.x.toFixed(1) + 'px,' + box.y.toFixed(1) + 'px)';
+      lk.style.width = box.w.toFixed(1) + 'px'; lk.style.height = box.h.toFixed(1) + 'px';
+    };
+    st.addEventListener('pointermove', (e) => {
+      if (e.pointerType === 'touch') return;
+      const r = st.getBoundingClientRect();
+      const hit = document.elementFromPoint(e.clientX, e.clientY);
+      const t = hit && hit.closest ? hit.closest('[data-tgt]') : null;
+      if (!t) { want = null; lk.dataset.on = '0'; return; }
+      const b = t.getBoundingClientRect();
+      want = { x: b.left - r.left - PAD, y: b.top - r.top - PAD, w: b.width + PAD * 2, h: b.height + PAD * 2 };
+      if (!has) { Object.assign(box, want); has = true; apply(); }
+      lk.dataset.on = '1';
+      if (tag.textContent !== t.dataset.tgt) tag.textContent = t.dataset.tgt;
+    });
+    st.addEventListener('pointerleave', () => { want = null; lk.dataset.on = '0'; });
+    const frame = () => {
+      if (want) {
+        const k = RM ? 1 : LERP;
+        for (const key of ['x', 'y', 'w', 'h']) box[key] += (want[key] - box[key]) * k;
+        apply();
+      }
+      requestAnimationFrame(frame);
+    };
+    requestAnimationFrame(frame);
+    m.append(n);
+  };
+
+  D['l3-crosshair-coords'] = (m) => {
+    const n = el(`<div><style>
+      .dm-cs{position:relative;height:104px;background:#0E1218;border:1px solid #262B36;border-radius:6px;
+        overflow:hidden;cursor:crosshair;display:grid;place-items:center}
+      .dm-cs .g{position:absolute;inset:0;pointer-events:none;opacity:0;transition:opacity .2s}
+      .dm-cs[data-on="1"] .g{opacity:1}
+      .dm-cs .g i{position:absolute;background:rgb(124 227 160 / .38)}
+      .dm-cs .g .h{left:0;right:0;height:1px}
+      .dm-cs .g .v{top:0;bottom:0;width:1px}
+      .dm-cs .o{position:absolute;right:7px;bottom:6px;font-family:ui-monospace,monospace;font-size:10px;
+        color:#8C95A6;font-variant-numeric:tabular-nums;background:rgb(11 14 19 / .74);
+        border:1px solid #262B36;border-radius:3px;padding:1px 6px}
+      .dm-cs span{font-family:ui-monospace,monospace;font-size:11px;color:#5C6779;letter-spacing:.1em}
+      </style>
+      <div class="dm-cs"><span>이 안에서 움직여 보라</span>
+        <div class="g"><i class="h"></i><i class="v"></i></div>
+        <div class="o">X ---- Y ----</div></div></div>`);
+    const st = n.querySelector('.dm-cs'), h = n.querySelector('.h'), v = n.querySelector('.v'), o = n.querySelector('.o');
+    st.addEventListener('pointermove', (e) => {
+      if (e.pointerType === 'touch') return;
+      const r = st.getBoundingClientRect(), x = e.clientX - r.left, y = e.clientY - r.top;
+      st.dataset.on = '1';
+      h.style.top = y.toFixed(1) + 'px'; v.style.left = x.toFixed(1) + 'px';
+      o.textContent = 'X ' + String(Math.round(x)).padStart(4, '0') + ' Y ' + String(Math.round(y)).padStart(4, '0');
+    });
+    st.addEventListener('pointerleave', () => { st.dataset.on = '0'; o.textContent = 'X ---- Y ----'; });
+    m.append(n);
+  };
+
+  D['l3-decode-text'] = (m) => {
+    const n = el(`<div><p class="dm-dc" style="font-family:ui-monospace,monospace;font-size:12.5px;
+      line-height:1.9;color:#8C95A6;margin:0;font-variant-numeric:tabular-nums"></p>
+      <button class="dm-b" style="margin-top:8px;background:#1B212C;color:#8C95A6;border:1px solid #2A3140;
+        border-radius:6px;padding:5px 12px;font:inherit;font-size:11px;cursor:pointer">다시 해독</button></div>`);
+    const TARGET = '표준 API 만 · 외부 의존 0 · READY';
+    const STEP = 42, EVERY = 3;
+    const KO = '가나다라마바사아자차카타파하거너더러머버서어저처커터퍼허고노도로모보소오조초코토포호';
+    const EN = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789#%&*+=<>/';
+    const pick = (ch) => {
+      if (ch === ' ') return ' ';
+      const c = ch.charCodeAt(0);
+      if (c >= 0xAC00 && c <= 0xD7A3) return KO[Math.random() * KO.length | 0];
+      if (c > 0x2000) return ch;
+      return EN[Math.random() * EN.length | 0];
+    };
+    const p = n.querySelector('.dm-dc');
+    p.innerHTML = '<span data-a style="color:#E6E9EF"></span><span data-b style="opacity:.72"></span>';
+    const A = p.querySelector('[data-a]'), B = p.querySelector('[data-b]');
+    let t0 = performance.now(), fr = 0, done = false;
+    n.querySelector('.dm-b').onclick = () => { t0 = performance.now(); done = false; };
+    if (RM) { A.textContent = TARGET; done = true; }
+    const frame = (now) => {
+      requestAnimationFrame(frame);
+      if (done) return;
+      const s = Math.floor((now - t0) / STEP);
+      if (s >= TARGET.length) { A.textContent = TARGET; B.textContent = ''; done = true; return; }
+      if (++fr % EVERY) return;
+      let out = '';
+      for (let i = s; i < TARGET.length; i++) out += pick(TARGET[i]);
+      A.textContent = TARGET.slice(0, s); B.textContent = out;
+    };
+    requestAnimationFrame(frame);
+    m.append(n);
   };
 
   /* 마운트 */

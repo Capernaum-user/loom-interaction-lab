@@ -1,0 +1,636 @@
+<!doctype html>
+<html lang="ko" data-craft="L3">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Loom · HUD 콘솔 — 관제 화면 기법 여덟 가지</title>
+<meta name="description" content="주사선·모서리 조준틀·계기 판독기·레이더 훑기·글리치 조각·표적 고정·십자선 좌표·해독되는 글자. 관제 화면 기법 여덟 가지를 한 화면에서 돌린다.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500;600&family=Roboto+Flex:opsz,wght@8..144,400;8..144,700;8..144,800&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" rel="stylesheet">
+<style>
+:root{
+  --bg:#0B0E13; --surface:#141922; --ink:#E8EDF5;
+  --muted:#93A0B4; --accent:#4DA3FF; --line:#232C3A;
+  --ok:#5AD59A; --warn:#F0C05A; --bad:#F2775A;
+  --well:  color-mix(in srgb, var(--bg) 62%, var(--surface));
+  --sunk:  color-mix(in srgb, var(--bg) 72%, black);
+  --edge:  color-mix(in srgb, var(--accent) 62%, var(--line));
+  --ff-ko:'Pretendard Variable','Roboto Flex',system-ui,sans-serif;
+  --ff-mono:'Geist Mono',ui-monospace,'Courier New',monospace;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{
+  background:var(--bg);color:var(--ink);
+  font-family:var(--ff-ko);font-size:15px;line-height:1.6;
+  -webkit-font-smoothing:antialiased;word-break:keep-all;overflow-wrap:anywhere;
+}
+a{color:var(--accent)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:4px}
+.skip{position:absolute;left:-9999px;top:0;z-index:200;background:var(--surface);
+  color:var(--ink);padding:12px 18px;border:1px solid var(--line);border-radius:8px}
+.skip:focus{left:12px;top:12px}
+
+.wrap{max-width:1280px;margin:0 auto;padding:0 14px 60px}
+
+/* ══ 상단 띠 ══ */
+.top{position:sticky;top:0;z-index:60;background:color-mix(in srgb,var(--bg) 88%,transparent);
+  backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.top .in{max-width:1280px;margin:0 auto;padding:11px 14px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.brand{font-family:var(--ff-mono);font-size:11.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--accent)}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--ok);display:inline-block;margin-right:6px;
+  box-shadow:0 0 0 3px color-mix(in srgb,var(--ok) 22%,transparent)}
+.state{font-family:var(--ff-mono);font-size:11.5px;color:var(--muted)}
+.sw{margin-left:auto;display:flex;gap:8px;flex-wrap:wrap}
+.sw button{background:var(--surface);color:var(--muted);border:1px solid var(--line);border-radius:999px;
+  padding:5px 13px;font:inherit;font-family:var(--ff-mono);font-size:11.5px;cursor:pointer;
+  transition:border-color .16s,color .16s}
+.sw button:hover{border-color:var(--edge);color:var(--ink)}
+.sw button[aria-pressed="true"]{background:color-mix(in srgb,var(--accent) 16%,var(--surface));
+  border-color:var(--accent);color:var(--ink)}
+
+/* ══ 머리글 ══ */
+.hero{padding:44px 0 30px;max-width:70ch}
+.eyebrow{font-family:var(--ff-mono);font-size:11px;color:var(--accent);letter-spacing:.16em;
+  text-transform:uppercase;margin:0 0 14px}
+h1{font-family:'Roboto Flex',system-ui,sans-serif;font-size:clamp(1.9rem,1.3rem+2.6vw,3rem);
+  font-weight:800;letter-spacing:-.035em;line-height:1.06;margin:0 0 16px}
+.sub{color:var(--muted);margin:0;line-height:1.75;font-size:clamp(.95rem,.9rem+.2vw,1.05rem)}
+.sub b{color:var(--ink);font-weight:600}
+
+/* ══ 격자 ══ */
+.board{display:grid;gap:14px;grid-template-columns:repeat(3,minmax(0,1fr));align-items:start}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.panel > h2{margin:0;padding:11px 14px;font-family:var(--ff-mono);font-size:11.5px;font-weight:500;
+  letter-spacing:.1em;text-transform:uppercase;color:var(--muted);
+  border-bottom:1px solid var(--line);display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.panel > h2 code{font-size:10.5px;color:var(--accent);background:var(--sunk);
+  border:1px solid var(--line);border-radius:4px;padding:1px 6px;letter-spacing:0;text-transform:none}
+.panel .pad{padding:14px}
+.note{margin:10px 0 0;font-size:12.5px;color:var(--muted);line-height:1.7}
+.note b{color:var(--ink);font-weight:600}
+.span2{grid-column:span 2}
+.span3{grid-column:1/-1}
+
+/* ══ 1. 주사선 겹막 · l1-scanline-overlay ══ */
+.scan{position:fixed;inset:0;z-index:120;pointer-events:none;
+  background:repeating-linear-gradient(to bottom,
+    rgb(0 0 0 / .22) 0 1px, rgb(0 0 0 / 0) 1px 3px)}
+.scan::after{content:"";position:absolute;left:0;right:0;height:22%;
+  background:linear-gradient(to bottom,
+    rgb(120 190 255 / 0), rgb(120 190 255 / .06) 46%, rgb(120 190 255 / 0));
+  animation:scanroll 7.5s linear infinite}
+@keyframes scanroll{from{transform:translateY(-30%)}to{transform:translateY(430%)}}
+body[data-scan="off"] .scan{display:none}
+
+/* ══ 2. 모서리 조준틀 · l1-corner-bracket ══ */
+.brk{--brk-len:18px;--brk-w:1px;--brk-c:var(--edge);position:relative}
+.brk::after{content:"";position:absolute;inset:0;pointer-events:none;background-repeat:no-repeat;
+  background-image:
+    linear-gradient(var(--brk-c),var(--brk-c)),linear-gradient(var(--brk-c),var(--brk-c)),
+    linear-gradient(var(--brk-c),var(--brk-c)),linear-gradient(var(--brk-c),var(--brk-c)),
+    linear-gradient(var(--brk-c),var(--brk-c)),linear-gradient(var(--brk-c),var(--brk-c)),
+    linear-gradient(var(--brk-c),var(--brk-c)),linear-gradient(var(--brk-c),var(--brk-c));
+  background-size:
+    var(--brk-len) var(--brk-w),var(--brk-w) var(--brk-len),
+    var(--brk-len) var(--brk-w),var(--brk-w) var(--brk-len),
+    var(--brk-len) var(--brk-w),var(--brk-w) var(--brk-len),
+    var(--brk-len) var(--brk-w),var(--brk-w) var(--brk-len);
+  background-position:
+    0 0,0 0, 100% 0,100% 0, 0 100%,0 100%, 100% 100%,100% 100%}
+
+/* ══ 3. 계기 판독기 · l2-hud-readout ══ */
+.gauges{display:grid;gap:11px}
+.g{background:var(--sunk);border:1px solid var(--line);border-radius:9px;padding:10px 12px}
+.g .lab{font-family:var(--ff-mono);font-size:10.5px;letter-spacing:.08em;color:var(--muted);
+  display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.g .val{font-family:var(--ff-mono);font-variant-numeric:tabular-nums;font-size:25px;
+  font-weight:600;line-height:1.15;margin-top:3px;color:var(--ok);transition:color .22s}
+.g[data-tone="warn"] .val{color:var(--warn)}
+.g[data-tone="bad"]  .val{color:var(--bad)}
+.g .unit{font-size:12px;color:var(--muted);font-weight:400;margin-left:3px}
+.g svg{display:block;width:100%;height:26px;margin-top:5px;overflow:visible}
+.g polyline{fill:none;stroke:currentColor;stroke-width:1.25;stroke-linejoin:round;
+  stroke-linecap:round;color:var(--ok);opacity:.85}
+.g[data-tone="warn"] polyline{color:var(--warn)}
+.g[data-tone="bad"]  polyline{color:var(--bad)}
+.g .thr{stroke:var(--line);stroke-width:1;stroke-dasharray:2 3}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+
+/* ══ 4. 레이더 훑기 · l3-radar-sweep ══ */
+.radar{position:relative;aspect-ratio:1;max-width:330px;margin:0 auto;
+  background:var(--sunk);border-radius:9px;
+  border:1px solid var(--line);overflow:hidden}
+.radar canvas{display:block;width:100%;height:100%}
+.radar .rlab{position:absolute;left:9px;bottom:8px;font-family:var(--ff-mono);font-size:10.5px;
+  color:var(--muted);letter-spacing:.06em}
+
+/* ══ 5. 글리치 조각 · l3-glitch-slice ══ */
+.gl{position:relative;display:inline-block;font-family:'Roboto Flex',system-ui,sans-serif;
+  font-weight:800;letter-spacing:-.03em;font-size:clamp(1.5rem,1.1rem+1.9vw,2.4rem);line-height:1.1}
+.gl > span{display:block}
+.gl b{position:absolute;left:0;top:0;width:100%;display:block;font-weight:inherit;
+  pointer-events:none;opacity:0}
+.gl[data-on="1"] b{opacity:.9}
+.gl b.r{color:#F2775A;mix-blend-mode:screen}
+.gl b.c{color:#4DE0F2;mix-blend-mode:screen}
+
+/* ══ 6·7. 표적 고정 + 십자선 좌표 · l3-target-lock · l3-crosshair-coords ══ */
+.stage{position:relative;background:var(--sunk);border:1px solid var(--line);border-radius:9px;
+  padding:16px;min-height:318px;overflow:hidden;touch-action:manipulation}
+.tiles{display:grid;gap:10px;grid-template-columns:repeat(auto-fill,minmax(104px,1fr));position:relative;z-index:2}
+.tile{background:var(--well);border:1px solid var(--line);border-radius:8px;padding:11px 12px;
+  font-family:var(--ff-mono);font-size:11px;color:var(--muted);letter-spacing:.05em;
+  transition:border-color .18s,color .18s;cursor:crosshair}
+.tile b{display:block;color:var(--ink);font-size:15px;font-weight:600;
+  font-variant-numeric:tabular-nums;margin-top:3px;letter-spacing:0}
+.lock{position:absolute;left:0;top:0;pointer-events:none;z-index:3;opacity:0;
+  transition:opacity .18s;--brk-len:12px;--brk-c:var(--accent)}
+.lock[data-on="1"]{opacity:1}
+.lock .tag{position:absolute;left:0;top:-19px;font-family:var(--ff-mono);font-size:10px;
+  letter-spacing:.08em;color:var(--accent);background:var(--bg);border:1px solid var(--edge);
+  border-radius:3px;padding:0 5px;white-space:nowrap}
+.cross{position:absolute;inset:0;pointer-events:none;z-index:1;opacity:0;transition:opacity .2s}
+.cross[data-on="1"]{opacity:1}
+.cross i{position:absolute;background:color-mix(in srgb,var(--accent) 35%,transparent)}
+.cross .h{left:0;right:0;height:1px}
+.cross .v{top:0;bottom:0;width:1px}
+.coords{position:absolute;right:9px;bottom:8px;z-index:4;font-family:var(--ff-mono);font-size:10.5px;
+  color:var(--muted);letter-spacing:.06em;font-variant-numeric:tabular-nums;
+  background:color-mix(in srgb,var(--bg) 72%,transparent);border:1px solid var(--line);
+  border-radius:4px;padding:2px 7px}
+
+/* ══ 8. 해독되는 글자 · l3-decode-text ══ */
+.dec{font-family:var(--ff-mono);font-size:13px;line-height:2;color:var(--muted);
+  font-variant-numeric:tabular-nums;margin:0}
+.dec span{color:var(--ink)}
+.dec .scr{color:var(--muted);opacity:.72}
+.dec .k{color:var(--accent)}
+
+/* ══ 범례 ══ */
+.legend{width:100%;border-collapse:collapse;font-size:13px}
+.legend th,.legend td{text-align:left;padding:9px 10px;border-top:1px solid var(--line);vertical-align:top}
+.legend th{color:var(--muted);font-weight:500;font-family:var(--ff-mono);font-size:11px;
+  letter-spacing:.08em;text-transform:uppercase}
+.legend td:first-child{font-family:var(--ff-mono);font-size:11.5px;color:var(--accent);white-space:nowrap}
+.legend td:nth-child(2){color:var(--ink);white-space:nowrap}
+.legend td:last-child{color:var(--muted);line-height:1.7}
+.tblwrap{overflow-x:auto}
+
+.foot{margin-top:34px;padding-top:20px;border-top:1px solid var(--line);color:var(--muted);
+  font-size:12.5px;line-height:1.8}
+
+@media (max-width:900px){
+  .board{grid-template-columns:minmax(0,1fr)}
+  .span2,.span3{grid-column:auto}
+}
+@media (prefers-reduced-motion:reduce){
+  .scan::after{animation:none;opacity:0}
+  *{transition-duration:.01ms !important}
+}
+body[data-motion="off"] .scan::after{animation:none;opacity:0}
+</style>
+</head>
+<body data-scan="on" data-motion="on">
+<a class="skip" href="#board">화면으로 건너뛰기</a>
+
+<div class="scan" aria-hidden="true"></div>
+
+<header class="top">
+  <div class="in">
+    <span class="brand">Loom · HUD console</span>
+    <span class="state"><span class="dot" id="dot"></span><span id="stateTxt">정상</span></span>
+    <div class="sw">
+      <button id="bScan" aria-pressed="true">주사선</button>
+      <button id="bMotion" aria-pressed="true">움직임</button>
+      <button id="bGlitch">글리치 한 번</button>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <div class="hero">
+    <p class="eyebrow">interaction lab · 05</p>
+    <h1 class="gl" id="glTitle"><span>관제 화면은 여덟 가지로 이루어진다</span></h1>
+    <p class="sub">주사선·모서리 조준틀·계기 판독기·레이더 훑기·글리치 조각·표적 고정·십자선 좌표·해독되는 글자.
+    전부 <b>표준 API 만 써서</b> 이 파일 하나 안에서 돈다. 외부 라이브러리도 이미지도 쓰지 않았다.
+    각 칸의 <b>기법 이름</b>이 카탈로그의 id 와 같으므로 그대로 복사해 AI 에게 넘길 수 있다.</p>
+  </div>
+
+  <main class="board" id="board">
+
+    <!-- 레이더 -->
+    <section class="panel">
+      <h2>레이더 훑기 <code>l3-radar-sweep</code></h2>
+      <div class="pad">
+        <div class="radar"><canvas id="radar" aria-label="회전하는 레이더 화면. 훑는 선이 지나갈 때 표적이 밝아졌다가 서서히 꺼진다"></canvas>
+          <span class="rlab">SECTOR 04 · 12 CONTACTS</span></div>
+        <p class="note">캔버스에 <b>회전하는 부채꼴</b>을 그리고, 훑는 선이 지나간 표적만 밝혔다가 2.4초에 걸쳐 끈다.
+        한 바퀴는 4.2초다. 화면 크기가 바뀌면 <b>ResizeObserver</b> 가 캔버스 해상도를 다시 잡는다.</p>
+      </div>
+    </section>
+
+    <!-- 표적 구역 -->
+    <section class="panel span2">
+      <h2>표적 고정 · 십자선 좌표 <code>l3-target-lock</code> <code>l3-crosshair-coords</code></h2>
+      <div class="pad">
+        <div class="stage" id="stage">
+          <div class="cross" id="cross" aria-hidden="true"><i class="h"></i><i class="v"></i></div>
+          <div class="tiles">
+            <div class="tile" data-tgt="AX-01">기압<b>1013</b></div>
+            <div class="tile" data-tgt="AX-02">고도<b>8420</b></div>
+            <div class="tile" data-tgt="AX-03">방위<b>147</b></div>
+            <div class="tile" data-tgt="AX-04">풍속<b>12.4</b></div>
+            <div class="tile" data-tgt="AX-05">온도<b>-31</b></div>
+            <div class="tile" data-tgt="AX-06">연료<b>62%</b></div>
+            <div class="tile" data-tgt="AX-07">신호<b>-74</b></div>
+            <div class="tile" data-tgt="AX-08">지연<b>18ms</b></div>
+          </div>
+          <div class="lock brk" id="lock" aria-hidden="true"><span class="tag" id="lockTag"></span></div>
+          <div class="coords" id="coords">X ---- Y ----</div>
+        </div>
+        <p class="note">칸 위에 커서를 올리면 <b>조준틀이 그 칸으로 미끄러져 붙는다</b>.
+        커서 아래 무엇이 있는지는 <code>elementFromPoint</code> 로 묻고, 자리는 매 프레임 0.22씩 좁혀 따라간다.
+        십자선은 같은 포인터 이벤트를 나눠 쓴다. <b>손가락으로 만지는 기기에서는 둘 다 나타나지 않는다</b> — 포인터가 없기 때문이다.</p>
+      </div>
+    </section>
+
+    <!-- 계기 -->
+    <section class="panel">
+      <h2>계기 판독기 <code>l2-hud-readout</code></h2>
+      <div class="pad">
+        <div class="gauges" id="gauges"></div>
+        <p class="sr" id="gaugeLive" role="status" aria-live="polite"></p>
+        <p class="note">값이 <b>0.9초마다</b> 바뀌고 최근 <b>40개</b>가 밑에 작은 선으로 남는다.
+        72를 넘으면 주의, 88을 넘으면 경고로 색이 바뀐다. 임계를 넘는 순간에만 숫자가 한 번 튄다.
+        <b>눈으로 못 보는 사람을 위해</b> 등급이 바뀔 때만 소리 없이 읽어 준다.</p>
+      </div>
+    </section>
+
+    <!-- 조준틀 -->
+    <section class="panel">
+      <h2>모서리 조준틀 <code>l1-corner-bracket</code></h2>
+      <div class="pad">
+        <div class="brk" style="--brk-len:26px;--brk-c:var(--accent);background:var(--sunk);
+          border-radius:6px;padding:26px 18px;text-align:center;font-family:var(--ff-mono);
+          font-size:12px;color:var(--muted);letter-spacing:.08em">
+          네 귀만 그린다<br><b style="color:var(--ink);font-size:19px;letter-spacing:0">TARGET AREA</b>
+        </div>
+        <p class="note">테두리를 다 두르면 상자가 되고, <b>네 귀만 그리면 조준틀이 된다</b>.
+        요소를 더 넣지 않고 <code>::after</code> 하나에 그러데이션 여덟 장을 얹어 만든다.
+        괄호 길이는 변수 하나로 바꾼다.</p>
+      </div>
+    </section>
+
+    <!-- 주사선 -->
+    <section class="panel">
+      <h2>주사선 겹막 <code>l1-scanline-overlay</code></h2>
+      <div class="pad">
+        <p class="note" style="margin-top:0">지금 <b>이 화면 전체에 덮여 있다</b>. 위 「주사선」을 눌러 껐다 켜면 차이가 보인다.
+        3px 마다 1px 짜리 어두운 줄을 반복해서 깔고, 그 위로 밝은 띠 하나를 7.5초에 걸쳐 굴린다.</p>
+        <p class="note"><b>누르는 것을 가로막지 않는다</b> — <code>pointer-events:none</code> 이 없으면
+        화면 전체가 먹통이 된다. 움직임을 줄이는 설정에서는 굴러가는 띠만 멈추고 줄은 남는다.</p>
+      </div>
+    </section>
+
+    <!-- 해독 -->
+    <section class="panel span3">
+      <h2>해독되는 글자 · 글리치 조각 <code>l3-decode-text</code> <code>l3-glitch-slice</code></h2>
+      <div class="pad">
+        <p class="dec" id="dec"></p>
+        <p class="note">글자가 <b>왼쪽부터 42ms 간격으로</b> 하나씩 제자리를 찾는다. 아직 못 찾은 자리는 매 3프레임마다 다른 글자로 바뀐다.
+        위 제목은 <b>일곱 조각으로 잘려</b> 가로로 어긋나고 빨강·청록 두 벌이 2px 씩 밀려 겹친다. 한 발작은 260ms 다.
+        「글리치 한 번」을 누르면 즉시 일어난다.</p>
+      </div>
+    </section>
+
+    <!-- 범례 -->
+    <section class="panel span3">
+      <h2>여기 쓰인 기법 여덟</h2>
+      <div class="pad">
+        <div class="tblwrap"><table class="legend">
+          <thead><tr><th>기법 id</th><th>이름</th><th>무엇을 하나</th></tr></thead>
+          <tbody>
+            <tr><td>l1-scanline-overlay</td><td>주사선 겹막</td><td>화면 전체에 CRT 가로줄을 깔고 밝은 띠 하나를 굴린다. 누름은 가로막지 않는다.</td></tr>
+            <tr><td>l1-corner-bracket</td><td>모서리 조준틀</td><td>테두리 대신 네 귀만 그린다. 요소를 늘리지 않고 그러데이션 여덟 장으로 만든다.</td></tr>
+            <tr><td>l2-hud-readout</td><td>계기 판독기</td><td>실시간 수치와 최근 이력 선, 임계 색, 등급이 바뀔 때만 읽어 주는 알림.</td></tr>
+            <tr><td>l3-radar-sweep</td><td>레이더 훑기</td><td>캔버스 부채꼴이 돌면서 지나간 표적을 밝히고 서서히 끈다.</td></tr>
+            <tr><td>l3-glitch-slice</td><td>글리치 조각</td><td>글자를 가로 조각으로 잘라 어긋내고 두 색을 밀어 겹친다.</td></tr>
+            <tr><td>l3-target-lock</td><td>표적 고정</td><td>커서 아래 요소를 물어 조준틀을 그 자리로 미끄러뜨린다.</td></tr>
+            <tr><td>l3-crosshair-coords</td><td>십자선 좌표</td><td>포인터를 따라 가로세로 선을 긋고 좌표를 판독한다.</td></tr>
+            <tr><td>l3-decode-text</td><td>해독되는 글자</td><td>뒤섞인 글자가 왼쪽부터 차례로 제자리를 찾는다.</td></tr>
+          </tbody>
+        </table></div>
+      </div>
+    </section>
+
+  </main>
+
+  <p class="foot">이 화면의 모든 그림은 브라우저가 계산해 만든다. 이미지 파일도 외부 스크립트도 없다.
+  서체만 CDN 에서 오고, 끊겨 있으면 시스템 서체로 떨어질 뿐 기능은 그대로 돈다.
+  <a href="LoomLab_index_active.html">랩 입구로</a> · <a href="../04_Catalog/LoomLab_craft-catalog_active.html">기법 카탈로그로</a></p>
+
+</div>
+
+<script>
+"use strict";
+(function () {
+  var RM = matchMedia('(prefers-reduced-motion: reduce)');
+  var reduced = function () { return RM.matches || document.body.dataset.motion === 'off'; };
+
+  /* ───────── 상단 스위치 ───────── */
+  var bScan = document.getElementById('bScan');
+  var bMotion = document.getElementById('bMotion');
+  bScan.addEventListener('click', function () {
+    var on = document.body.dataset.scan !== 'on';
+    document.body.dataset.scan = on ? 'on' : 'off';
+    bScan.setAttribute('aria-pressed', String(on));
+  });
+  bMotion.addEventListener('click', function () {
+    var on = document.body.dataset.motion !== 'on';
+    document.body.dataset.motion = on ? 'on' : 'off';
+    bMotion.setAttribute('aria-pressed', String(on));
+  });
+
+  /* ───────── 3. 계기 판독기 · l2-hud-readout ───────── */
+  var GAUGES = [
+    { k: 'core-temp', ko: '노심 온도', unit: 'C', base: 58, amp: 26 },
+    { k: 'bus-load', ko: '버스 부하', unit: '%', base: 44, amp: 34 },
+    { k: 'link-rtt', ko: '회선 왕복', unit: 'ms', base: 62, amp: 30 }
+  ];
+  var SAMPLES = 40, TICK = 900, WARN = 72, BAD = 88;
+  var host = document.getElementById('gauges');
+  var live = document.getElementById('gaugeLive');
+
+  GAUGES.forEach(function (g) {
+    g.buf = [];
+    g.el = document.createElement('div');
+    g.el.className = 'g';
+    g.el.dataset.tone = 'ok';
+    g.el.innerHTML =
+      '<div class="lab"><span>' + g.ko + '</span><span data-k>' + g.k + '</span></div>' +
+      '<div class="val"><span data-v>--</span><span class="unit">' + g.unit + '</span></div>' +
+      '<svg viewBox="0 0 100 26" preserveAspectRatio="none" aria-hidden="true">' +
+      '<line class="thr" x1="0" x2="100" y1="7" y2="7"></line>' +
+      '<polyline data-p points=""></polyline></svg>';
+    g.v = g.el.querySelector('[data-v]');
+    g.p = g.el.querySelector('[data-p]');
+    host.append(g.el);
+  });
+
+  function toneOf(v) { return v >= BAD ? 'bad' : (v >= WARN ? 'warn' : 'ok'); }
+
+  function sample() {
+    var said = [];
+    GAUGES.forEach(function (g) {
+      var t = Date.now() / 1000;
+      var n = g.base + Math.sin(t * 0.7 + g.base) * g.amp * 0.5
+        + (Math.random() - 0.5) * g.amp * 0.5;
+      n = Math.max(0, Math.min(100, n));
+      g.buf.push(n);
+      if (g.buf.length > SAMPLES) g.buf.shift();
+
+      g.v.textContent = n.toFixed(1);
+      var tone = toneOf(n);
+      if (tone !== g.el.dataset.tone) {
+        g.el.dataset.tone = tone;
+        said.push(g.ko + ' ' + (tone === 'bad' ? '경고' : tone === 'warn' ? '주의' : '정상'));
+        if (!reduced() && g.v.animate) {
+          g.v.animate(
+            [{ transform: 'translateY(0)' }, { transform: 'translateY(-4px)' }, { transform: 'translateY(0)' }],
+            { duration: 220, easing: 'cubic-bezier(.22,.61,.36,1)' }
+          );
+        }
+      }
+      var step = 100 / (SAMPLES - 1);
+      g.p.setAttribute('points', g.buf.map(function (v, i) {
+        return (i * step).toFixed(2) + ',' + (26 - v * 0.26).toFixed(2);
+      }).join(' '));
+    });
+    if (said.length) live.textContent = said.join(' · ');
+  }
+  for (var s = 0; s < 12; s++) sample();
+  setInterval(sample, TICK);
+
+  /* 상단 상태등은 계기 중 가장 나쁜 등급을 따른다 */
+  var dot = document.getElementById('dot'), stateTxt = document.getElementById('stateTxt');
+  setInterval(function () {
+    var worst = 'ok';
+    GAUGES.forEach(function (g) {
+      if (g.el.dataset.tone === 'bad') worst = 'bad';
+      else if (g.el.dataset.tone === 'warn' && worst !== 'bad') worst = 'warn';
+    });
+    dot.style.background = 'var(--' + (worst === 'ok' ? 'ok' : worst === 'warn' ? 'warn' : 'bad') + ')';
+    stateTxt.textContent = worst === 'ok' ? '정상' : worst === 'warn' ? '주의' : '경고';
+  }, TICK);
+
+  /* ───────── 4. 레이더 훑기 · l3-radar-sweep ───────── */
+  var cv = document.getElementById('radar'), cx = cv.getContext('2d');
+  var TURN = 4200, TAIL = 62 * Math.PI / 180, FADE = 2400, RINGS = 3;
+  var blips = [], dpr = 1, W = 0, H = 0;
+
+  for (var b = 0; b < 12; b++) {
+    blips.push({ a: Math.random() * Math.PI * 2, r: 0.22 + Math.random() * 0.7, lit: -1e9 });
+  }
+  function fit() {
+    dpr = Math.min(devicePixelRatio || 1, 2);
+    var r = cv.getBoundingClientRect();
+    W = Math.max(1, Math.round(r.width)); H = Math.max(1, Math.round(r.height));
+    cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr);
+    cx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+  new ResizeObserver(fit).observe(cv);
+  fit();
+
+  function drawRadar(now) {
+    /* 요소가 문서에 붙기 전에 재면 0 이 나온다. arc() 는 음수 반지름에 예외를 던지고
+       그 예외가 프레임 루프를 통째로 죽인다 — 카탈로그 데모에서 실제로 겪었다. */
+    var cxp = W / 2, cyp = H / 2, R = Math.max(1, Math.min(W, H) / 2 - 4);
+    var ang = (now % TURN) / TURN * Math.PI * 2 - Math.PI / 2;
+    cx.clearRect(0, 0, W, H);
+
+    cx.strokeStyle = 'rgb(77 163 255 / .18)';
+    cx.lineWidth = 1;
+    for (var i = 1; i <= RINGS; i++) {
+      cx.beginPath(); cx.arc(cxp, cyp, R * i / RINGS, 0, Math.PI * 2); cx.stroke();
+    }
+    cx.beginPath(); cx.moveTo(cxp - R, cyp); cx.lineTo(cxp + R, cyp);
+    cx.moveTo(cxp, cyp - R); cx.lineTo(cxp, cyp + R); cx.stroke();
+
+    if (!reduced()) {
+      var grd = cx.createRadialGradient(cxp, cyp, 0, cxp, cyp, R);
+      grd.addColorStop(0, 'rgb(77 163 255 / .30)');
+      grd.addColorStop(1, 'rgb(77 163 255 / 0)');
+      cx.fillStyle = grd;
+      cx.beginPath(); cx.moveTo(cxp, cyp);
+      cx.arc(cxp, cyp, R, ang - TAIL, ang); cx.closePath(); cx.fill();
+      cx.strokeStyle = 'rgb(122 200 255 / .55)';
+      cx.beginPath(); cx.moveTo(cxp, cyp);
+      cx.lineTo(cxp + Math.cos(ang) * R, cyp + Math.sin(ang) * R); cx.stroke();
+    }
+
+    blips.forEach(function (p) {
+      var d = ((ang - p.a) % (Math.PI * 2) + Math.PI * 2) % (Math.PI * 2);
+      if (!reduced() && d < 0.08) p.lit = now;
+      var age = now - p.lit;
+      var a = reduced() ? 0.7 : Math.max(0, 1 - age / FADE);
+      if (a <= 0.02) return;
+      var x = cxp + Math.cos(p.a) * R * p.r, y = cyp + Math.sin(p.a) * R * p.r;
+      cx.fillStyle = 'rgb(90 213 154 / ' + a.toFixed(3) + ')';
+      cx.beginPath(); cx.arc(x, y, 2.6, 0, Math.PI * 2); cx.fill();
+      if (a > 0.5) {
+        cx.strokeStyle = 'rgb(90 213 154 / ' + ((a - 0.5) * 0.7).toFixed(3) + ')';
+        cx.beginPath(); cx.arc(x, y, 2.6 + (1 - a) * 16, 0, Math.PI * 2); cx.stroke();
+      }
+    });
+  }
+
+  /* ───────── 5. 글리치 조각 · l3-glitch-slice ───────── */
+  var gl = document.getElementById('glTitle');
+  var GL_SLICES = 7, GL_SHIFT = 14, GL_BURST = 260, GL_SPLIT = 2;
+  var glText = gl.querySelector('span').textContent;
+  var layers = [];
+  ['r', 'c'].forEach(function (cls) {
+    var e = document.createElement('b');
+    e.className = cls; e.textContent = glText; e.setAttribute('aria-hidden', 'true');
+    gl.append(e); layers.push(e);
+  });
+  var glUntil = 0;
+  function glitch() { if (!reduced()) glUntil = performance.now() + GL_BURST; }
+  document.getElementById('bGlitch').addEventListener('click', glitch);
+  gl.addEventListener('pointerenter', glitch);
+
+  function drawGlitch(now) {
+    var on = now < glUntil;
+    gl.dataset.on = on ? '1' : '0';
+    if (!on) {
+      layers.forEach(function (e) { e.style.clipPath = 'inset(100% 0 0 0)'; e.style.transform = 'none'; });
+      return;
+    }
+    layers.forEach(function (e, li) {
+      var i = Math.floor(Math.random() * GL_SLICES);
+      var top = (i * 100 / GL_SLICES).toFixed(2);
+      var bot = (100 - (i + 1) * 100 / GL_SLICES).toFixed(2);
+      var dx = (Math.random() - 0.5) * 2 * GL_SHIFT + (li ? GL_SPLIT : -GL_SPLIT);
+      e.style.clipPath = 'inset(' + top + '% 0 ' + bot + '% 0)';
+      e.style.transform = 'translateX(' + dx.toFixed(1) + 'px)';
+    });
+  }
+  setInterval(function () { if (Math.random() < 0.35) glitch(); }, 4000);
+
+  /* ───────── 6·7. 표적 고정 + 십자선 · l3-target-lock · l3-crosshair-coords ───────── */
+  var stage = document.getElementById('stage'), lock = document.getElementById('lock');
+  var lockTag = document.getElementById('lockTag'), cross = document.getElementById('cross');
+  var coords = document.getElementById('coords');
+  var LERP = 0.22, PAD = 6;
+  var want = null, box = { x: 0, y: 0, w: 0, h: 0 }, has = false;
+  var px = 0, py = 0, pointerIn = false;
+
+  var crossH = cross.querySelector('.h'), crossV = cross.querySelector('.v');
+
+  /* 십자선은 프레임을 기다리지 않는다 — 포인터를 따라가는 선이 한 프레임 늦으면 눈에 띈다.
+     반대로 조준틀 상자는 «미끄러져 붙는» 것이 목적이라 프레임 루프가 맡는다. */
+  stage.addEventListener('pointermove', function (e) {
+    if (e.pointerType === 'touch') return;
+    pointerIn = true;
+    var r = stage.getBoundingClientRect();
+    px = e.clientX - r.left; py = e.clientY - r.top;
+
+    cross.dataset.on = '1';
+    crossH.style.top = py.toFixed(1) + 'px';
+    crossV.style.left = px.toFixed(1) + 'px';
+    coords.textContent = 'X ' + String(Math.round(px)).padStart(4, '0') +
+      ' Y ' + String(Math.round(py)).padStart(4, '0');
+
+    var hit = document.elementFromPoint(e.clientX, e.clientY);
+    var tgt = hit && hit.closest ? hit.closest('[data-tgt]') : null;
+    if (tgt) {
+      var t = tgt.getBoundingClientRect();
+      want = { x: t.left - r.left - PAD, y: t.top - r.top - PAD,
+               w: t.width + PAD * 2, h: t.height + PAD * 2, name: tgt.dataset.tgt };
+      if (!has) { box.x = want.x; box.y = want.y; box.w = want.w; box.h = want.h; has = true; applyLock(); }
+      lock.dataset.on = '1';
+      if (lockTag.textContent !== want.name) lockTag.textContent = want.name;
+    } else {
+      want = null; lock.dataset.on = '0';
+    }
+  });
+  stage.addEventListener('pointerleave', function () {
+    pointerIn = false; want = null;
+    cross.dataset.on = '0'; lock.dataset.on = '0';
+    coords.textContent = 'X ---- Y ----';
+  });
+
+  function applyLock() {
+    lock.style.transform = 'translate(' + box.x.toFixed(1) + 'px,' + box.y.toFixed(1) + 'px)';
+    lock.style.width = box.w.toFixed(1) + 'px';
+    lock.style.height = box.h.toFixed(1) + 'px';
+  }
+  function drawLock() {
+    if (!want) return;
+    var k = reduced() ? 1 : LERP;
+    box.x += (want.x - box.x) * k; box.y += (want.y - box.y) * k;
+    box.w += (want.w - box.w) * k; box.h += (want.h - box.h) * k;
+    applyLock();
+  }
+
+  /* ───────── 8. 해독되는 글자 · l3-decode-text ───────── */
+  var DEC_TARGET = '관제 화면 여덟 가지 · 외부 라이브러리 0 · 표준 API 만 · READY';
+  var DEC_STEP = 42, DEC_EVERY = 3;
+  /* 글자 폭이 다른 것을 섞으면 해독되는 동안 줄이 흔들린다.
+     한글 자리는 한글로, 로마자 자리는 로마자로 뒤섞어 폭을 고정한다. */
+  var POOL_EN = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789#%&*+=<>/';
+  var POOL_KO = '가나다라마바사아자차카타파하거너더러머버서어저처커터퍼허고노도로모보소오조초코토포호구누두루무부수우주추쿠투푸후';
+  function scramble(ch) {
+    if (ch === ' ') return ' ';
+    var c = ch.charCodeAt(0);
+    if (c >= 0xAC00 && c <= 0xD7A3) return POOL_KO[(Math.random() * POOL_KO.length) | 0];
+    if (c > 0x2000) return ch;                       /* 가운뎃점 같은 기호는 그대로 둔다 */
+    return POOL_EN[(Math.random() * POOL_EN.length) | 0];
+  }
+  var decEl = document.getElementById('dec');
+  decEl.innerHTML = '<span data-done></span><span data-scr class="scr"></span>';
+  var decA = decEl.querySelector('[data-done]'), decB = decEl.querySelector('[data-scr]');
+  var decT0 = 0, decFrame = 0, decDone = false;
+
+  /* 화면에 들어오기 전에도 뒤섞인 채로 보인다 — 빈 줄이 놓여 있으면 고장으로 읽힌다.
+     제자리를 찾기 시작하는 시점만 IntersectionObserver 가 정한다. */
+  new IntersectionObserver(function (es, ob) {
+    es.forEach(function (e) {
+      if (e.isIntersecting) { decT0 = performance.now(); ob.unobserve(e.target); }
+    });
+  }, { threshold: 0.4 }).observe(decEl);
+
+  function drawDecode(now) {
+    if (decDone) return;
+    var settled = decT0 ? Math.floor((now - decT0) / DEC_STEP) : 0;
+    if (decT0 && settled >= DEC_TARGET.length) {
+      decEl.innerHTML = '<span>' + DEC_TARGET.replace('READY', '<b class="k">READY</b>') + '</span>';
+      decDone = true; return;
+    }
+    if (++decFrame % DEC_EVERY) return;
+    var out = '';
+    for (var i = settled; i < DEC_TARGET.length; i++) out += scramble(DEC_TARGET[i]);
+    decA.textContent = DEC_TARGET.slice(0, settled);
+    decB.textContent = out;
+  }
+
+  /* ───────── 한 개의 프레임 루프가 넷을 돌린다 ───────── */
+  function frame(now) {
+    drawRadar(now);
+    drawGlitch(now);
+    drawLock();
+    drawDecode(now);
+    requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+
+  /* 움직임 설정이 도중에 바뀌면 즉시 따른다 */
+  RM.addEventListener('change', function () { if (reduced()) glUntil = 0; });
+})();
+</script>
+</body>
+</html>

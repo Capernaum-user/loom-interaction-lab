@@ -55,7 +55,7 @@ h1 em{font-style:normal;color:var(--muted)}
 .sub b{color:var(--ink);font-weight:600}
 
 /* 데모 카드 3장 */
-.decks{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px;margin-bottom:74px}
+.decks{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px;margin-bottom:74px}
 .deck{
   display:flex;flex-direction:column;border:1px solid var(--line);border-radius:14px;
   background:var(--surface);overflow:hidden;text-decoration:none;color:inherit;
@@ -95,6 +95,25 @@ h1 em{font-style:normal;color:var(--muted)}
   border:1px solid var(--line);border-radius:50%;width:28px;height:28px;display:grid;place-items:center}
 
 /* 미니 3 · 프레임 시퀀스 */
+.mini-hud{position:absolute;inset:0;display:grid;place-items:center;
+  background:repeating-linear-gradient(to bottom,rgb(0 0 0 / .26) 0 1px,rgb(0 0 0 / 0) 1px 3px)}
+.mini-hud .disc{width:104px;height:104px;border-radius:50%;position:relative;
+  border:1px solid color-mix(in srgb,var(--accent) 34%,transparent);
+  background:conic-gradient(from -90deg,color-mix(in srgb,var(--accent) 26%,transparent) 0 62deg,transparent 62deg 360deg)}
+.mini-hud .disc::before{content:"";position:absolute;inset:26px;border-radius:50%;
+  border:1px solid color-mix(in srgb,var(--accent) 22%,transparent)}
+.mini-hud .disc::after{content:"";position:absolute;left:70%;top:32%;width:5px;height:5px;border-radius:50%;
+  background:#5AD59A;box-shadow:0 0 0 4px color-mix(in srgb,#5AD59A 22%,transparent)}
+.mini-hud .brkt{--l:14px;position:absolute;inset:16px;background-repeat:no-repeat;
+  background-image:linear-gradient(var(--accent),var(--accent)),linear-gradient(var(--accent),var(--accent)),
+    linear-gradient(var(--accent),var(--accent)),linear-gradient(var(--accent),var(--accent)),
+    linear-gradient(var(--accent),var(--accent)),linear-gradient(var(--accent),var(--accent)),
+    linear-gradient(var(--accent),var(--accent)),linear-gradient(var(--accent),var(--accent));
+  background-size:var(--l) 1px,1px var(--l),var(--l) 1px,1px var(--l),
+    var(--l) 1px,1px var(--l),var(--l) 1px,1px var(--l);
+  background-position:0 0,0 0,100% 0,100% 0,0 100%,0 100%,100% 100%,100% 100%;opacity:.7}
+.mini-hud .rd{position:absolute;right:16px;bottom:12px;font-family:var(--ff-mono);font-size:10px;
+  color:var(--muted);letter-spacing:.1em}
 .mini-seq{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px}
 .mini-seq svg{color:var(--accent)}
 .mini-seq .lab{font-family:var(--ff-mono);font-size:10.5px;color:var(--muted);letter-spacing:.1em}
@@ -147,18 +166,18 @@ td:first-child{color:var(--ink);white-space:nowrap}
     <p class="eyebrow">Loom · interaction lab</p>
     <h1>스크롤이 곧 생성이다 <em>·</em><br>그 기법을 다시 만들었다</h1>
     <p class="sub">한 상용 AI 디자인 도구의 공개 자산을 뜯어 <b>어떻게 만들었는지</b>만 알아내고,
-    코드·이미지·소리·서체는 하나도 가져오지 않은 채 처음부터 다시 구현했다. 아래 세 화면은 전부 혼자 도는 단일 HTML이고,
-    서버도 인터넷 연결도 필요 없다. 맨 위 <b>기법 카탈로그</b>는 그 화면들을 만든 기법 57개를 정확한 이름과 수치로 적어 둔 사전이다.</p>
+    코드·이미지·소리·서체는 하나도 가져오지 않은 채 처음부터 다시 구현했다. 아래 네 화면은 전부 혼자 도는 단일 HTML이고,
+    서버도 인터넷 연결도 필요 없다. 맨 위 <b>기법 카탈로그</b>는 그 화면들을 만든 기법 65개를 정확한 이름과 수치로 적어 둔 사전이다.</p>
   </div>
 
   <div class="decks" id="decks">
     <a class="deck deck--wide" href="../04_Catalog/LoomLab_craft-catalog_active.html">
-      <div class="demo"><div class="mini-cat" aria-hidden="true"><i>스크롤 등장</i><i class="on">커서 스포트라이트</i><i>관성 플릭</i><i>토스트 더미</i><i class="on">HUD 상태띠</i><i>드래그 정렬</i><i>뷰 트랜지션</i><i class="on">스크롤 타임라인</i><i>스프링</i><i>지연 로딩</i><i>자석 버튼</i><i>패럴랙스</i></div></div>
+      <div class="demo"><div class="mini-cat" aria-hidden="true"><i>스크롤 등장</i><i class="on">커서 스포트라이트</i><i>관성 플릭</i><i>레이더 훑기</i><i class="on">HUD 상태띠</i><i>드래그 정렬</i><i>뷰 트랜지션</i><i class="on">스크롤 타임라인</i><i>스프링</i><i>표적 고정</i><i>자석 버튼</i><i>해독되는 글자</i></div></div>
       <div class="body">
         <span class="no">카탈로그</span>
         <h2>기법 카탈로그</h2>
-        <p>웹 화면을 이루는 기법 <b>57개</b>를 아키타입 14종·갈래 16종으로 갈라 놓았다.
-        카드를 누르면 그 기법의 정확한 이름과 수치 <b>233개</b>가 나오고, 그대로 복사해 AI에게 주문으로 넘길 수 있다.
+        <p>웹 화면을 이루는 기법 <b>65개</b>를 아키타입 14종·갈래 16종으로 갈라 놓았다.
+        카드를 누르면 그 기법의 정확한 이름과 수치 <b>282개</b>가 나오고, 그대로 복사해 AI에게 주문으로 넘길 수 있다.
         갈래마다 눌러 볼 수 있는 데모가 붙어 있다.</p>
         <p class="go">열기 →</p>
       </div>
@@ -197,6 +216,18 @@ td:first-child{color:var(--ink);white-space:nowrap}
         <span class="no">03</span>
         <h2>모션과 소리 해부</h2>
         <p>한 파일에 프레임을 쌓아두고 참조만 갈아끼우는 로더, 파일 없이 합성하는 신호음, 스프링과 베지에의 차이를 손잡이로 비교한다.</p>
+        <p class="go">열기 →</p>
+      </div>
+    </a>
+
+    <a class="deck" href="LoomLab_hud-console_active.html">
+      <div class="demo"><div class="mini-hud" aria-hidden="true">
+        <div class="disc"></div><div class="brkt"></div><span class="rd">SECTOR 04</span>
+      </div></div>
+      <div class="body">
+        <span class="no">04</span>
+        <h2>HUD 콘솔</h2>
+        <p>관제 화면을 이루는 기법 여덟 가지를 한 화면에서 돌린다. 주사선 겹막·모서리 조준틀·계기 판독기·레이더 훑기·글리치 조각·표적 고정·십자선 좌표·해독되는 글자다. 칸 위에 커서를 올리면 조준틀이 미끄러져 붙는다.</p>
         <p class="go">열기 →</p>
       </div>
     </a>

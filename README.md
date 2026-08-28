@@ -9,9 +9,9 @@
 
 한 상용 AI 디자인 도구의 인터랙션 기법 네 가지를 공개된 자산만 보고 알아낸 뒤, **원본 파일을 한 개도 쓰지 않고 처음부터 다시 구현한** 화면 모음이다.
 
-자기완결 단일 HTML 넉 장이다. 두 번 눌러 브라우저로 열면 그대로 돈다. 서버도 빌드도 설치도 필요 없다.
+자기완결 단일 HTML 닷 장이다. 두 번 눌러 브라우저로 열면 그대로 돈다. 서버도 빌드도 설치도 필요 없다.
 
-여기에 **기법 카탈로그**가 붙어 있다. 이 화면들을 만든 기법 57개를 정확한 이름과 수치로 적어 둔 사전이고, 카드를 눌러 그대로 복사하면 AI 에게 넘길 주문이 된다.
+여기에 **기법 카탈로그**가 붙어 있다. 이 화면들을 만든 기법 65개를 정확한 이름과 수치로 적어 둔 사전이고, 카드를 눌러 그대로 복사하면 AI 에게 넘길 주문이 된다.
 
 ## 화면
 
@@ -23,7 +23,8 @@
 | [**무한 시안 피드**](https://capernaum-user.github.io/loom-interaction-lab/01_Pages/LoomLab_endless-feed_active.html) | 프롬프트를 넣으면 스크롤할수록 화면 시안이 끝없이 나온다 |
 | [**스타일 드로퍼**](https://capernaum-user.github.io/loom-interaction-lab/01_Pages/LoomLab_style-dropper_active.html) | 한 시안의 색·서체·밀도를 뽑아 다른 시안에 옮긴다 |
 | [**모션과 소리 해부**](https://capernaum-user.github.io/loom-interaction-lab/01_Pages/LoomLab_motion-sound_active.html) | 프레임 시퀀스 로더·합성 신호음·스프링 대 베지에 |
-| [**기법 카탈로그**](https://capernaum-user.github.io/loom-interaction-lab/04_Catalog/LoomLab_craft-catalog_active.html) | 기법 57개를 골라 이름과 수치를 프롬프트로 복사한다 |
+| [**HUD 콘솔**](https://capernaum-user.github.io/loom-interaction-lab/01_Pages/LoomLab_hud-console_active.html) | 관제 화면 기법 여덟 가지를 한 화면에서 돌린다 |
+| [**기법 카탈로그**](https://capernaum-user.github.io/loom-interaction-lab/04_Catalog/LoomLab_craft-catalog_active.html) | 기법 65개를 골라 이름과 수치를 프롬프트로 복사한다 |
 
 파일은 `01_Pages/` 안에 있다.
 
@@ -65,12 +66,12 @@ reduced-motion — 관찰을 걸지 않고 처음부터 최종 상태로 둔다
 | 축 | 규모 |
 |---|---|
 | 아키타입 | 14종 |
-| 기법 | 57개 |
-| 이름 붙인 수치 | 233개 |
+| 기법 | 65개 |
+| 이름 붙인 수치 | 282개 |
 | 인터랙션 갈래 | 16종 |
 | 갈래별 데모 | 16장 (카탈로그 안에서 바로 눌러 본다) |
 
-기법은 난이도 L1~L4 로 나뉜다. L1 은 정적이고 L4 는 GPU 를 쓴다. 계열은 스크롤 7 · 데이터 6 · 포인터 5 · 마이크로인터랙션 5 · 오버레이 4 · 레이아웃 4 · 조작 4 · 공간 4 · 생성 4 · 폼 3 · 그 밖 11 이다.
+기법은 난이도 L1~L4 로 나뉜다. L1 은 정적이고 L4 는 GPU 를 쓴다. 계열은 스크롤 7 · 데이터 6 · 포인터 5 · **HUD 8** · 마이크로인터랙션 5 · 오버레이 4 · 레이아웃 4 · 조작 4 · 공간 4 · 생성 4 · 폼 3 · 그 밖 11 이다.
 
 파일은 `04_Catalog/` 안에 있다.
 
@@ -81,7 +82,7 @@ reduced-motion — 관찰을 걸지 않고 처음부터 최종 상태로 둔다
 
 ## 미리보기
 
-헤드리스 크롬으로 찍은 실제 화면이다. 아래 셋은 가로 1440px 이고, 맨 끝 모바일 줄은 세로 390×844 다. 맨 위 큰 그림이 랩 입구이고, 어느 그림이든 누르면 그 화면이 열린다.
+헤드리스 크롬으로 찍은 실제 화면이다. 아래 넷은 가로 1440px 이고, 맨 끝 모바일 줄은 세로 390×844 다. 맨 위 큰 그림이 랩 입구이고, 어느 그림이든 누르면 그 화면이 열린다.
 
 ### 무한 시안 피드
 
@@ -100,6 +101,17 @@ reduced-motion — 관찰을 걸지 않고 처음부터 최종 상태로 둔다
 [![모션과 소리 해부 화면. 프레임 시퀀스 로더 셋과 CSS 키프레임 비교표가 나란히 놓여 있다](02_Screenshots/LoomLab_motion-sound-shot_active.png)](https://capernaum-user.github.io/loom-interaction-lab/01_Pages/LoomLab_motion-sound_active.html)
 
 프레임 48장을 한 파일에 쌓아 두고 참조 한 줄만 갈아끼운다. 같은 움직임을 CSS 로 냈을 때와 무엇이 달라지는지 표로 견준다.
+
+### HUD 콘솔
+
+[![HUD 콘솔 화면. 왼쪽에 회전하는 레이더, 가운데에 표적 칸과 조준틀, 오른쪽에 실시간 계기가 놓이고 화면 전체에 가로 주사선이 깔려 있다](02_Screenshots/LoomLab_hud-console-shot_active.png)](https://capernaum-user.github.io/loom-interaction-lab/01_Pages/LoomLab_hud-console_active.html)
+
+관제 화면을 이루는 기법 **여덟 가지**가 한 화면에서 동시에 돈다. 주사선 겹막·모서리 조준틀·계기 판독기·레이더 훑기·글리치 조각·표적 고정·십자선 좌표·해독되는 글자다. 칸 이름 옆의 `l3-radar-sweep` 같은 표시가 카탈로그의 id 와 같으므로, 마음에 드는 것을 카탈로그에서 찾아 수치까지 복사하면 된다.
+
+| 데스크톱 | 모바일 |
+|---|---|
+| [![HUD 콘솔 데스크톱. 세 칸이 가로로 놓인다](02_Screenshots/LoomLab_hud-console-shot_active.png)](https://capernaum-user.github.io/loom-interaction-lab/01_Pages/LoomLab_hud-console_active.html) | [![HUD 콘솔 모바일. 레이더와 표적 칸이 한 줄로 쌓인다](02_Screenshots/LoomLab_hud-console-mobile-shot_active.png)](https://capernaum-user.github.io/loom-interaction-lab/01_Pages/LoomLab_hud-console_active.html) |
+| 레이더·표적·계기가 나란히 | 한 칸으로 접히고 레이더는 그대로 돈다 |
 
 ### 모바일
 
@@ -158,9 +170,11 @@ reduced-motion — 관찰을 걸지 않고 처음부터 최종 상태로 둔다
 | 재현성 | 1,600쌍 · 불일치 0 |
 | 카드 높이 | 넘침 0장 · 남음 0장 |
 | 런타임 오류 | 넉 장 모두 0건 |
-| 320px · 390px 가로 스크롤 | 넉 장 모두 없음 · 카탈로그도 없음 |
+| 320px · 390px 가로 스크롤 | 닷 장 모두 없음 · 카탈로그도 없음 |
+| HUD 콘솔 난이도 검사 | craft-check L3 PASS · 지문 12개 · canvas 1/1 칠해짐 |
+| HUD 기법 8종 라이브 데모 | 카탈로그 65칸 전부 붙음 · 오류 0 |
 | 카탈로그 갈래 데모 렌더 | 16장 · 실패 0 · 런타임 오류 0 |
-| 카탈로그 카드 · 수치 표 · 복사 버튼 | 각 57개 |
+| 카탈로그 카드 · 수치 표 · 복사 버튼 | 각 65개 |
 
 ## 서체
 
