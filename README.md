@@ -47,6 +47,10 @@ reduced-motion — 관찰을 걸지 않고 처음부터 최종 상태로 둔다
 
 그대로 붙여 넣으면 된다. 폴백과 접근성 조건까지 함께 가므로 AI 가 빠뜨리지 않는다.
 
+[![기법 카드 한 장. 제목 아래 이름·수치까지 복사·코드 버튼 셋이 있고 그 아래 이름 붙은 수치 여섯 줄과 움직이는 데모가 놓여 있다](02_Screenshots/LoomLab_craft-card-shot_active.png)](https://capernaum-user.github.io/loom-interaction-lab/04_Catalog/LoomLab_craft-catalog_active.html)
+
+카드 한 장의 속이다. 수치마다 사람이 붙인 이름이 있고 왜 그 값인지가 아래 줄에 붙는다. `레일 폭 264px` 아래의 "접으면 58px. 이 변수 하나로만 바꾼다" 같은 것이다.
+
 ### 어떻게 쓰나
 
 1. 위쪽 띠에서 **아키타입** 14종 중 만들 화면에 가까운 것을 고른다
