@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FirstDesign - Forms & Input</title>
+  <link rel="stylesheet" href="../00_Index/FirstDesign_interactive-common_active.css">
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body class="fd-interactive-page" data-category="forms-input">
+  <header class="top-strip">
+    <strong>04 Forms & Input</strong>
+    <a href="../00_Index/FirstDesign_interactive-elements-gallery_active.html">All elements</a>
+  </header>
+  <main class="demo-shell">
+    <section class="hero-panel">
+      <span class="eyebrow">04 / 폼과 입력</span>
+      <h1>Forms & Input</h1>
+      <p>텍스트, 선택, 업로드, 태그 입력, 검증처럼 데이터를 받는 상호작용.</p>
+    </section>
+    <section class="demo-grid" aria-label="Forms & Input demos">
+      <article class="demo-card wide-card">
+  <div class="demo-copy">
+    <span class="eyebrow">Input</span>
+    <h2>Validated prompt form</h2>
+    <p>입력 길이, 태그, 업로드 상태를 한 화면에서 확인한다.</p>
+  </div>
+  <label class="field-label">Project prompt
+    <textarea class="text-input textarea-input" data-form-prompt minlength="12">Create a responsive interface system</textarea>
+  </label>
+  <div class="field-meter"><span data-form-meter></span></div>
+  <div class="tag-row" data-tag-row>
+    <button class="filter-chip is-active" data-demo-action="tag">WebGL</button>
+    <button class="filter-chip" data-demo-action="tag">Dashboard</button>
+    <button class="filter-chip" data-demo-action="tag">Forms</button>
+  </div>
+  <label class="drop-zone">
+    <input type="file" data-demo-action="file-preview">
+    <span data-file-label>Drop or choose a reference image</span>
+  </label>
+  <p class="live-line" aria-live="polite" data-form-status>Prompt is valid.</p>
+</article>
+    </section>
+  </main>
+  <script src="../00_Index/FirstDesign_interactive-common_active.js"></script>
+  <script src="./script.js"></script>
+</body>
+</html>

@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FirstDesign - Foundation Controls</title>
+  <link rel="stylesheet" href="../00_Index/FirstDesign_interactive-common_active.css">
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body class="fd-interactive-page" data-category="foundation-controls">
+  <header class="top-strip">
+    <strong>01 Foundation Controls</strong>
+    <a href="../00_Index/FirstDesign_interactive-elements-gallery_active.html">All elements</a>
+  </header>
+  <main class="demo-shell">
+    <section class="hero-panel">
+      <span class="eyebrow">01 / 기본 컨트롤</span>
+      <h1>Foundation Controls</h1>
+      <p>버튼, 토글, 체크, 라디오, 스위치처럼 모든 인터페이스의 입력 출발점이 되는 요소.</p>
+    </section>
+    <section class="demo-grid" aria-label="Foundation Controls demos">
+      <article class="demo-card" aria-labelledby="button-stack-title">
+  <div class="demo-copy">
+    <span class="eyebrow">Controls</span>
+    <h2 id="button-stack-title">Stateful action set</h2>
+    <p>버튼, 세그먼트, 스위치가 같은 상태 패널을 제어한다.</p>
+  </div>
+  <div class="control-row" role="group" aria-label="Mode selector">
+    <button class="control-button is-active" data-demo-action="set-mode" data-mode="Build">Build</button>
+    <button class="control-button" data-demo-action="set-mode" data-mode="Preview">Preview</button>
+    <button class="control-button" data-demo-action="set-mode" data-mode="Ship">Ship</button>
+  </div>
+  <label class="switch-row">
+    <input type="checkbox" data-demo-action="toggle-compact">
+    <span class="switch-ui"></span>
+    Compact controls
+  </label>
+  <div class="status-panel" data-status-panel>Mode: Build / Compact: off</div>
+</article>
+<article class="demo-card">
+  <div class="demo-copy">
+    <span class="eyebrow">Feedback</span>
+    <h2>Copy action</h2>
+    <p>클릭 결과를 aria-live와 토스트로 즉시 표시한다.</p>
+  </div>
+  <button class="primary-action" data-demo-action="copy-token" data-copy-value="FirstDesign interactive token">Copy token</button>
+  <p class="live-line" aria-live="polite" data-live-line>Ready</p>
+</article>
+    </section>
+  </main>
+  <script src="../00_Index/FirstDesign_interactive-common_active.js"></script>
+  <script src="./script.js"></script>
+</body>
+</html>

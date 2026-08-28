@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FirstDesign - Data Interaction</title>
+  <link rel="stylesheet" href="../00_Index/FirstDesign_interactive-common_active.css">
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body class="fd-interactive-page" data-category="data-interaction">
+  <header class="top-strip">
+    <strong>13 Data Interaction</strong>
+    <a href="../00_Index/FirstDesign_interactive-elements-gallery_active.html">All elements</a>
+  </header>
+  <main class="demo-shell">
+    <section class="hero-panel">
+      <span class="eyebrow">13 / 데이터 인터랙션</span>
+      <h1>Data Interaction</h1>
+      <p>정렬, 필터, 차트 hover, drilldown처럼 데이터 탐색과 분석을 돕는 패턴.</p>
+    </section>
+    <section class="demo-grid" aria-label="Data Interaction demos">
+      <article class="demo-card wide-card">
+  <div class="demo-copy">
+    <span class="eyebrow">Data</span>
+    <h2>Filterable table and chart</h2>
+    <p>데이터 조작은 정렬, 필터, 세부값 확인을 분리한다.</p>
+  </div>
+  <div class="tag-row">
+    <button class="filter-chip is-active" data-demo-action="data-filter" data-filter="all">All</button>
+    <button class="filter-chip" data-demo-action="data-filter" data-filter="motion">Motion</button>
+    <button class="filter-chip" data-demo-action="data-filter" data-filter="input">Input</button>
+  </div>
+  <table class="data-table" data-data-table>
+    <thead><tr><th><button data-demo-action="sort-table">Pattern</button></th><th>Type</th><th>Score</th></tr></thead>
+    <tbody>
+      <tr data-type="motion"><td>Scroll reveal</td><td>motion</td><td>92</td></tr>
+      <tr data-type="input"><td>Command palette</td><td>input</td><td>88</td></tr>
+      <tr data-type="motion"><td>View transition</td><td>motion</td><td>84</td></tr>
+    </tbody>
+  </table>
+  <div class="bar-chart" data-bar-chart></div>
+</article>
+    </section>
+  </main>
+  <script src="../00_Index/FirstDesign_interactive-common_active.js"></script>
+  <script src="./script.js"></script>
+</body>
+</html>

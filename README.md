@@ -11,6 +11,8 @@
 
 자기완결 단일 HTML 넉 장이다. 두 번 눌러 브라우저로 열면 그대로 돈다. 서버도 빌드도 설치도 필요 없다.
 
+여기에 **기법 카탈로그**가 붙어 있다. 이 화면들을 만든 기법 57개를 정확한 이름과 수치로 적어 둔 사전이고, 카드를 눌러 그대로 복사하면 AI 에게 넘길 주문이 된다.
+
 ## 화면
 
 **https://capernaum-user.github.io/loom-interaction-lab/** 에서 바로 볼 수 있다. 내려받아 두 번 눌러 열어도 똑같이 돈다.
@@ -21,8 +23,57 @@
 | [**무한 시안 피드**](https://capernaum-user.github.io/loom-interaction-lab/01_Pages/LoomLab_endless-feed_active.html) | 프롬프트를 넣으면 스크롤할수록 화면 시안이 끝없이 나온다 |
 | [**스타일 드로퍼**](https://capernaum-user.github.io/loom-interaction-lab/01_Pages/LoomLab_style-dropper_active.html) | 한 시안의 색·서체·밀도를 뽑아 다른 시안에 옮긴다 |
 | [**모션과 소리 해부**](https://capernaum-user.github.io/loom-interaction-lab/01_Pages/LoomLab_motion-sound_active.html) | 프레임 시퀀스 로더·합성 신호음·스프링 대 베지에 |
+| [**기법 카탈로그**](https://capernaum-user.github.io/loom-interaction-lab/04_Catalog/LoomLab_craft-catalog_active.html) | 기법 57개를 골라 이름과 수치를 프롬프트로 복사한다 |
 
 파일은 `01_Pages/` 안에 있다.
+
+## 기법 카탈로그
+
+[![기법 카탈로그 화면. 검은 바탕에 아키타입 카드가 격자로 놓이고 카드마다 팔레트 띠와 난이도별 인터랙션 분류가 적혀 있다](02_Screenshots/LoomLab_craft-catalog-shot_active.png)](https://capernaum-user.github.io/loom-interaction-lab/04_Catalog/LoomLab_craft-catalog_active.html)
+
+### 왜 필요한가
+
+AI 에게 "부드럽게 나타나게 해 줘" 라고 하면 매번 다른 것이 나온다. 정확한 이름과 수치를 주면 같은 것이 나온다. 카탈로그는 앞의 말을 뒤의 말로 바꿔 준다. 카드 하나를 복사하면 이런 글이 나온다.
+
+```
+스크롤 등장 (l2-reveal-observer)
+아래로 내려가며 내용이 차례로 들어올 때. 관찰이 끝난 요소는 즉시 관찰을 푼다.
+쓰는 API — IntersectionObserver, CSS transition, stagger
+수치 — 관찰 임계 0.18 · 하단 여유 rootMargin 0px 0px -8% 0px · 시작 위치 translateY(14px) ·
+       opacity 0 · 나타나는 시간 0.5s · 차례 간격 60ms × 최대 6칸 · 관찰 해제 한 번 보이면 unobserve
+폴백 — IO 미지원 시 .is-in 을 즉시 부여해 전부 보이게 한다
+reduced-motion — 관찰을 걸지 않고 처음부터 최종 상태로 둔다
+```
+
+그대로 붙여 넣으면 된다. 폴백과 접근성 조건까지 함께 가므로 AI 가 빠뜨리지 않는다.
+
+### 어떻게 쓰나
+
+1. 위쪽 띠에서 **아키타입** 14종 중 만들 화면에 가까운 것을 고른다
+2. 기법 카드에서 쓰고 싶은 것에 **담기**를 누른다. 여러 개 골라도 된다
+3. 화면 아래 띠에서 **복사**를 누른다. 고른 순서대로 번호가 붙은 주문이 만들어진다
+4. AI 대화창에 붙여 넣는다
+
+카드마다 버튼이 셋이다. `이름` 은 기법 이름만, `수치까지 복사` 는 위 예시처럼 값과 폴백까지, `코드` 는 실제로 도는 스니펫을 준다.
+
+### 무엇이 들어 있나
+
+| 축 | 규모 |
+|---|---|
+| 아키타입 | 14종 |
+| 기법 | 57개 |
+| 이름 붙인 수치 | 233개 |
+| 인터랙션 갈래 | 16종 |
+| 갈래별 데모 | 16장 (카탈로그 안에서 바로 눌러 본다) |
+
+기법은 난이도 L1~L4 로 나뉜다. L1 은 정적이고 L4 는 GPU 를 쓴다. 계열은 스크롤 7 · 데이터 6 · 포인터 5 · 마이크로인터랙션 5 · 오버레이 4 · 레이아웃 4 · 조작 4 · 공간 4 · 생성 4 · 폼 3 · 그 밖 11 이다.
+
+파일은 `04_Catalog/` 안에 있다.
+
+| 데스크톱 | 모바일 |
+|---|---|
+| [![카탈로그 데스크톱. 아키타입 카드가 네 칸 격자로 놓인다](02_Screenshots/LoomLab_craft-catalog-shot_active.png)](https://capernaum-user.github.io/loom-interaction-lab/04_Catalog/LoomLab_craft-catalog_active.html) | [![카탈로그 모바일. 카드가 한 칸으로 접히고 팔레트 띠와 분류 칩이 그대로 남는다](02_Screenshots/LoomLab_craft-catalog-mobile-shot_active.png)](https://capernaum-user.github.io/loom-interaction-lab/04_Catalog/LoomLab_craft-catalog_active.html) |
+| 카드가 화면 폭에 맞춰 갈린다 | 한 칸으로 접힌다 |
 
 ## 미리보기
 
@@ -103,7 +154,9 @@
 | 재현성 | 1,600쌍 · 불일치 0 |
 | 카드 높이 | 넘침 0장 · 남음 0장 |
 | 런타임 오류 | 넉 장 모두 0건 |
-| 320px · 390px 가로 스크롤 | 넉 장 모두 없음 |
+| 320px · 390px 가로 스크롤 | 넉 장 모두 없음 · 카탈로그도 없음 |
+| 카탈로그 갈래 데모 렌더 | 16장 · 실패 0 · 런타임 오류 0 |
+| 카탈로그 카드 · 수치 표 · 복사 버튼 | 각 57개 |
 
 ## 서체
 

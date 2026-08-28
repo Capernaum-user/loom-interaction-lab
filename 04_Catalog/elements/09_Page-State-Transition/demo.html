@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FirstDesign - Page & State Transition</title>
+  <link rel="stylesheet" href="../00_Index/FirstDesign_interactive-common_active.css">
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body class="fd-interactive-page" data-category="page-state-transition">
+  <header class="top-strip">
+    <strong>09 Page & State Transition</strong>
+    <a href="../00_Index/FirstDesign_interactive-elements-gallery_active.html">All elements</a>
+  </header>
+  <main class="demo-shell">
+    <section class="hero-panel">
+      <span class="eyebrow">09 / 페이지와 상태 전환</span>
+      <h1>Page & State Transition</h1>
+      <p>페이지 이동, 리스트-상세, 스켈레톤, 테마 전환처럼 화면 맥락을 이어주는 패턴.</p>
+    </section>
+    <section class="demo-grid" aria-label="Page & State Transition demos">
+      <article class="demo-card wide-card">
+  <div class="demo-copy">
+    <span class="eyebrow">Transition</span>
+    <h2>List to detail state</h2>
+    <p>상태 전환은 맥락을 잃지 않게 짧고 명확하게 처리한다.</p>
+  </div>
+  <div class="transition-shell" data-transition-shell>
+    <button class="transition-item is-active" data-demo-action="transition" data-view="Foundation">Foundation</button>
+    <button class="transition-item" data-demo-action="transition" data-view="Motion">Motion</button>
+    <button class="transition-item" data-demo-action="transition" data-view="Spatial">Spatial</button>
+    <div class="detail-panel" data-transition-detail>Foundation detail view</div>
+  </div>
+  <button class="secondary-action" data-demo-action="skeleton">Toggle skeleton</button>
+</article>
+    </section>
+  </main>
+  <script src="../00_Index/FirstDesign_interactive-common_active.js"></script>
+  <script src="./script.js"></script>
+</body>
+</html>

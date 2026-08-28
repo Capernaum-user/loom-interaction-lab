@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FirstDesign - Disclosure & Overlay</title>
+  <link rel="stylesheet" href="../00_Index/FirstDesign_interactive-common_active.css">
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body class="fd-interactive-page" data-category="disclosure-overlay">
+  <header class="top-strip">
+    <strong>03 Disclosure & Overlay</strong>
+    <a href="../00_Index/FirstDesign_interactive-elements-gallery_active.html">All elements</a>
+  </header>
+  <main class="demo-shell">
+    <section class="hero-panel">
+      <span class="eyebrow">03 / 정보 펼침과 오버레이</span>
+      <h1>Disclosure & Overlay</h1>
+      <p>숨겨진 정보를 열거나 현재 맥락 위에 임시 레이어를 띄우는 패턴.</p>
+    </section>
+    <section class="demo-grid" aria-label="Disclosure & Overlay demos">
+      <article class="demo-card">
+  <div class="demo-copy">
+    <span class="eyebrow">Disclosure</span>
+    <h2>Accordion stack</h2>
+    <p>상세 정보는 필요한 순간에만 펼친다.</p>
+  </div>
+  <button class="accordion-trigger" data-demo-action="accordion" aria-expanded="false">Motion rules</button>
+  <div class="accordion-panel" hidden>Transform과 opacity 위주로 움직임을 설계한다.</div>
+  <button class="accordion-trigger" data-demo-action="accordion" aria-expanded="false">Overlay rules</button>
+  <div class="accordion-panel" hidden>Escape 닫기, focus 이동, 배경 클릭 처리를 기본으로 둔다.</div>
+</article>
+<article class="demo-card">
+  <div class="demo-copy">
+    <span class="eyebrow">Overlay</span>
+    <h2>Modal and popover</h2>
+    <p>맥락 위에 뜨는 정보는 명확한 닫기 동작이 필요하다.</p>
+  </div>
+  <button class="primary-action" data-demo-action="open-modal">Open modal</button>
+  <button class="secondary-action" data-demo-action="toggle-popover" aria-expanded="false">Toggle popover</button>
+  <div class="inline-popover" hidden data-popover>Popover content with a clear boundary.</div>
+</article>
+    </section>
+  </main>
+  <script src="../00_Index/FirstDesign_interactive-common_active.js"></script>
+  <script src="./script.js"></script>
+</body>
+</html>

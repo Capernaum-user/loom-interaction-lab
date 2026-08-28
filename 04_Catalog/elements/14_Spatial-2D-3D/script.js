@@ -1,0 +1,1 @@
+window.FirstDesignInteractive?.init("spatial-2d-3d");

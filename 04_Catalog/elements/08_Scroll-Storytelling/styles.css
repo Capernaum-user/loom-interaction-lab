@@ -1,0 +1,17 @@
+:root {
+  --demo-accent: #8a3ffc;
+}
+
+body[data-category="scroll-storytelling"] .hero-panel::after {
+  opacity: 0.28;
+}
+
+body[data-category="scroll-storytelling"] .demo-card::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 3px;
+  background: linear-gradient(90deg, var(--demo-accent), var(--demo-accent-2), #ff0080);
+}

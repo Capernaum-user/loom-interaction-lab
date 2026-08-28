@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FirstDesign - Real-Time & Generative</title>
+  <link rel="stylesheet" href="../00_Index/FirstDesign_interactive-common_active.css">
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body class="fd-interactive-page" data-category="realtime-generative">
+  <header class="top-strip">
+    <strong>15 Real-Time & Generative</strong>
+    <a href="../00_Index/FirstDesign_interactive-elements-gallery_active.html">All elements</a>
+  </header>
+  <main class="demo-shell">
+    <section class="hero-panel">
+      <span class="eyebrow">15 / 실시간과 생성형 UI</span>
+      <h1>Real-Time & Generative</h1>
+      <p>스트리밍 응답, 라이브 로그, presence cursor, 생성 미리보기처럼 시간에 따라 변화하는 UI.</p>
+    </section>
+    <section class="demo-grid" aria-label="Real-Time & Generative demos">
+      <article class="demo-card wide-card">
+  <div class="demo-copy">
+    <span class="eyebrow">Realtime</span>
+    <h2>Streaming response and live feed</h2>
+    <p>부분 결과, 진행 상태, 완료 상태를 분리해서 보여준다.</p>
+  </div>
+  <button class="primary-action" data-demo-action="stream-text">Start stream</button>
+  <pre class="stream-box" data-stream-box aria-live="polite"></pre>
+  <div class="live-feed" data-live-feed>
+    <p>10:12 task queued</p>
+    <p>10:13 assets indexed</p>
+  </div>
+  <div class="presence-zone" data-presence-zone><span data-presence-cursor>Guest</span></div>
+</article>
+    </section>
+  </main>
+  <script src="../00_Index/FirstDesign_interactive-common_active.js"></script>
+  <script src="./script.js"></script>
+</body>
+</html>

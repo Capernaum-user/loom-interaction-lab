@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FirstDesign - Media Interaction</title>
+  <link rel="stylesheet" href="../00_Index/FirstDesign_interactive-common_active.css">
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body class="fd-interactive-page" data-category="media-interaction">
+  <header class="top-strip">
+    <strong>12 Media Interaction</strong>
+    <a href="../00_Index/FirstDesign_interactive-elements-gallery_active.html">All elements</a>
+  </header>
+  <main class="demo-shell">
+    <section class="hero-panel">
+      <span class="eyebrow">12 / 미디어 상호작용</span>
+      <h1>Media Interaction</h1>
+      <p>이미지, 영상, 오디오를 탐색하고 비교하고 확대하는 시각 미디어 중심 패턴.</p>
+    </section>
+    <section class="demo-grid" aria-label="Media Interaction demos">
+      <article class="demo-card wide-card">
+  <div class="demo-copy">
+    <span class="eyebrow">Media</span>
+    <h2>Carousel and comparison</h2>
+    <p>이미지 탐색은 현재 위치와 전후 맥락을 함께 보여준다.</p>
+  </div>
+  <div class="carousel" data-carousel>
+    <button class="icon-action" data-demo-action="carousel-prev" aria-label="Previous">Prev</button>
+    <div class="media-frame" data-media-frame>Slide 1 / Color study</div>
+    <button class="icon-action" data-demo-action="carousel-next" aria-label="Next">Next</button>
+  </div>
+  <label class="range-label">Before / after
+    <input type="range" min="0" max="100" value="48" data-compare-range>
+  </label>
+  <div class="comparison-box" data-comparison-box style="--split: 48%"></div>
+</article>
+    </section>
+  </main>
+  <script src="../00_Index/FirstDesign_interactive-common_active.js"></script>
+  <script src="./script.js"></script>
+</body>
+</html>

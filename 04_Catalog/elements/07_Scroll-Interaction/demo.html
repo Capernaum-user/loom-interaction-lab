@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FirstDesign - Scroll Interaction</title>
+  <link rel="stylesheet" href="../00_Index/FirstDesign_interactive-common_active.css">
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body class="fd-interactive-page" data-category="scroll-interaction">
+  <header class="top-strip">
+    <strong>07 Scroll Interaction</strong>
+    <a href="../00_Index/FirstDesign_interactive-elements-gallery_active.html">All elements</a>
+  </header>
+  <main class="demo-shell">
+    <section class="hero-panel">
+      <span class="eyebrow">07 / 스크롤 반응</span>
+      <h1>Scroll Interaction</h1>
+      <p>스크롤 위치에 따라 콘텐츠를 드러내고, 진행률과 고정 영역을 제어하는 패턴.</p>
+    </section>
+    <section class="demo-grid" aria-label="Scroll Interaction demos">
+      <article class="demo-card wide-card">
+  <div class="demo-copy">
+    <span class="eyebrow">Scroll</span>
+    <h2>Progress, reveal, snap</h2>
+    <p>이 카드 안의 스크롤 영역을 움직이면 진행률과 reveal 상태가 바뀐다.</p>
+  </div>
+  <div class="local-scroll" data-local-scroll>
+    <div class="scroll-progress"><span data-scroll-progress></span></div>
+    <section class="reveal-block is-visible">Start with stable layout.</section>
+    <section class="reveal-block">Reveal content on entry.</section>
+    <section class="reveal-block">Keep animation lightweight.</section>
+    <section class="reveal-block">Finish with clear action.</section>
+  </div>
+</article>
+    </section>
+  </main>
+  <script src="../00_Index/FirstDesign_interactive-common_active.js"></script>
+  <script src="./script.js"></script>
+</body>
+</html>

@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FirstDesign - Accessibility & Preference</title>
+  <link rel="stylesheet" href="../00_Index/FirstDesign_interactive-common_active.css">
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body class="fd-interactive-page" data-category="accessibility-preference">
+  <header class="top-strip">
+    <strong>16 Accessibility & Preference</strong>
+    <a href="../00_Index/FirstDesign_interactive-elements-gallery_active.html">All elements</a>
+  </header>
+  <main class="demo-shell">
+    <section class="hero-panel">
+      <span class="eyebrow">16 / 접근성과 사용자 선호</span>
+      <h1>Accessibility & Preference</h1>
+      <p>키보드, focus, reduced motion, high contrast, touch target, screen reader 상태를 다루는 품질 기준.</p>
+    </section>
+    <section class="demo-grid" aria-label="Accessibility & Preference demos">
+      <article class="demo-card wide-card">
+  <div class="demo-copy">
+    <span class="eyebrow">Accessibility</span>
+    <h2>Keyboard and preference controls</h2>
+    <p>모든 인터랙션은 키보드, 대비, 움직임 선호를 함께 검증한다.</p>
+  </div>
+  <a class="skip-link" href="#a11y-target">Skip to target</a>
+  <div class="a11y-toolbar" role="toolbar" aria-label="Preference controls">
+    <button class="control-button" data-demo-action="a11y-focus">Show focus</button>
+    <button class="control-button" data-demo-action="a11y-motion">Reduced motion</button>
+    <button class="control-button" data-demo-action="a11y-contrast">High contrast</button>
+  </div>
+  <div id="a11y-target" class="status-panel" tabindex="-1" data-a11y-target>Preference state appears here.</div>
+  <p class="live-line" aria-live="polite" data-a11y-live>Ready for keyboard test.</p>
+</article>
+    </section>
+  </main>
+  <script src="../00_Index/FirstDesign_interactive-common_active.js"></script>
+  <script src="./script.js"></script>
+</body>
+</html>

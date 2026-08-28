@@ -70,6 +70,13 @@ h1 em{font-style:normal;color:var(--muted)}
 .deck .go{margin-top:14px;font-size:var(--fs-xs);color:var(--accent);font-family:var(--ff-mono);letter-spacing:.06em}
 
 /* 미니 1 · 무한 피드 */
+.deck--wide{grid-column:1/-1;display:grid;grid-template-columns:minmax(0,308px) minmax(0,1fr)}
+.deck--wide .demo{height:auto;min-height:186px;border-bottom:0;border-right:1px solid var(--line)}
+.deck--wide .body{padding:22px 24px 24px;align-self:center}
+.mini-cat{position:absolute;inset:0;padding:14px;display:flex;flex-wrap:wrap;align-content:center;gap:6px}
+.mini-cat i{font-style:normal;font-family:var(--ff-mono);font-size:9.5px;letter-spacing:.04em;
+  color:var(--muted);background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:3px 8px}
+.mini-cat i.on{color:#04140f;background:var(--accent);border-color:var(--accent)}
 .mini-feed{position:absolute;inset:0;padding:10px;display:flex;flex-direction:column;gap:8px}
 .mf{border-radius:5px;padding:7px 8px;flex:0 0 auto;display:flex;flex-direction:column;gap:5px}
 .mf i{display:block;height:5px;border-radius:3px}
@@ -120,6 +127,9 @@ td:first-child{color:var(--ink);white-space:nowrap}
 
 @media (max-width:900px){
   .decks{grid-template-columns:minmax(0,1fr)}
+  .deck--wide{grid-template-columns:minmax(0,1fr)}
+  .deck--wide .demo{border-right:0;border-bottom:1px solid var(--line);min-height:150px}
+  .deck--wide .body{padding:17px 18px 20px}
   dl.facts{grid-template-columns:minmax(0,1fr)}
   main{padding:44px 15px 80px}
 }
@@ -138,10 +148,22 @@ td:first-child{color:var(--ink);white-space:nowrap}
     <h1>스크롤이 곧 생성이다 <em>·</em><br>그 기법을 다시 만들었다</h1>
     <p class="sub">한 상용 AI 디자인 도구의 공개 자산을 뜯어 <b>어떻게 만들었는지</b>만 알아내고,
     코드·이미지·소리·서체는 하나도 가져오지 않은 채 처음부터 다시 구현했다. 아래 세 화면은 전부 혼자 도는 단일 HTML이고,
-    서버도 인터넷 연결도 필요 없다.</p>
+    서버도 인터넷 연결도 필요 없다. 맨 위 <b>기법 카탈로그</b>는 그 화면들을 만든 기법 57개를 정확한 이름과 수치로 적어 둔 사전이다.</p>
   </div>
 
   <div class="decks" id="decks">
+    <a class="deck deck--wide" href="../04_Catalog/LoomLab_craft-catalog_active.html">
+      <div class="demo"><div class="mini-cat" aria-hidden="true"><i>스크롤 등장</i><i class="on">커서 스포트라이트</i><i>관성 플릭</i><i>토스트 더미</i><i class="on">HUD 상태띠</i><i>드래그 정렬</i><i>뷰 트랜지션</i><i class="on">스크롤 타임라인</i><i>스프링</i><i>지연 로딩</i><i>자석 버튼</i><i>패럴랙스</i></div></div>
+      <div class="body">
+        <span class="no">카탈로그</span>
+        <h2>기법 카탈로그</h2>
+        <p>웹 화면을 이루는 기법 <b>57개</b>를 아키타입 14종·갈래 16종으로 갈라 놓았다.
+        카드를 누르면 그 기법의 정확한 이름과 수치 <b>233개</b>가 나오고, 그대로 복사해 AI에게 주문으로 넘길 수 있다.
+        갈래마다 눌러 볼 수 있는 데모가 붙어 있다.</p>
+        <p class="go">열기 →</p>
+      </div>
+    </a>
+
     <a class="deck" href="LoomLab_endless-feed_active.html">
       <div class="demo"><div class="mini-feed" id="miniFeed" aria-hidden="true"></div></div>
       <div class="body">

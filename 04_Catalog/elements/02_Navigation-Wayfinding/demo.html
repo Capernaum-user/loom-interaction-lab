@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FirstDesign - Navigation & Wayfinding</title>
+  <link rel="stylesheet" href="../00_Index/FirstDesign_interactive-common_active.css">
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body class="fd-interactive-page" data-category="navigation-wayfinding">
+  <header class="top-strip">
+    <strong>02 Navigation & Wayfinding</strong>
+    <a href="../00_Index/FirstDesign_interactive-elements-gallery_active.html">All elements</a>
+  </header>
+  <main class="demo-shell">
+    <section class="hero-panel">
+      <span class="eyebrow">02 / 탐색과 위치 안내</span>
+      <h1>Navigation & Wayfinding</h1>
+      <p>사용자가 현재 위치와 이동 가능한 경로를 이해하게 만드는 내비게이션 계열.</p>
+    </section>
+    <section class="demo-grid" aria-label="Navigation & Wayfinding demos">
+      <article class="demo-card wide-card">
+  <div class="demo-copy">
+    <span class="eyebrow">Navigation</span>
+    <h2>Tabs and command palette</h2>
+    <p>탭은 위치를, command palette는 빠른 이동을 담당한다.</p>
+  </div>
+  <div class="tab-list" role="tablist" aria-label="Navigation demo">
+    <button role="tab" aria-selected="true" class="tab-button" data-demo-action="tab" data-panel="Overview">Overview</button>
+    <button role="tab" aria-selected="false" class="tab-button" data-demo-action="tab" data-panel="Library">Library</button>
+    <button role="tab" aria-selected="false" class="tab-button" data-demo-action="tab" data-panel="Usage">Usage</button>
+  </div>
+  <div class="status-panel" data-nav-panel>Overview panel is active.</div>
+  <button class="secondary-action" data-demo-action="open-command">Open command palette</button>
+  <div class="command-panel" hidden data-command-panel>
+    <input class="text-input" type="search" placeholder="Filter sections" data-command-input aria-label="Filter sections">
+    <div class="command-results" data-command-results></div>
+  </div>
+</article>
+    </section>
+  </main>
+  <script src="../00_Index/FirstDesign_interactive-common_active.js"></script>
+  <script src="./script.js"></script>
+</body>
+</html>

@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FirstDesign - Microinteraction</title>
+  <link rel="stylesheet" href="../00_Index/FirstDesign_interactive-common_active.css">
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body class="fd-interactive-page" data-category="microinteraction">
+  <header class="top-strip">
+    <strong>10 Microinteraction</strong>
+    <a href="../00_Index/FirstDesign_interactive-elements-gallery_active.html">All elements</a>
+  </header>
+  <main class="demo-shell">
+    <section class="hero-panel">
+      <span class="eyebrow">10 / 마이크로 인터랙션</span>
+      <h1>Microinteraction</h1>
+      <p>클릭, 저장, 복사, 좋아요, 업로드 같은 작은 행동에 즉시 반응하는 피드백.</p>
+    </section>
+    <section class="demo-grid" aria-label="Microinteraction demos">
+      <article class="demo-card">
+  <div class="demo-copy">
+    <span class="eyebrow">Micro</span>
+    <h2>Immediate feedback</h2>
+    <p>작은 행동은 상태 변경을 즉시 보여준다.</p>
+  </div>
+  <button class="like-button" data-demo-action="like" aria-pressed="false"><span data-like-count>12</span> Save</button>
+  <button class="primary-action" data-demo-action="progress">Run progress</button>
+  <div class="progress-ring" data-progress-ring style="--progress: 0">0%</div>
+  <p class="live-line" aria-live="polite" data-micro-live>Idle</p>
+</article>
+    </section>
+  </main>
+  <script src="../00_Index/FirstDesign_interactive-common_active.js"></script>
+  <script src="./script.js"></script>
+</body>
+</html>

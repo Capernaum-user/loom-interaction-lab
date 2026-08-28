@@ -1,0 +1,1 @@
+window.FirstDesignInteractive?.init("drag-drop-manipulation");

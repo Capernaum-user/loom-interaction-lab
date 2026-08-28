@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FirstDesign - Drag, Drop & Direct Manipulation</title>
+  <link rel="stylesheet" href="../00_Index/FirstDesign_interactive-common_active.css">
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body class="fd-interactive-page" data-category="drag-drop-manipulation">
+  <header class="top-strip">
+    <strong>06 Drag, Drop & Direct Manipulation</strong>
+    <a href="../00_Index/FirstDesign_interactive-elements-gallery_active.html">All elements</a>
+  </header>
+  <main class="demo-shell">
+    <section class="hero-panel">
+      <span class="eyebrow">06 / 드래그와 직접 조작</span>
+      <h1>Drag, Drop & Direct Manipulation</h1>
+      <p>목록 정렬, 보드 이동, 리사이즈, 캔버스 핸들처럼 화면 객체를 직접 움직이는 패턴.</p>
+    </section>
+    <section class="demo-grid" aria-label="Drag, Drop & Direct Manipulation demos">
+      <article class="demo-card wide-card">
+  <div class="demo-copy">
+    <span class="eyebrow">Direct manipulation</span>
+    <h2>Sortable backlog and split pane</h2>
+    <p>드래그와 리사이즈는 결과 위치를 계속 보여줘야 한다.</p>
+  </div>
+  <ul class="sortable-list" data-sortable-list>
+    <li draggable="true">Define interaction taxonomy</li>
+    <li draggable="true">Create reusable demos</li>
+    <li draggable="true">Verify keyboard states</li>
+  </ul>
+  <div class="split-pane" data-split-pane>
+    <div class="split-left">Canvas</div>
+    <button class="split-handle" data-split-handle aria-label="Resize panes"></button>
+    <div class="split-right">Inspector</div>
+  </div>
+</article>
+    </section>
+  </main>
+  <script src="../00_Index/FirstDesign_interactive-common_active.js"></script>
+  <script src="./script.js"></script>
+</body>
+</html>
